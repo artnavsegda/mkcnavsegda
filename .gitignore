@@ -31,3 +31,13 @@
 # Debug files
 *.dSYM/
 *.su
+
+# mikroc
+*.hex
+*.ini
+*.dbg
+*.lst
+*.cp
+*.mcl
+*.dct
+*.user.dic
