@@ -1,13 +1,25 @@
-sfr sbit LED0 at PORTR_OUT.B0;
-sfr sbit LED1 at PORTR_OUT.B1;
-sfr sbit LED2 at PORTD_OUT.B4;
-sfr sbit LED3 at PORTD_OUT.B5;
 
-sfr sbit LED0_Direction at PORTA_DIR.B0;
-sfr sbit LED1_Direction at PORTA_DIR.B1;
-sfr sbit LED2_Direction at PORTD_DIR.B4;
-sfr sbit LED3_Direction at PORTD_DIR.B5;
+
+unsigned char FUBAR;
+
+sbit FUBAR_first at FUBAR.B0;
 
 void main() {
-
+        PORTA_DIR = 0xFF;
+        PORTB_DIR = 0xFF;
+        PORTC_DIR = 0xFF;
+        
+        PORTA_OUT = 0xFF;
+        PORTB_OUT = 0xFF;
+        PORTC_OUT = 0xFF;
+        
+        while (1)
+        {
+                delay_ms(300);
+                PORTA_OUTTGL = 0xFF;
+                delay_ms(300);
+                PORTB_OUTTGL = 0xFF;
+                delay_ms(300);
+                PORTC_OUTTGL = 0xFF;
+        }
 }
