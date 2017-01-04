@@ -3,10 +3,14 @@ sfr sbit LED1 at PORTR_OUT.B1;
 sfr sbit LED2 at PORTD_OUT.B4;
 sfr sbit LED3 at PORTD_OUT.B5;
 
-sfr sbit LED0_Direction at PORTA_DIR.B0;
-sfr sbit LED1_Direction at PORTA_DIR.B1;
+sfr sbit LED0_Direction at PORTR_DIR.B0;
+sfr sbit LED1_Direction at PORTR_DIR.B1;
 sfr sbit LED2_Direction at PORTD_DIR.B4;
 sfr sbit LED3_Direction at PORTD_DIR.B5;
+
+sfr sbit GPIO_PUSH_BUTTON_0 at PORTE_OUT.B5;
+sfr sbit GPIO_PUSH_BUTTON_1 at PORTF_OUT.B1;
+sfr sbit GPIO_PUSH_BUTTON_2 at PORTF_OUT.B2;
 
 sfr sbit TWIC_SDA at PORTC_OUT.B0;
 sfr sbit TWIC_SCL at PORTC_OUT.B1;
@@ -52,3 +56,12 @@ sfr sbit J4_PIN4 at PORTB_OUT.B4;
 sfr sbit J4_PIN5 at PORTN_OUT.B5;
 sfr sbit J4_PIN6 at PORTN_OUT.B6;
 sfr sbit J4_PIN7 at PORTN_OUT.B7;
+
+void board_init(void)
+{
+        LED0_Direction = 1;
+        LED1_Direction = 1;
+        LED2_Direction = 1;
+        LED3_Direction = 1;
+        
+        
