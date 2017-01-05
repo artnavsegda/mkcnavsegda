@@ -6,7 +6,7 @@ Value=0
 [BUILD_TYPE]
 Value=0
 [ACTIVE_TAB]
-Value=..\serial\serial.c
+Value=blink.c
 [USE_EEPROM]
 Value=0
 [USE_HEAP]
@@ -27,9 +27,8 @@ Count=0
 Count=0
 ActiveImageIndex=-1
 [OPENED_FILES]
-Count=2
+Count=1
 File0=blink.c
-File1=..\serial\serial.c
 [EEPROM]
 Count=0
 [ACTIVE_COMMENTS_FILES]
@@ -49,8 +48,9 @@ Count=0
 [PLDS]
 Count=0
 [Useses]
-Count=1
+Count=2
 File0=UART
+File1=
 [EXPANDED_NODES]
 Node0=Sources
 Count=1
