@@ -1,14 +1,14 @@
-unsigned char FUBAR;
-sbit FUBAR_first at FUBAR.B0;
+//unsigned char FUBAR;
+//sbit FUBAR_first at FUBAR.B0;
 
 void main() {
-        PORTA_DIR = 0xFF;
-        PORTB_DIR = 0xFF;
-        PORTC_DIR = 0xFF;
+   //     PORTA_DIR = 0xFF;
+   //     PORTB_DIR = 0xFF;
+   //     PORTC_DIR = 0xFF;
         
-        PORTA_OUT = 0xFF;
-        PORTB_OUT = 0xFF;
-        PORTC_OUT = 0xFF;
+   //     PORTA_OUT = 0xFF;
+   //     PORTB_OUT = 0xFF;
+   //     PORTC_OUT = 0xFF;
         
         while (1)
         {
