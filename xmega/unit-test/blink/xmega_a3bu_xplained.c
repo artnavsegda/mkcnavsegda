@@ -52,18 +52,18 @@ sfr sbit J3_PIN1 at PORTA_OUT.B1;
 sfr sbit J3_PIN2 at PORTA_OUT.B2;
 sfr sbit J3_PIN3 at PORTA_OUT.B3;
 sfr sbit J3_PIN4 at PORTB_OUT.B4;
-sfr sbit J3_PIN5 at PORTN_OUT.B5;
-sfr sbit J3_PIN6 at PORTN_OUT.B6;
-sfr sbit J3_PIN7 at PORTN_OUT.B7;
+sfr sbit J3_PIN5 at PORTB_OUT.B5;
+sfr sbit J3_PIN6 at PORTB_OUT.B6;
+sfr sbit J3_PIN7 at PORTB_OUT.B7;
 
-sfr sbit J4_PIN0 at PORTA_OUT.B0;
-sfr sbit J4_PIN1 at PORTA_OUT.B1;
-sfr sbit J4_PIN2 at PORTA_OUT.B2;
-sfr sbit J4_PIN3 at PORTA_OUT.B3;
-sfr sbit J4_PIN4 at PORTB_OUT.B4;
-sfr sbit J4_PIN5 at PORTN_OUT.B5;
-sfr sbit J4_PIN6 at PORTN_OUT.B6;
-sfr sbit J4_PIN7 at PORTN_OUT.B7;
+sfr sbit J4_PIN0 at PORTE_OUT.B0;
+sfr sbit J4_PIN1 at PORTE_OUT.B1;
+sfr sbit J4_PIN2 at PORTE_OUT.B2;
+sfr sbit J4_PIN3 at PORTE_OUT.B3;
+sfr sbit J4_PIN4 at PORTD_OUT.B0;
+sfr sbit J4_PIN5 at PORTD_OUT.B3;
+sfr sbit J4_PIN6 at PORTD_OUT.B2;
+sfr sbit J4_PIN7 at PORTD_OUT.B1;
 
 void board_init(void)
 {
@@ -77,18 +77,18 @@ void board_init(void)
         PORTF_PIN1CTRL = 0x18; // gpio push button 2 pull up
         
 #ifdef CONF_BOARD_ENABLE_USARTC0
-	PORTC_DIR.B3 = 1;
-	PORTC_OUT.B2 = 0;
+        PORTC_DIR.B3 = 1;
+        PORTC_OUT.B2 = 0;
 #endif
 
 #ifdef CONF_BOARD_ENABLE_USARTD0
-	PORTD_DIR.B3 = 1;
-	PORTD_OUT.B2 = 0;
+        PORTD_DIR.B3 = 1;
+        PORTD_OUT.B2 = 0;
 #endif
 
 #ifdef CONF_BOARD_ENABLE_USARTE0
-	PORTE_DIR.B3 = 1;
-	PORTE_OUT.B2 = 0;
+        PORTE_DIR.B3 = 1;
+        PORTE_OUT.B2 = 0;
 #endif
 
 }

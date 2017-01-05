@@ -1,7 +1,4 @@
-
-
 unsigned char FUBAR;
-
 sbit FUBAR_first at FUBAR.B0;
 
 void main() {
