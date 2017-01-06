@@ -9,14 +9,15 @@ void main() {
    //     PORTA_OUT = 0xFF;
    //     PORTB_OUT = 0xFF;
    //     PORTC_OUT = 0xFF;
+   PORTC_PIN4CTRL = 0x18; // gpio push button 0 pull up
         
         while (1)
         {
-                delay_ms(300);
-                PORTA_OUTTGL = 0xFF;
-                delay_ms(300);
-                PORTB_OUTTGL = 0xFF;
-                delay_ms(300);
-                PORTC_OUTTGL = 0xFF;
+//                delay_ms(300);
+//                PORTA_OUTTGL = 0xFF;
+//                delay_ms(300);
+//                PORTB_OUTTGL = 0xFF;
+//                delay_ms(300);
+//                PORTC_OUTTGL = 0xFF;
         }
 }

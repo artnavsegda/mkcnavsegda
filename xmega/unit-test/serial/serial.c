@@ -1,3 +1,8 @@
+void PrintHandler(char c)
+{
+        UART_Write(c);
+}
+
 void main() {
         UARTC0_Init(9600);
         //UARTC1_Init(9600);
@@ -9,6 +14,7 @@ void main() {
          while (1)
         {
                 UART_Set_Active(&UARTC0_Read, &UARTC0_Write, &UARTC0_Data_Ready, &UARTC0_Tx_Idle);
+                PrintOut(PrintHandler, "Hello %x\r\n", 0xDEAD);
                 UARTC0_Write(0xFF);
                 //UART_Set_Active(&UARTC1_Read, &UARTC1_Write, &UARTC1_Data_Ready, &UARTC1_Tx_Idle);
                 //UARTC1_Write(0xFF);

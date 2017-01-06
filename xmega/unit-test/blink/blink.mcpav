@@ -27,8 +27,9 @@ Count=0
 Count=0
 ActiveImageIndex=-1
 [OPENED_FILES]
-Count=1
+Count=2
 File0=blink.c
+File1=xmega_a3bu_xplained.c
 [EEPROM]
 Count=0
 [ACTIVE_COMMENTS_FILES]
@@ -48,9 +49,8 @@ Count=0
 [PLDS]
 Count=0
 [Useses]
-Count=2
+Count=1
 File0=UART
-File1=
 [EXPANDED_NODES]
 Node0=Sources
 Count=1
