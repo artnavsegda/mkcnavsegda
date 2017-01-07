@@ -6,7 +6,7 @@ Value=0
 [BUILD_TYPE]
 Value=0
 [ACTIVE_TAB]
-Value=..\ethernet\ethernet.c
+Value=ethernet.c
 [USE_EEPROM]
 Value=0
 [USE_HEAP]
@@ -19,16 +19,15 @@ Value=
 Value=0
 [FILES]
 Count=1
-File0=spi.c
+File0=ethernet.c
 [BINARIES]
 Count=0
 [IMAGES]
 Count=0
 ActiveImageIndex=-1
 [OPENED_FILES]
-Count=2
-File0=spi.c
-File1=..\ethernet\ethernet.c
+Count=1
+File0=ethernet.c
 [EEPROM]
 Count=0
 [ACTIVE_COMMENTS_FILES]
@@ -39,20 +38,23 @@ Count=0
 Count=4
 Path0=C:\Users\Public\Documents\Mikroelektronika\mikroC PRO for AVR\Defs\
 Path1=C:\Users\Public\Documents\Mikroelektronika\mikroC PRO for AVR\Uses\
-Path2=C:\Users\artna\Documents\GitHub\mkcnavsegda\xmega\unit-test\spi\
+Path2=C:\Users\artna\Documents\GitHub\mkcnavsegda\xmega\unit-test\ethernet\
 Path3=C:\Users\Public\Documents\Mikroelektronika\mikroC PRO for AVR\Uses\GT64KW\
 [HEADER_PATH]
-Count=0
+Count=1
+Path0=C:\Users\Public\Documents\Mikroelektronika\mikroC PRO for AVR\Uses\gt64kW\
 [HEADERS]
 Count=0
 [PLDS]
 Count=0
 [Useses]
-Count=4
-File0=SPI
-File1=UART
-File2=PrintOut
-File3=C_Type
+Count=6
+File0=SPI_Ethernet
+File1=C_String
+File2=SPI
+File3=UART
+File4=PrintOut
+File5=C_Type
 [EXPANDED_NODES]
 Node0=Sources
 Count=1
