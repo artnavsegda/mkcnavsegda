@@ -1,9 +1,10 @@
 [PROJECTS]
-Count=5
+Count=6
 Project0=spi\spi.mcpav
 Project1=blink\blink.mcpav
 Project2=serial\serial.mcpav
 Project3=sysclk\sysclk.mcpav
 Project4=ethernet\ethernet.mcpav
+Project5=i2c\i2c.mcpav
 [ActiveProject]
-Index=4
+Index=5
