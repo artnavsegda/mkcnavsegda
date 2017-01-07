@@ -1,5 +1,8 @@
 #define BSWAP_16(x) ((((x) >> 8) & 0xff) | (((x) & 0xff) << 8))
-sbit ad7707_drdy at PORTC_IN.B1;
+sfr sbit AD7707_DRDY at PORTC_IN.B1;
+sfr sbit LED0 at PORTR_OUT.B0;
+sfr sbit LED0_Direction at PORTR_DIR.B0;
+sfr sbit LED0_Toggle at PORTR_OUTTGL.B0;
 
 void SPI_Read_Bytes(char *buffer, unsigned NoBytes)
 {
@@ -36,7 +39,7 @@ void PrintHandler(char c)
 
 void main() {
         unsigned int result;
-        PORTD_DIR.B5 = 1;//led0
+        LED0_Direction = 1;//led0
         UARTC0_Init(115200);
         SPIC_Init();
         SPI_Set_Active(&SPIC_Read, &SPIC_Write);
@@ -51,10 +54,10 @@ void main() {
 
         while (1)
         {
-                if (ad7707_drdy == 0)
+                if (AD7707_DRDY == 0)
                 {
-                        PORTD_OUTTGL.B5 = 1;//led0
-                	SPIC_Write(0x38);
+                        LED0_Toggle = 1;//led0
+                        SPIC_Write(0x38);
                         SPIC_Read_Bytes((unsigned char *)&result,2);
                         PrintOut(PrintHandler, "%x\r\n", BSWAP_16(result));
                 }
