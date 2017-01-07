@@ -6,7 +6,7 @@ Value=0
 [BUILD_TYPE]
 Value=0
 [ACTIVE_TAB]
-Value=sysclk.c
+Value=..\spi\spi.c
 [USE_EEPROM]
 Value=0
 [USE_HEAP]
