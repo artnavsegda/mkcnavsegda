@@ -23,6 +23,7 @@ unsigned int SPI_Ethernet_UserUDP(unsigned char *remoteHost, unsigned int remote
 
 void main() {
         SPIC_Init();
+        PORTC_OUT.B4 = 1; //important to disable SPIC SS prior to configure ethernet
         SPI_Ethernet_Init(myMacAddr, myIpAddr, 0x01);
         SPI_Ethernet_confNetwork(ipMask, gwIpAddr, dnsIpAddr);
         
