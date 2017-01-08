@@ -1,39 +1,14 @@
 #include  <__EthEnc28j60.h>
-// duplex config flags
-#define Spi_Ethernet_HALFDUPLEX     0x00  // half duplex
-#define Spi_Ethernet_FULLDUPLEX     0x01  // full duplex
 
-// mE ehternet NIC pinout
+#define BSWAP_16(x) ((((x) >> 8) & 0xff) | (((x) & 0xff) << 8))
+
 sfr sbit SPI_Ethernet_Rst at PORTA_OUT.B0;
 sfr sbit SPI_Ethernet_CS  at PORTC_OUT.B0;
 sfr sbit SPI_Ethernet_Rst_Direction at PORTA_DIR.B0;
 sfr sbit SPI_Ethernet_CS_Direction  at PORTC_DIR.B0;
-// end ethernet NIC definitions
-
-sbit ad7705_Chip_Select at PORTC_OUT.B4;
-sbit ad7705_Chip_Select_Direction at PORTC_DIR.B4;
-sbit ad7707_drdy at PORTC_IN.B1;
-
-/***********************************
- * RAM variables
- */
-unsigned char   myMacAddr[6] = {0x00, 0x14, 0xA5, 0x76, 0x19, 0x3f} ;   // my MAC address
-unsigned char   myIpAddr[4]  = {192, 168, 1, 150} ;                     // my IP address
-unsigned char   gwIpAddr[4]  = {192, 168,  1,  1 } ;                   // gateway (router) IP address
-unsigned char   ipMask[4]    = {255, 255, 255,  0 } ;                   // network mask (for example : 255.255.255.0)
-unsigned char   dnsIpAddr[4] = {192, 168,  1,  1 } ;                   // DNS server IP address
-
-/*******************************************
- * functions
- */
-
-#define putConstString  SPI_Ethernet_putConstString
-#define putString  SPI_Ethernet_putString
-
-void PrintHandler(char c)
-{
-        UART_Write(c);
-}
+sfr sbit ad7705_Chip_Select at PORTC_OUT.B4;
+sfr sbit ad7705_Chip_Select_Direction at PORTC_DIR.B4;
+sfr sbit ad7707_drdy at PORTC_IN.B1;
 
 struct askreadregstruct {
         unsigned int firstreg;
@@ -95,11 +70,15 @@ struct mbframestruct {
 
 struct mbframestruct askframe;
 
-#define BSWAP_16(x) ((((x) >> 8) & 0xff) | (((x) & 0xff) << 8))
-
 unsigned int table[100] = {0xABCD, 0xDEAD, 0x0000};
 unsigned char crmassive[100];
 unsigned int amount = 100;
+unsigned int result;
+
+void PrintHandler(char c)
+{
+        UART_Write(c);
+}
 
 unsigned int  SPI_Ethernet_UserTCP(unsigned char *remoteHost, unsigned int remotePort, unsigned int localPort, unsigned int reqLength, TEthPktFlags *flags)
 {
@@ -211,8 +190,6 @@ void Timer0Overflow_ISR() org IVT_ADDR_TCC0_OVF {
         tick = 1;
 }
 
-unsigned int result;
-
 void SPIC_Read_Bytes(char *buffer, unsigned NoBytes)
 {
         int i;
@@ -220,37 +197,26 @@ void SPIC_Read_Bytes(char *buffer, unsigned NoBytes)
                 buffer[i] = SPIC_Read(0xFF);
 }
 
+void SPIC_Write_Bytes(char *buffer, unsigned NoBytes)
+{
+        int i;
+        for (i = 0; i < NoBytes; i++)
+                SPIC_Write(buffer[i]);
+}
+
 void ad7705_init(void)
 {
         SPI_Ethernet_CS = 1;
         ad7705_Chip_Select = 0;
 
-        SPIC_Write(0xFF);
-        SPIC_Write(0xFF);
-        SPIC_Write(0xFF);
-        SPIC_Write(0xFF);
-        SPIC_Write(0xFF);
-
+        SPIC_Write_Bytes("\xFF\xFF\xFF\xFF\xFF", 5);
         delay_ms(10);
-
-        SPIC_Write(0x20);
-        SPIC_Write(0x0C);
-        SPIC_Write(0x10);
-        SPIC_Write(0x04);
-
+        SPIC_Write_Bytes("\x20\x0C\x10\x04", 4);
         delay_ms(10);
-
-        SPIC_Write(0x60);
-        SPIC_Write(0x18);
-        SPIC_Write(0x3A);
-        SPIC_Write(0x00);
-
+        SPIC_Write_Bytes("\x60\x18\x3A\x00", 4);
         delay_ms(10);
-
-        SPIC_Write(0x70);
-        SPIC_Write(0x89);
-        SPIC_Write(0x78);
-        SPIC_Write(0xD7);
+        SPIC_Write_Bytes("\x70\x89\x78\xD7", 4);
+        
         ad7705_Chip_Select = 1;
         SPI_Ethernet_CS = 0;
 }
@@ -261,61 +227,31 @@ void ad7705_init(void)
 void    main()
 {
         int i;
-        OSC_CTRL = 0x02;                 // 32MHz internal RC oscillator
-        while(RC32MRDY_bit == 0)
-              ;
+        OSC_CTRL = 0x02;
+        while(RC32MRDY_bit == 0);
         CPU_CCP = 0xD8;
         CLK_CTRL = 1;
-        
-        /*
-         * starts ENC28J60 with :
-         * reset bit on PB4
-         * CS bit on PB5
-         * my MAC & IP address
-         * full duplex
-         */
-        PORTC_DIR.B7 = 1;
-        PORTC_DIR.B5 = 1;
-        PORTC_DIR.B6 = 0;
-        PORTB_DIR.B6 = 0;
-        PORTB_OUT.B6 = 0;
-        PORTC_DIR.B0 = 1;
-        PORTC_DIR.B1 = 0;
-        PORTD_DIR.B4 = 1;
-        //PORTD_DIR.B5 = 1;
-        //ad7705_Chip_Select_Direction = 1;
-        
         UARTC0_Init(115200);
         UART_Set_Active(&UARTC0_Read, &UARTC0_Write, &UARTC0_Data_Ready, &UARTC0_Tx_Idle);
-        
         UART_Write_Text("Starting\r\n");
         PrintOut(PrintHandler, "Testing output\r\n");
-        
         PMIC_CTRL = 4;                    // Enable medium level interrupts
         CPU_SREG.B7 = 1;                  // Enable global interrupts
-
         Timer_Init(&TCC0, 1000000);
         Timer_Interrupt_Enable(&TCC0);
-        
         SPIC_Init_Advanced(_SPI_MASTER, _SPI_FCY_DIV16, _SPI_CLK_LO_LEADING);
         SPI_Set_Active(&SPIC_Read,&SPIC_Write);
-        
         ad7705_init();
-        
         Spi_Rd_Ptr = SPIC_Read;
-        SPI_Ethernet_Init(myMacAddr, myIpAddr, Spi_Ethernet_FULLDUPLEX) ;
-
-        // dhcp will not be used here, so use preconfigured addresses
-        SPI_Ethernet_confNetwork(ipMask, gwIpAddr, dnsIpAddr) ;
+        SPI_Ethernet_Init("\x00\x14\xA5\x76\x19\x3f", "\xC0\xA8\x01\x96", 0x01);
+        SPI_Ethernet_confNetwork("\xFF\xFF\xFF\x00", "\xC0\xA8\x01\x01", "\xC0\xA8\x01\x01");
 
         while(1) // do forever
         {
                 /*
                  * if necessary, test the return value to get error code
                  */
-                //ad7705_Chip_Select = 1;
                 SPI_Ethernet_doPacket() ;   // process incoming Ethernet packets
-                //ad7705_Chip_Select = 0;
                 
                 if (ad7707_drdy == 0)
                 {
