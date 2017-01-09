@@ -1,3 +1,6 @@
+#include "prototype.h"
+#include "spi.h"
+
 void PrintHandler(char c)
 {
         UARTC0_Write(c);
@@ -23,9 +26,30 @@ void Prototype_Init(void)
         SPI_Ethernet_confNetwork("\xFF\xFF\xFF\x00", "\xC0\xA8\x01\x01", "\xC0\xA8\x01\x01");
 }
 
+unsigned char tick = 0;
+
 void main() {
+        unsigned int result;
 	Prototype_Init();
 	
 	while(1)
+	{
 	        SPI_Ethernet_doPacket();
-}
+	        if (ad7707_drdy == 0)
+	        {
+	                SPIC_Write(0x38);
+	                SPIC_Read_Bytes((unsigned char *)&result,2);
+         	}
+         	if (tick == 1)
+                {
+                        LED0_Toggle = 1;
+                        table[2]++;
+                        table[3] = BSWAP_16(result);
+                        for (i = 0; i<8;i++)
+                                table[4+i] = ADCA_Read(i);
+                        for (i = 0; i<8;i++)
+                                table[12+i] = ADCB_Read(i);
+                        tick = 0;
+                }
+	 }
+ }

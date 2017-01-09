@@ -59,13 +59,14 @@ File4=modbus.h
 [PLDS]
 Count=0
 [Useses]
-Count=6
+Count=7
 File0=SPI_Ethernet
 File1=C_String
 File2=SPI
 File3=TWI
 File4=UART
 File5=Timer
+File6=ADC
 [EXPANDED_NODES]
 Node0=Sources
 Count=1
