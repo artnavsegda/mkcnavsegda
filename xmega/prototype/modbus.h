@@ -55,3 +55,5 @@ struct mbframestruct {
         unsigned int length;
         struct pduframestruct pdu;
 };
+
+unsigned int modbus(struct mbframestruct *askframe);

@@ -1,4 +1,4 @@
-void Expander_Write_Byte(char ModuleAddress, char RegAddress, char Data_)
+/*void Expander_Write_Byte(char ModuleAddress, char RegAddress, char Data_)
 {
         TWIE_Start();
         TWIE_Write(ModuleAddress << 1);
@@ -39,4 +39,4 @@ void Expander_Init(char ModuleAddress)
 {
         TWIE_Init(100000);
         Expander_Write_Byte(ModuleAddress,0x02,0x00);
-}
+}*/
