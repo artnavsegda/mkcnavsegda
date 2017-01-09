@@ -255,7 +255,8 @@ void    main()
         CPU_SREG.B7 = 1;                  // Enable global interrupts
         Timer_Init(&TCC0, 1000000);
         Timer_Interrupt_Enable(&TCC0);
-        SPIC_Init_Advanced(_SPI_MASTER, _SPI_FCY_DIV16, _SPI_CLK_LO_LEADING);
+        //SPIC_Init_Advanced(_SPI_MASTER, _SPI_FCY_DIV16, _SPI_CLK_LO_LEADING);
+        SPIC_Init();
         SPI_Set_Active(&SPIC_Read,&SPIC_Write);
         ad7705_init();
         Spi_Rd_Ptr = SPIC_Read;

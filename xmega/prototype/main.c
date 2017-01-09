@@ -1,5 +1,8 @@
 #include "prototype.h"
+#include "ports.h"
 #include "spi.h"
+#include "ramonitor.h"
+#include "sequencer.h"
 
 void PrintHandler(char c)
 {
@@ -24,32 +27,29 @@ void Prototype_Init(void)
         SPIC_Init();
         SPI_Ethernet_Init("\x00\x14\xA5\x76\x19\x3f", "\xC0\xA8\x01\x96", 0x01);
         SPI_Ethernet_confNetwork("\xFF\xFF\xFF\x00", "\xC0\xA8\x01\x01", "\xC0\xA8\x01\x01");
+        Entermode(STARTLEVEL);
 }
 
 unsigned char tick = 0;
+unsigned int result;
 
 void main() {
-        unsigned int result;
-	Prototype_Init();
-	
-	while(1)
-	{
-	        SPI_Ethernet_doPacket();
-	        if (ad7707_drdy == 0)
-	        {
-	                SPIC_Write(0x38);
-	                SPIC_Read_Bytes((unsigned char *)&result,2);
-         	}
-         	if (tick == 1)
+        
+        Prototype_Init();
+        while(1)
+        {
+                SPI_Ethernet_doPacket();
+                if (AD7707_DRDY == 0)
+                {
+                        SPIC_Write(0x38);
+                        SPIC_Read_Bytes((unsigned char *)&result,2);
+                }
+                if (tick == 1)
                 {
                         LED0_Toggle = 1;
-                        table[2]++;
-                        table[3] = BSWAP_16(result);
-                        for (i = 0; i<8;i++)
-                                table[4+i] = ADCA_Read(i);
-                        for (i = 0; i<8;i++)
-                                table[12+i] = ADCB_Read(i);
+                        Sequencer();
+                        RAmonitor();
                         tick = 0;
                 }
-	 }
- }
+        }
+}

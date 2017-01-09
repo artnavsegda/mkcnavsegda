@@ -56,4 +56,7 @@ struct mbframestruct {
         struct pduframestruct pdu;
 };
 
+extern unsigned int table[100];
+extern unsigned char bctable[100];
+
 unsigned int modbus(struct mbframestruct *askframe);
