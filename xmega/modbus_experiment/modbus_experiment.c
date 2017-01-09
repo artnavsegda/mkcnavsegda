@@ -71,6 +71,7 @@ struct mbframestruct {
 struct mbframestruct askframe;
 
 unsigned int table[100] = {0xABCD, 0xDEAD, 0x0000};
+unsigned char bctable[100] = {0x0, 0x1, 0x0, 0x0, 0x1};
 unsigned char crmassive[100];
 unsigned int amount = 100;
 unsigned int result;
@@ -132,8 +133,13 @@ unsigned int  SPI_Ethernet_UserTCP(unsigned char *remoteHost, unsigned int remot
                         askframe.length = BSWAP_16(askframe.pdu.values.reqreadcoils.bytestofollow + 3);
                         // fill all requested coil bytes with zeroes
                         for (i = 0; i < requestnumber/8; i++)
-                            askframe.pdu.values.reqreadcoils.coils[i] = (crmassive[i+(firstrequest/8)] << (firstrequest%8)) | (crmassive[i+(firstrequest/8)+1] >> 8-(firstrequest%8));
-                        askframe.pdu.values.reqreadcoils.coils[requestnumber/8] = (((crmassive[(requestnumber/8)+(firstrequest/8)] << (firstrequest%8)) | (crmassive[(requestnumber/8)+(firstrequest/8)+1] >> 8-(firstrequest%8))) & (0xFF << 8-(requestnumber%8)));
+                                if(firstrequest+i < amount)
+                        		if (bctable[firstrequest+i] != 0)
+						askframe.pdu.values.reqreadcoils.coils[i/8] = askframe.pdu.values.reqreadcoils.coils[i/8] & (0x01 << i%8);
+					else
+					        askframe.pdu.values.reqreadcoils.coils[i/8] = askframe.pdu.values.reqreadcoils.coils[i/8] | ~(0x01 << i%8);
+				else
+				        askframe.pdu.values.reqreadcoils.coils[i/8] = askframe.pdu.values.reqreadcoils.coils[i/8] | ~(0x01 << i%8);
                 break;
                 case 3:
                 case 4:
@@ -145,21 +151,30 @@ unsigned int  SPI_Ethernet_UserTCP(unsigned char *remoteHost, unsigned int remot
                         askframe.length = BSWAP_16(askframe.pdu.values.reqreadholdings.bytestofollow + 3);
                         // fill every requested register with 0xABCD
                         for (i = 0; i < requestnumber;i++)
-                        {
                             if(firstrequest+i < amount) // if requested register within allocated range
                                 askframe.pdu.values.reqreadholdings.registers[i] = BSWAP_16(table[firstrequest+i]);
                             else
                                 askframe.pdu.values.reqreadholdings.registers[i] = BSWAP_16(0x0000); // fill up with zeroes
-                        }
                 break;
                 case 5:
-                        //same as request
+                        if (BSWAP_16(askframe.pdu.values.writereg.regaddress) < amount)
+                                if (askframe.pdu.values.writereg.regvalue == 0)
+                                        bctable[BSWAP_16(askframe.pdu.values.writereg.regaddress)] = 0;
+				else
+				        bctable[BSWAP_16(askframe.pdu.values.writereg.regaddress)] = 1;
                 break;
                 case 6:
                         if (BSWAP_16(askframe.pdu.values.writereg.regaddress) < amount)
                                 table[BSWAP_16(askframe.pdu.values.writereg.regaddress)] = BSWAP_16(askframe.pdu.values.writereg.regvalue);
                 break;
                 case 15:
+                        for (i = 0; i < BSWAP_16(askframe.pdu.values.writemulticoil.regnumber);i++)
+                                if (BSWAP_16(askframe.pdu.values.writemulticoil.firstreg)+i < amount)
+                                        if (askframe.pdu.values.writemulticoil.coils == 0)
+                                                bctable[BSWAP_16(askframe.pdu.values.writemulticoil.firstreg)+i] = 0;
+					else
+					        bctable[BSWAP_16(askframe.pdu.values.writemulticoil.firstreg)+i] = 1;
+                break;
                 case 16:
                         for (i = 0; i < BSWAP_16(askframe.pdu.values.writemultireg.regnumber);i++)
                                 if (BSWAP_16(askframe.pdu.values.writemultireg.firstreg)+i < amount)
