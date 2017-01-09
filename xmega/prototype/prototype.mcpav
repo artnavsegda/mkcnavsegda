@@ -6,7 +6,7 @@ Value=0
 [BUILD_TYPE]
 Value=0
 [ACTIVE_TAB]
-Value=ethernet.c
+Value=main.c
 [USE_EEPROM]
 Value=0
 [USE_HEAP]
@@ -28,10 +28,11 @@ Count=0
 Count=0
 ActiveImageIndex=-1
 [OPENED_FILES]
-Count=3
+Count=4
 File0=main.c
 File1=ports.c
 File2=ethernet.c
+File3=ports.h
 [EEPROM]
 Count=0
 [ACTIVE_COMMENTS_FILES]
@@ -48,7 +49,8 @@ Path3=C:\Users\Public\Documents\Mikroelektronika\mikroC PRO for AVR\Uses\GT64KW\
 Count=1
 Path0=C:\Users\Public\Documents\Mikroelektronika\mikroC PRO for AVR\Uses\GT64KW\
 [HEADERS]
-Count=0
+Count=1
+File0=ports.h
 [PLDS]
 Count=0
 [Useses]
