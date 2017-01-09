@@ -237,10 +237,13 @@ void ad7705_init(void)
         SPI_Ethernet_CS = 0;
 }
 
-/*
- * main entry
- */
-void    main()
+void splitfloat(unsigned int *wordlow, unsigned int *wordhigh, float value)
+{
+	wordlow = ((int *)&value)[0];
+	wordhigh = ((int *)&value)[1];
+}
+
+void main()
 {
         int i;
         OSC_CTRL = 0x02;
