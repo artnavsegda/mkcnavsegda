@@ -6,7 +6,7 @@ Value=0
 [BUILD_TYPE]
 Value=0
 [ACTIVE_TAB]
-Value=i2c.c
+Value=..\ad7705+ethernet\ad7705+ethernet.c
 [USE_EEPROM]
 Value=0
 [USE_HEAP]
@@ -27,10 +27,11 @@ Count=0
 Count=0
 ActiveImageIndex=-1
 [OPENED_FILES]
-Count=3
+Count=4
 File0=i2c.c
 File1=ports.c
 File2=ports.h
+File3=..\ad7705+ethernet\ad7705+ethernet.c
 [EEPROM]
 Count=0
 [ACTIVE_COMMENTS_FILES]
@@ -44,15 +45,22 @@ Path1=C:\Users\Public\Documents\Mikroelektronika\mikroC PRO for AVR\Uses\
 Path2=C:\Users\artna\Documents\GitHub\mkcnavsegda\xmega\unit-test\i2c\
 Path3=C:\Users\Public\Documents\Mikroelektronika\mikroC PRO for AVR\Uses\GT64KW\
 [HEADER_PATH]
-Count=0
+Count=1
+Path0=C:\Users\artna\Documents\GitHub\mkcnavsegda\xmega\unit-test\i2c\
 [HEADERS]
 Count=1
 File0=ports.h
 [PLDS]
 Count=0
 [Useses]
-Count=1
+Count=7
 File0=TWI
+File1=C_String
+File2=C_Type
+File3=PrintOut
+File4=SPI
+File5=SPI_Ethernet
+File6=UART
 [EXPANDED_NODES]
 Node0=Sources
 Node1=Header Files
