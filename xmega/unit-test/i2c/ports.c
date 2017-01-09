@@ -25,5 +25,4 @@ unsigned char PORTU1_DIR, PORTU2_DIR, PORTU3_DIR;
 
 sfr sbit CELL_LeftOut_Direction at PORTU1_DIR.B7;
 sfr sbit CELL_RightOut_Direction at PORTU1_DIR.B6;
-
 sfr sbit IgnitionDirection at PORTU3_OUT.B1;

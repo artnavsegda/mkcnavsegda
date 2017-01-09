@@ -18,16 +18,19 @@ Value=
 [BOOT_TYPE]
 Value=0
 [FILES]
-Count=1
+Count=2
 File0=i2c.c
+File1=ports.c
 [BINARIES]
 Count=0
 [IMAGES]
 Count=0
 ActiveImageIndex=-1
 [OPENED_FILES]
-Count=1
+Count=3
 File0=i2c.c
+File1=ports.c
+File2=ports.h
 [EEPROM]
 Count=0
 [ACTIVE_COMMENTS_FILES]
@@ -38,12 +41,13 @@ Count=0
 Count=4
 Path0=C:\Users\Public\Documents\Mikroelektronika\mikroC PRO for AVR\Defs\
 Path1=C:\Users\Public\Documents\Mikroelektronika\mikroC PRO for AVR\Uses\
-Path2=C:\Users\Art Navsegda\Documents\GitHub\mkcnavsegda\xmega\unit-test\i2c\
+Path2=C:\Users\artna\Documents\GitHub\mkcnavsegda\xmega\unit-test\i2c\
 Path3=C:\Users\Public\Documents\Mikroelektronika\mikroC PRO for AVR\Uses\GT64KW\
 [HEADER_PATH]
 Count=0
 [HEADERS]
-Count=0
+Count=1
+File0=ports.h
 [PLDS]
 Count=0
 [Useses]
@@ -51,4 +55,5 @@ Count=1
 File0=TWI
 [EXPANDED_NODES]
 Node0=Sources
-Count=1
+Node1=Header Files
+Count=2
