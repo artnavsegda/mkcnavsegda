@@ -100,7 +100,7 @@ unsigned int  SPI_Ethernet_UserTCP(unsigned char *remoteHost, unsigned int remot
 
         PrintOut(PrintHandler, "Recieved %d bytes\r\n", reqLength);
 
-        for(i = 0;i < reqLength; i++)
+        /*for(i = 0;i < reqLength; i++)
         {
         //        buf[i] = SPI_Ethernet_getByte();
                 ((char *)&askframe)[i] = SPI_Ethernet_getByte();
@@ -110,7 +110,8 @@ unsigned int  SPI_Ethernet_UserTCP(unsigned char *remoteHost, unsigned int remot
                 PrintOut(PrintHandler, "%#02x ", (unsigned int)((char *)&askframe)[i]); // print hex bytes
         //        PrintOut(PrintHandler, "%u ", (unsigned int)buf[i]); // print unsigned numbers
         }
-        UART_Write_Text("\r\n");
+        UART_Write_Text("\r\n");*/
+        SPI_Ethernet_getBytes((unsigned char *)&askframe, 0xFFFF, reqLength);
         
         PrintOut(PrintHandler, "TS id: %u\r\n", BSWAP_16(askframe.tsid));
         PrintOut(PrintHandler, "Protocol id: %u\r\n", BSWAP_16(askframe.protoid));
@@ -134,12 +135,12 @@ unsigned int  SPI_Ethernet_UserTCP(unsigned char *remoteHost, unsigned int remot
                         // fill all requested coil bytes with zeroes
                         for (i = 0; i < requestnumber/8; i++)
                                 if(firstrequest+i < amount)
-                        		if (bctable[firstrequest+i] != 0)
-						askframe.pdu.values.reqreadcoils.coils[i/8] = askframe.pdu.values.reqreadcoils.coils[i/8] & (0x01 << i%8);
-					else
-					        askframe.pdu.values.reqreadcoils.coils[i/8] = askframe.pdu.values.reqreadcoils.coils[i/8] | ~(0x01 << i%8);
-				else
-				        askframe.pdu.values.reqreadcoils.coils[i/8] = askframe.pdu.values.reqreadcoils.coils[i/8] | ~(0x01 << i%8);
+                                        if (bctable[firstrequest+i] != 0)
+                                                askframe.pdu.values.reqreadcoils.coils[i/8] = askframe.pdu.values.reqreadcoils.coils[i/8] & (0x01 << i%8);
+                                        else
+                                                askframe.pdu.values.reqreadcoils.coils[i/8] = askframe.pdu.values.reqreadcoils.coils[i/8] | ~(0x01 << i%8);
+                                else
+                                        askframe.pdu.values.reqreadcoils.coils[i/8] = askframe.pdu.values.reqreadcoils.coils[i/8] | ~(0x01 << i%8);
                 break;
                 case 3:
                 case 4:
@@ -160,8 +161,8 @@ unsigned int  SPI_Ethernet_UserTCP(unsigned char *remoteHost, unsigned int remot
                         if (BSWAP_16(askframe.pdu.values.writereg.regaddress) < amount)
                                 if (askframe.pdu.values.writereg.regvalue == 0)
                                         bctable[BSWAP_16(askframe.pdu.values.writereg.regaddress)] = 0;
-				else
-				        bctable[BSWAP_16(askframe.pdu.values.writereg.regaddress)] = 1;
+                                else
+                                        bctable[BSWAP_16(askframe.pdu.values.writereg.regaddress)] = 1;
                 break;
                 case 6:
                         if (BSWAP_16(askframe.pdu.values.writereg.regaddress) < amount)
@@ -172,8 +173,8 @@ unsigned int  SPI_Ethernet_UserTCP(unsigned char *remoteHost, unsigned int remot
                                 if (BSWAP_16(askframe.pdu.values.writemulticoil.firstreg)+i < amount)
                                         if (askframe.pdu.values.writemulticoil.coils == 0)
                                                 bctable[BSWAP_16(askframe.pdu.values.writemulticoil.firstreg)+i] = 0;
-					else
-					        bctable[BSWAP_16(askframe.pdu.values.writemulticoil.firstreg)+i] = 1;
+                                        else
+                                                bctable[BSWAP_16(askframe.pdu.values.writemulticoil.firstreg)+i] = 1;
                 break;
                 case 16:
                         for (i = 0; i < BSWAP_16(askframe.pdu.values.writemultireg.regnumber);i++)
