@@ -1,4 +1,8 @@
 // internal ports
+extern sfr sbit LED0;
+extern sfr sbit LED0_Direction;
+extern sfr sbit LED0_Toggle;
+
 extern sfr sbit SPI_Ethernet_Rst;
 extern sfr sbit SPI_Ethernet_CS;
 extern sfr sbit SPI_Ethernet_Rst_Direction;
