@@ -6,7 +6,7 @@ Value=0
 [BUILD_TYPE]
 Value=0
 [ACTIVE_TAB]
-Value=ad7705.c
+Value=..\ad7705+ethernet\main.c
 [USE_EEPROM]
 Value=0
 [USE_HEAP]
@@ -26,7 +26,9 @@ Count=0
 Count=0
 ActiveImageIndex=-1
 [OPENED_FILES]
-Count=0
+Count=2
+File0=..\ad7705+ethernet\main.c
+File1=ad7705.c
 [EEPROM]
 Count=0
 [ACTIVE_COMMENTS_FILES]
@@ -46,11 +48,12 @@ Count=0
 [PLDS]
 Count=0
 [Useses]
-Count=4
+Count=5
 File0=SPI
 File1=PrintOut
 File2=C_Type
 File3=UART
+File4=
 [EXPANDED_NODES]
 Node0=Sources
 Count=1
