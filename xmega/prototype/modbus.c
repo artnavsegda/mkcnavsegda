@@ -4,10 +4,16 @@
 unsigned int table[100] = {0xABCD, 0xDEAD, 0x0000};
 unsigned char bctable[100] = {0x0, 0x1, 0x0, 0x0, 0x1};
 
+void splitfloat(unsigned int *wordlow, unsigned int *wordhigh, float value)
+{
+        wordlow = ((int *)&value)[0];
+        wordhigh = ((int *)&value)[1];
+}
+
 unsigned int modbus(struct mbframestruct *askframe)
 {
-	int amount = 100;
-	int i;
+        int amount = 100;
+        int i;
         int firstrequest = 0;
         int requestnumber = 0;
         switch (askframe->pdu->fncode)
