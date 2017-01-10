@@ -3,6 +3,7 @@
 #include "spi.h"
 #include "ramonitor.h"
 #include "sequencer.h"
+#include "average.h"
 
 void PrintHandler(char c)
 {
@@ -43,10 +44,12 @@ void main() {
                 {
                         SPIC_Write(0x38);
                         SPIC_Read_Bytes((unsigned char *)&result,2);
+                        increment(&ad7705_averaging_massive,BSWAP_16(result));
                 }
                 if (tick == 1)
                 {
                         LED0_Toggle = 1;
+                        Average();
                         Sequencer();
                         RAmonitor();
                         tick = 0;

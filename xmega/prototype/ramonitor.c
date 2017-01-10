@@ -7,7 +7,37 @@
 
 extern unsigned int result;
 
-//everything not relevant until float modbus code
+#define FLOW_SENSOR_SPAN 10
+#define EXPECTED_FLOW_SENSOR_VOLTAGE 9.0
+#define RESISTOR_DIVIDER 0.319
+#define R2_RESISTOROHM 3.3
+#define R5_RESISTOROHM 10.0
+
+float calculateflow(float voltage)
+{
+	return (
+	(
+		(
+			voltage / (
+				R2_RESISTOROHM/(
+					R5_RESISTOROHM+R2_RESISTOROHM
+				)
+			)
+		) / EXPECTED_FLOW_SENSOR_VOLTAGE
+	) - 0.1
+	)*(
+		FLOW_SENSOR_SPAN / 0.4
+	);
+}
+
+float calculatepressure(float voltage)
+{
+	return (voltage-0.4)*12;
+}
+
+float standard_concentration = 1.0;
+int coefficent;
+int zerolevelavg;
 
 void RAmonitor(void)
 {
@@ -21,14 +51,14 @@ void RAmonitor(void)
         bctable[STATUSOFCALIBRATION] = (currentmode == CALIBRATION || currentmode == PRECALIBRATIONDELAY || currentmode == POSTCALIBRATIONDELAY);
         //if (currentmode == ELEMENTALMERCURY) table[ELEMENTALMERCURYROW] = calculatecalibration(BSWAP_16(result), zerolevelavg, coefficent, standard_concentration)); // TODO: not working until averaging code
         //if (mystate->currentmode == TOTALMERCURY) table[TOTALMERCURYROW] = calculatecell(oversample(BSWAP_16(result), zerolevelavg, celllevelavg, celltempavg, c_twentie_five, kfactor)); // TODO: not working until averaging code and constant aquring
-        splitfloat(table[MONITORFLOWLOW], table[MONITORFLOWHIGH], calculateflow(ADC_Voltage(ADCA_Read[2]));
-        splitfloat(table[VACUUMLOW],table[VACUUMHIGH], calculatepressure(ADC_Voltage(ADCA_Read[4]));
-        splitfloat(table[DILUTIONPRESSURELOW],table[DILUTIONPRESSUREHIGH], calculatepressure(ADC_Voltage(ADCA_Read[5])));
-        splitfloat(table[BYPASSPRESSURELOW],table[BYPASSPRESSUREHIGH], calculatepressure(ADC_Voltage(ADCA_Read[6])));
-        splitfloat(table[TEMPERATUREOFSPECTROMETERLOW],table[TEMPERATUREOFSPECTROMETERHIGH], (ADC_Voltage(ADCA_Read[3])-0.5)*100);
-        splitfloat(table[CODEOFACURRENTMODELOW],table[CODEOFACURRENTMODEHIGH], (float)currentmode);
-        splitfloat(table[ERRORSANDWARNINGSLOW],table[ERRORSANDWARNINGSHIGH], (float)statusword);
-        splitfloat(table[TOTALMERCURYCOEFFICENTLOW],table[TOTALMERCURYCOEFFICENTHIGH], standard_concentration/(float)((long)coefficent-(long)zerolevelavg));
+        splitfloat(&table[MONITORFLOWLOW], &table[MONITORFLOWHIGH], calculateflow(ADC_Voltage(ADCA_Read(2))));
+        splitfloat(&table[VACUUMLOW],&table[VACUUMHIGH], calculatepressure(ADC_Voltage(ADCA_Read(4))));
+        splitfloat(&table[DILUTIONPRESSURELOW],&table[DILUTIONPRESSUREHIGH], calculatepressure(ADC_Voltage(ADCA_Read(5))));
+        splitfloat(&table[BYPASSPRESSURELOW],&table[BYPASSPRESSUREHIGH], calculatepressure(ADC_Voltage(ADCA_Read(6))));
+        splitfloat(&table[TEMPERATUREOFSPECTROMETERLOW],&table[TEMPERATUREOFSPECTROMETERHIGH], (ADC_Voltage(ADCA_Read(3))-0.5)*100);
+        splitfloat(&table[CODEOFACURRENTMODELOW],&table[CODEOFACURRENTMODEHIGH], (float)currentmode);
+        splitfloat(&table[ERRORSANDWARNINGSLOW],&table[ERRORSANDWARNINGSHIGH], (float)statusword);
+        splitfloat(&table[TOTALMERCURYCOEFFICENTLOW],&table[TOTALMERCURYCOEFFICENTHIGH], standard_concentration/(float)((long)coefficent-(long)zerolevelavg));
         
         table[2]++;
         table[3] = BSWAP_16(result);
