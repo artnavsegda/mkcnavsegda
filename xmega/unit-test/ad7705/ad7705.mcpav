@@ -6,7 +6,7 @@ Value=0
 [BUILD_TYPE]
 Value=0
 [ACTIVE_TAB]
-Value=average.h
+Value=ad7705.c
 [USE_EEPROM]
 Value=0
 [USE_HEAP]
@@ -27,10 +27,8 @@ Count=0
 Count=0
 ActiveImageIndex=-1
 [OPENED_FILES]
-Count=3
+Count=1
 File0=ad7705.c
-File1=average.c
-File2=average.h
 [EEPROM]
 Count=0
 [ACTIVE_COMMENTS_FILES]
@@ -51,11 +49,12 @@ File0=average.h
 [PLDS]
 Count=0
 [Useses]
-Count=4
+Count=5
 File0=SPI
 File1=PrintOut
 File2=C_Type
 File3=UART
+File4=
 [EXPANDED_NODES]
 Node0=Sources
 Node1=Header Files

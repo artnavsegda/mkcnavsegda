@@ -3,6 +3,10 @@
 #include "ports.h"
 #include "bswap.h"
 #include "modbus.h"
+#include "average.h"
+
+struct massive firststage;
+struct massive secondstage;
 
 void PrintHandler(char c)
 {
@@ -39,23 +43,26 @@ void main()
                 {
                         LED0_Toggle = 1;
                         AD7705_Read_Register(0x38,(unsigned char *)&result,2);
+                        increment(&firststage,BSWAP_16(result));
                 }
                 if (tick == 1)
                 {
                         LED2_Toggle = 1;
                         table[2]++;
                         table[3] = BSWAP_16(result);
-                        for (i = 0; i<8;i++)
+                        table[4] = oversample(&firststage,16)/16;
+                        table[5] = oversample(&firststage,32)/32;
+                        table[6] = oversample(&firststage,64)/64;
+                        increment(&secondstage,oversample(&firststage,64)/64);
+                        table[7] = oversample(&secondstage,8)/8;
+                        /*for (i = 0; i<8;i++)
                                 table[4+i] = ADCA_Read(i);
                         for (i = 0; i<8;i++)
                                 table[12+i] = ADCB_Read(i);
-			/*table[20] = 0xDEAD;
-			table[21] = 0xBEEF;
-   			splitfloat(&table[22], &table[23], 1.0);*/
                         for (i = 0; i<16;i=i+2)
-                        	splitfloat(&table[20+i], &table[21+i], (float)(ADCA_Read(i/2)/(float)4096));
+                                splitfloat(&table[20+i], &table[21+i], (float)(ADCA_Read(i/2)/(float)4096));
                         for (i = 0; i<16;i=i+2)
-                        	splitfloat(&table[36+i], &table[37+i], (float)(ADCB_Read(i/2)/(float)4096));
+                                splitfloat(&table[36+i], &table[37+i], (float)(ADCB_Read(i/2)/(float)4096));*/
                         tick = 0;
                 }
         }
