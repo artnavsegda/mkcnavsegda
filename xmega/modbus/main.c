@@ -18,7 +18,7 @@ void Timer0Overflow_ISR() org IVT_ADDR_TCC0_OVF
 
 void main()
 {
-	int i;
+        int i;
         unsigned int result;
         LED0_Direction = 1;
         LED2_Direction = 1;
@@ -42,13 +42,20 @@ void main()
                 }
                 if (tick == 1)
                 {
-			LED2_Toggle = 1;
-			table[2]++;
-			table[3] = BSWAP_16(result);
-			for (i = 0; i<8;i++)
+                        LED2_Toggle = 1;
+                        table[2]++;
+                        table[3] = BSWAP_16(result);
+                        for (i = 0; i<8;i++)
                                 table[4+i] = ADCA_Read(i);
                         for (i = 0; i<8;i++)
                                 table[12+i] = ADCB_Read(i);
+			/*table[20] = 0xDEAD;
+			table[21] = 0xBEEF;
+   			splitfloat(&table[22], &table[23], 1.0);*/
+                        for (i = 0; i<16;i=i+2)
+                        	splitfloat(&table[20+i], &table[21+i], (float)(ADCA_Read(i/2)/(float)4096));
+                        for (i = 0; i<16;i=i+2)
+                        	splitfloat(&table[36+i], &table[37+i], (float)(ADCB_Read(i/2)/(float)4096));
                         tick = 0;
                 }
         }

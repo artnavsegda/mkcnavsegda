@@ -6,8 +6,8 @@ unsigned char bctable[100] = {0x0, 0x1, 0x0, 0x0, 0x1};
 
 void splitfloat(unsigned int *wordlow, unsigned int *wordhigh, float value)
 {
-        wordlow = ((int *)&value)[0];
-        wordhigh = ((int *)&value)[1];
+        *wordlow = ((int *)&value)[0];
+        *wordhigh = ((int *)&value)[1];
 }
 
 unsigned int modbus(struct mbframestruct *askframe)
