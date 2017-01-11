@@ -5,6 +5,41 @@ sfr sbit AD7705_DRDY at PORTC_IN.B1;
 sfr sbit LED0_Direction at PORTR_DIR.B0;
 sfr sbit LED0_Toggle at PORTR_OUTTGL.B0;
 
+#define MASSIVE_SIZE 64
+
+struct massive {
+        unsigned int massive[MASSIVE_SIZE];
+        unsigned int position;
+};
+
+long average(unsigned int *selekta,int amount, int startpos, int sizeofmassive) // ??????????
+{
+	int i;
+	long x = 0;
+	for(i=0; i<amount; i++)
+	{
+		if (startpos-i>0)
+		x=x+selekta[startpos-i-1];
+		else
+		x=x+selekta[sizeofmassive+(startpos-i)-1];
+	}
+	return x;
+}
+
+long oversample(struct massive *working, unsigned int amount)
+{
+	return average(working->massive,amount,working->position,sizeof(working->massive)/2);
+}
+
+void increment(struct massive *working, unsigned int value)
+{
+        working->massive[working->position] = value;
+                if (working->position++ > sizeof(working->massive)/2)
+        working->position = 0;
+}
+
+struct massive firststage;
+
 void AD7705_Write_Bytes(char *buffer, unsigned NoBytes)
 {
         int i;
@@ -37,8 +72,8 @@ void PrintHandler(char c)
 }
 
 void main() {
-	unsigned int result;
-	LED0_Direction = 1;
+        unsigned int result;
+        LED0_Direction = 1;
         UARTC0_Init(115200);
         AD7705_Init();
         delay_ms(10);
@@ -52,10 +87,13 @@ void main() {
         while (1)
         {
                 if (AD7705_DRDY == 0)
-		{
-		        LED0_Toggle = 1;
-		        AD7705_Read_Register(0x38,(unsigned char *)&result,2);
-		        PrintOut(PrintHandler, "%x\r\n", BSWAP_16(result));
-  		}
-	}
+                {
+                        LED0_Toggle = 1;
+                        AD7705_Read_Register(0x38,(unsigned char *)&result,2);
+                        increment(&firststage,BSWAP_16(result));
+                        
+                        PrintOut(PrintHandler, "raw: %#4x, ", BSWAP_16(result));
+                        PrintOut(PrintHandler, "x16: %#4x\r\n", oversample(&firststage,64)/64);
+                  }
+        }
 }
