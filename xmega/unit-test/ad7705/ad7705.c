@@ -14,21 +14,21 @@ struct massive {
 
 long average(unsigned int *selekta,int amount, int startpos, int sizeofmassive) // ??????????
 {
-	int i;
-	long x = 0;
-	for(i=0; i<amount; i++)
-	{
-		if (startpos-i>0)
-		x=x+selekta[startpos-i-1];
-		else
-		x=x+selekta[sizeofmassive+(startpos-i)-1];
-	}
-	return x;
+        int i;
+        long x = 0;
+        for(i=0; i<amount; i++)
+        {
+                if (startpos-i>0)
+                x=x+selekta[startpos-i-1];
+                else
+                x=x+selekta[sizeofmassive+(startpos-i)-1];
+        }
+        return x;
 }
 
 long oversample(struct massive *working, unsigned int amount)
 {
-	return average(working->massive,amount,working->position,sizeof(working->massive)/2);
+        return average(working->massive,amount,working->position,sizeof(working->massive)/2);
 }
 
 void increment(struct massive *working, unsigned int value)
@@ -92,8 +92,8 @@ void main() {
                         AD7705_Read_Register(0x38,(unsigned char *)&result,2);
                         increment(&firststage,BSWAP_16(result));
                         
-                        PrintOut(PrintHandler, "raw: %#4x, ", BSWAP_16(result));
-                        PrintOut(PrintHandler, "x16: %#4x\r\n", oversample(&firststage,64)/64);
+                        PrintOut(PrintHandler, "raw: %5d, ", BSWAP_16(result)-0x17CC);
+                        PrintOut(PrintHandler, "x16: %5d\r\n", (oversample(&firststage,64)/64)-0x17CC);
                   }
         }
 }
