@@ -4,6 +4,7 @@
 #include "bswap.h"
 #include "modbus.h"
 #include "average.h"
+#include "i2c.h"
 
 struct massive firststage;
 struct massive secondstage;
@@ -26,6 +27,8 @@ void main()
         unsigned int result;
         LED0_Direction = 1;
         LED2_Direction = 1;
+        Expander_Init(0x18);
+        Expander_Set_DirectionPort(0x1a,0x00);
         UARTC0_Init(115200);
         UART_Set_Active(&UARTC0_Read, &UARTC0_Write, &UARTC0_Data_Ready, &UARTC0_Tx_Idle);
         Timer_Init(&TCC0, 1000000);
@@ -63,7 +66,13 @@ void main()
                                 splitfloat(&table[20+i], &table[21+i], (float)(ADCA_Read(i/2)/(float)4096));
                         for (i = 0; i<16;i=i+2)
                                 splitfloat(&table[36+i], &table[37+i], (float)(ADCB_Read(i/2)/(float)4096));*/
+                        //if (bctable[0] != 0)
+                        //{
+                        //        PORTU3_OUT.B7 = 0;
+                                
+                        
                         tick = 0;
                 }
         }
 }
+
