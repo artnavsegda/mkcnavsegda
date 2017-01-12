@@ -50,8 +50,8 @@ void Entermode(enum modelist modetoenter)
         switch(modetoenter)
         {
                 case STARTLEVEL:
-                	Ignition = 1;
-			//Expander_Write_Port(PORTU3,PORTU3_OUT);
+                        Ignition = 1;
+                        //Expander_Write_Port(PORTU3,PORTU3_OUT);
                 break;
                 case CELLDELAY:
                 break;
@@ -109,7 +109,7 @@ void Exitmode(enum modelist modetoexit)
         switch(modetoexit)
         {
                 case STARTLEVEL:
-                	Ignition = 0;
+                        Ignition = 0;
                 break;
                 case CELLDELAY:
                 break;
@@ -160,6 +160,7 @@ void main()
         Timer_Interrupt_Enable(&TCC0);
         UARTC0_Init(115200);
         Expander_Init(PORTU3);
+        IgnitionDirection = 0;
         Expander_Set_DirectionPort(PORTU3,0x00);
         Entermode(STARTLEVEL);
         

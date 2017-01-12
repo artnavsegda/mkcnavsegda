@@ -1,3 +1,7 @@
+#define PORTU1 0x18
+#define PORTU2 0x19
+#define PORTU3 0x1a
+
 extern sfr sbit CELL_LeftOut_Direction;
 extern sfr sbit CELL_RightOut_Direction;
 extern sfr sbit IgnitionDirection;

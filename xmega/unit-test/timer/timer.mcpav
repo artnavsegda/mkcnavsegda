@@ -29,7 +29,7 @@ ActiveImageIndex=-1
 [OPENED_FILES]
 Count=2
 File0=timer.c
-File1=i2c.h
+File1=..\i2c\i2c.c
 [EEPROM]
 Count=0
 [ACTIVE_COMMENTS_FILES]
@@ -43,7 +43,8 @@ Path1=C:\Program Files\Mikroelektronika\mikroC PRO for AVR\Uses\
 Path2=Y:\GitHub\mkcnavsegda\xmega\unit-test\timer\
 Path3=C:\Program Files\Mikroelektronika\mikroC PRO for AVR\Uses\GT64KW\
 [HEADER_PATH]
-Count=0
+Count=1
+Path0=Y:\GitHub\mkcnavsegda\xmega\unit-test\timer\
 [HEADERS]
 Count=1
 File0=i2c.h
