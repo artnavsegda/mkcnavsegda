@@ -4,6 +4,9 @@ unsigned char PORTU1_OUT, PORTU2_OUT, PORTU3_OUT;
 unsigned char PORTU1_IN, PORTU2_IN, PORTU3_IN;
 unsigned char PORTU1_DIR, PORTU2_DIR, PORTU3_DIR;
 
+sfr sbit CELL_LeftOut at PORTU1_OUT.B7;
+sfr sbit CELL_RightOut at PORTU1_OUT.B6;
+
 void Expander_Write_Byte(char ModuleAddress, char RegAddress, char Data_)
 {
         TWIE_Start();

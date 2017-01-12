@@ -28,7 +28,11 @@ void main()
         LED0_Direction = 1;
         LED2_Direction = 1;
         Expander_Init(0x18);
+        Expander_Set_DirectionPort(0x18,0x00);
+        PORTU1_OUT = 0x00;
+        Expander_Init(0x1a);
         Expander_Set_DirectionPort(0x1a,0x00);
+        PORTU3_OUT = 0x00;
         UARTC0_Init(115200);
         UART_Set_Active(&UARTC0_Read, &UARTC0_Write, &UARTC0_Data_Ready, &UARTC0_Tx_Idle);
         Timer_Init(&TCC0, 1000000);
@@ -66,13 +70,21 @@ void main()
                                 splitfloat(&table[20+i], &table[21+i], (float)(ADCA_Read(i/2)/(float)4096));
                         for (i = 0; i<16;i=i+2)
                                 splitfloat(&table[36+i], &table[37+i], (float)(ADCB_Read(i/2)/(float)4096));*/
-                        //if (bctable[0] != 0)
-                        //{
-                        //        PORTU3_OUT.B7 = 0;
+                        if (bctable[0] == 0)
+                        {
+                        	CELL_LeftOut = 1;
+      				CELL_RightOut = 0;
+				Expander_Write_Port(0x18,PORTU1_OUT);
+			}
+                        else
+                        {
+                        	CELL_LeftOut = 0;
+      				CELL_RightOut = 1;
+				Expander_Write_Port(0x18,PORTU1_OUT);
+			}
+                        Expander_Write_Port(0x1a,PORTU3_OUT);
                                 
-                        
                         tick = 0;
                 }
         }
 }
-
