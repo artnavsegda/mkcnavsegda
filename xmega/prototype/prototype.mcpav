@@ -35,9 +35,11 @@ Count=0
 Count=0
 ActiveImageIndex=-1
 [OPENED_FILES]
-Count=2
+Count=4
 File0=ramonitor.c
 File1=sequencer.c
+File2=main.c
+File3=sequencer.h
 [EEPROM]
 Count=0
 [ACTIVE_COMMENTS_FILES]

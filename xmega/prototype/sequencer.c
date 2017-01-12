@@ -130,19 +130,19 @@ int Modeseconds(enum modelist modeneed)
 {
         switch (modeneed)
         {
-                case STARTLEVEL: return 100;
-                case CELLDELAY: return 100;
-                case CELLLEVEL:        return 100;
-                case ZERODELAY: return 100;
-                case ZEROTEST: return 100;
-                case PURGE: return 100;
-                case TOTALMERCURYDELAY: return 100;
-                case TOTALMERCURY: return 100;
-                case ELEMENTALMERCURYDELAY: return 100;
-                case ELEMENTALMERCURY: return 100;
-                case PRECALIBRATIONDELAY: return 100;
-                case CALIBRATION: return 100;
-                case POSTCALIBRATIONDELAY: return 100;
+                case STARTLEVEL: return 10;
+                case CELLDELAY: return 10;
+                case CELLLEVEL:        return 10;
+                case ZERODELAY: return 10;
+                case ZEROTEST: return 10;
+                case PURGE: return 10;
+                case TOTALMERCURYDELAY: return 10;
+                case TOTALMERCURY: return 10;
+                case ELEMENTALMERCURYDELAY: return 10;
+                case ELEMENTALMERCURY: return 10;
+                case PRECALIBRATIONDELAY: return 10;
+                case CALIBRATION: return 10;
+                case POSTCALIBRATIONDELAY: return 10;
         }
         return 0;
 }

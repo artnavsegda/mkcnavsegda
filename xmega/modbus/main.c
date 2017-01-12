@@ -72,6 +72,7 @@ void main()
                         increment(&secondstage,oversample(&firststage,64)/64);
                         table[7] = oversample(&secondstage,8)/8;
                         table[8] = currentmode;
+                        table[9] = timetoexitmode;
                         /*for (i = 0; i<8;i++)
                                 table[4+i] = ADCA_Read(i);
                         for (i = 0; i<8;i++)
