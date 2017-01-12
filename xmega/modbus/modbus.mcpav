@@ -18,7 +18,7 @@ Value=
 [BOOT_TYPE]
 Value=0
 [FILES]
-Count=7
+Count=8
 File0=main.c
 File1=ad7705.c
 File2=ports.c
@@ -26,14 +26,19 @@ File3=ethernet.c
 File4=modbus.c
 File5=average.c
 File6=i2c.c
+File7=timer.c
 [BINARIES]
 Count=0
 [IMAGES]
 Count=0
 ActiveImageIndex=-1
 [OPENED_FILES]
-Count=1
-File0=main.c
+Count=5
+File0=timer.c
+File1=timer.h
+File2=ports.h
+File3=i2c.h
+File4=main.c
 [EEPROM]
 Count=0
 [ACTIVE_COMMENTS_FILES]
@@ -51,13 +56,14 @@ Count=2
 Path0=C:\Program Files\Mikroelektronika\mikroC PRO for AVR\Uses\GT64KW\
 Path1=Y:\GitHub\mkcnavsegda\xmega\modbus\
 [HEADERS]
-Count=6
+Count=7
 File0=ad7705.h
 File1=ports.h
 File2=modbus.h
 File3=bswap.h
 File4=average.h
 File5=i2c.h
+File6=timer.h
 [PLDS]
 Count=0
 [Useses]
