@@ -1,8 +1,8 @@
 #include "i2c.h"
 
-unsigned char PORTU1_OUT, PORTU2_OUT, PORTU3_OUT;
+unsigned char PORTU1_OUT = 0x00, PORTU2_OUT = 0x00, PORTU3_OUT = 0x00;
 unsigned char PORTU1_IN, PORTU2_IN, PORTU3_IN;
-unsigned char PORTU1_DIR, PORTU2_DIR, PORTU3_DIR;
+unsigned char PORTU1_DIR = 0xFF, PORTU2_DIR = 0xFF, PORTU3_DIR = 0xFF;
 
 sfr sbit CELL_LeftOut at PORTU1_OUT.B7;
 sfr sbit CELL_RightOut at PORTU1_OUT.B6;
