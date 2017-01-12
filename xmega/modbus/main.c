@@ -57,6 +57,7 @@ void main()
                 }
                 if (tick == 1)
                 {
+                        tick = 0;
                         LED2_Toggle = 1;
                         table[2]++;
                         table[3] = BSWAP_16(result);
@@ -84,8 +85,6 @@ void main()
                                 CELL_RightOut = 1;
                         }
                         Expander_Write_Port(PORTU1,PORTU1_OUT);
-                                
-                        tick = 0;
                 }
         }
 }
