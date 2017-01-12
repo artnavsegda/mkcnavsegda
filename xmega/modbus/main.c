@@ -21,10 +21,8 @@ void Timer0Overflow_ISR() org IVT_ADDR_TCC0_OVF
         tick = 1;
 }
 
-void main()
+void Ports_Init(void)
 {
-        int i;
-        unsigned int result;
         LED0_Direction = 1;
         LED2_Direction = 1;
         Expander_Init(PORTU1);
@@ -36,6 +34,13 @@ void main()
         Expander_Set_DirectionPort(PORTU3,PORTU3_DIR);
         Ignition = 1;
         Expander_Write_Port(PORTU3,PORTU3_OUT);
+}
+
+void main()
+{
+        int i;
+        unsigned int result;
+        Ports_Init();
         UARTC0_Init(115200);
         UART_Set_Active(&UARTC0_Read, &UARTC0_Write, &UARTC0_Data_Ready, &UARTC0_Tx_Idle);
         Timer_Init(&TCC0, 1000000);
