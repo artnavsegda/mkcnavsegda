@@ -2,6 +2,15 @@
 extern sfr sbit LED0;
 extern sfr sbit LED0_Direction;
 extern sfr sbit LED0_Toggle;
+extern sfr sbit LED1;
+extern sfr sbit LED1_Direction;
+extern sfr sbit LED1_Toggle;
+extern sfr sbit LED2;
+extern sfr sbit LED3;
+extern sfr sbit LED2_Direction;
+extern sfr sbit LED3_Direction;
+extern sfr sbit LED2_Toggle;
+extern sfr sbit LED3_Toggle;
 
 extern sfr sbit SPI_Ethernet_Rst;
 extern sfr sbit SPI_Ethernet_CS;
@@ -13,6 +22,11 @@ extern sfr sbit AD7705_CS_Direction;
 extern sfr sbit AD7707_DRDY;
 
 // expander ports
+
+#define PORTU1 0x18
+#define PORTU2 0x19
+#define PORTU3 0x1a
+
 extern unsigned char PORTU1_OUT, PORTU2_OUT, PORTU3_OUT;
 
 extern sfr sbit CELL_LeftOut;

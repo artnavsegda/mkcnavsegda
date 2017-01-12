@@ -6,7 +6,7 @@ Value=0
 [BUILD_TYPE]
 Value=0
 [ACTIVE_TAB]
-Value=ramonitor.c
+Value=main.c
 [USE_EEPROM]
 Value=0
 [USE_HEAP]
@@ -35,7 +35,11 @@ Count=0
 Count=0
 ActiveImageIndex=-1
 [OPENED_FILES]
-Count=0
+Count=4
+File0=main.c
+File1=i2c.h
+File2=ports.c
+File3=ports.h
 [EEPROM]
 Count=0
 [ACTIVE_COMMENTS_FILES]
@@ -75,4 +79,6 @@ File4=UART
 File5=Timer
 File6=ADC
 [EXPANDED_NODES]
-Count=0
+Node0=Sources
+Node1=Header Files
+Count=2

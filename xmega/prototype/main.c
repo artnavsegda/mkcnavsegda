@@ -4,6 +4,7 @@
 #include "ramonitor.h"
 #include "sequencer.h"
 #include "average.h"
+#include "i2c.h"
 
 void PrintHandler(char c)
 {
@@ -16,6 +17,19 @@ void Sysclk_Init(void)
         while(RC32MRDY_bit == 0);
         CPU_CCP = 0xD8;
         CLK_CTRL = 1;
+}
+
+void Port_Init(void)
+{
+        LED0_Direction = 1;
+        LED2_Direction = 1;
+        Expander_Init(PORTU1);
+        CELL_LeftOut_Direction = 0;
+	CELL_RightOut_Direction = 0;
+	Expander_Set_DirectionPort(PORTU1,PORTU1_DIR);
+	Expander_Init(PORTU3);
+	IgnitionDirection = 0;
+	Expander_Set_DirectionPort(PORTU3,PORTU3_DIR);
 }
 
 void Prototype_Init(void)
