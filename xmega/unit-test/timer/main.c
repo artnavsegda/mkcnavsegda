@@ -133,14 +133,11 @@ void Exitmode(enum modelist modetoexit)
         Entermode(Sequence(modetoexit));
 }
 
+int tick = 0;
+
 void Timer0Overflow_ISR() org IVT_ADDR_TCC0_OVF
 {
-        LED0_Toggle = 1;
-        timetoexitmode--;
-        if (timetoexitmode == 0)
-                Exitmode(currentmode);
-        Expander_Write_Port(PORTU3,PORTU3_OUT);
-        increment(&secondstage,oversample(&firststage,64)/64);
+        tick = 1;
 }
 
 void main()
@@ -165,6 +162,16 @@ void main()
                         LED0_Toggle = 1;
                         AD7705_Read_Register(0x38,(unsigned char *)&result,2);
                         increment(&firststage,BSWAP_16(result));
+                }
+                if (tick == 1)
+                {
+                        tick = 0;
+			LED0_Toggle = 1;
+			timetoexitmode--;
+			if (timetoexitmode == 0)
+				Exitmode(currentmode);
+			Expander_Write_Port(PORTU3,PORTU3_OUT);
+			increment(&secondstage,oversample(&firststage,64)/64);
                 }
         }
 }
