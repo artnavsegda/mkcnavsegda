@@ -1,23 +1,9 @@
 #include "i2c.h"
+#include "timer.h"
+#include "ad7705.h"
 
 sfr sbit LED0_Direction at PORTR_DIR.B0;
 sfr sbit LED0_Toggle at PORTR_OUTTGL.B0;
-
-enum modelist {
-        STARTLEVEL = 5,
-        CELLDELAY = 7,
-        CELLLEVEL = 8,
-        ZERODELAY = 11,
-        ZEROTEST = 12,
-        PURGE = 13,
-        TOTALMERCURYDELAY = 21,
-        TOTALMERCURY = 22,
-        ELEMENTALMERCURYDELAY = 26,
-        ELEMENTALMERCURY = 27,
-        PRECALIBRATIONDELAY = 31,
-        CALIBRATION = 32,
-        POSTCALIBRATIONDELAY = 33
-};
 
 unsigned int timetoexitmode = 0;
 unsigned char currentmode = STARTLEVEL;
@@ -152,6 +138,7 @@ void Timer0Overflow_ISR() org IVT_ADDR_TCC0_OVF
 
 void main()
 {
+        unsigned int result;
         LED0_Direction = 1;
         PMIC_CTRL = 4;
         CPU_SREG.B7 = 1;
@@ -164,5 +151,12 @@ void main()
         Expander_Set_DirectionPort(PORTU3,PORTU3_DIR);
         Entermode(STARTLEVEL);
         
-        while(1);
+        while (1)
+        {
+                if (AD7705_DRDY == 0)
+		{
+                        LED0_Toggle = 1;
+                        AD7705_Read_Register(0x38,(unsigned char *)&result,2);
+		}
+        }
 }
