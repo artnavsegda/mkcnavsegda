@@ -1,9 +1,14 @@
 #include "i2c.h"
 #include "timer.h"
 #include "ad7705.h"
+#include "average.h"
+
+#define BSWAP_16(x) ((((x) >> 8) & 0xff) | (((x) & 0xff) << 8))
 
 sfr sbit LED0_Direction at PORTR_DIR.B0;
 sfr sbit LED0_Toggle at PORTR_OUTTGL.B0;
+
+struct massive firststage;
 
 unsigned int timetoexitmode = 0;
 unsigned char currentmode = STARTLEVEL;
@@ -154,9 +159,10 @@ void main()
         while (1)
         {
                 if (AD7705_DRDY == 0)
-		{
+                {
                         LED0_Toggle = 1;
                         AD7705_Read_Register(0x38,(unsigned char *)&result,2);
-		}
+                        increment(&firststage,BSWAP_16(result));
+                }
         }
 }
