@@ -28,9 +28,14 @@ void main()
         LED0_Direction = 1;
         LED2_Direction = 1;
         Expander_Init(PORTU1);
+        CELL_LeftOut_Direction = 0;
+        CELL_RightOut_Direction = 0;
         Expander_Set_DirectionPort(PORTU1,PORTU1_DIR);
         Expander_Init(PORTU3);
+        IgnitionDirection = 0;
         Expander_Set_DirectionPort(PORTU3,PORTU3_DIR);
+        Ignition = 1;
+        Expander_Write_Port(PORTU3,PORTU3_OUT);
         UARTC0_Init(115200);
         UART_Set_Active(&UARTC0_Read, &UARTC0_Write, &UARTC0_Data_Ready, &UARTC0_Tx_Idle);
         Timer_Init(&TCC0, 1000000);
