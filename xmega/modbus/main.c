@@ -71,6 +71,7 @@ void main()
                         table[6] = oversample(&firststage,64)/64;
                         increment(&secondstage,oversample(&firststage,64)/64);
                         table[7] = oversample(&secondstage,8)/8;
+                        table[8] = currentmode;
                         /*for (i = 0; i<8;i++)
                                 table[4+i] = ADCA_Read(i);
                         for (i = 0; i<8;i++)
@@ -89,9 +90,9 @@ void main()
                                 CELL_LeftOut = 0;
                                 CELL_RightOut = 1;
                         }
-			timetoexitmode--;
-			if (timetoexitmode == 0)
-				Exitmode(currentmode);
+                        timetoexitmode--;
+                        if (timetoexitmode == 0)
+                                Exitmode(currentmode);
                         Expander_Write_Port(PORTU1,PORTU1_OUT);
                         Expander_Write_Port(PORTU3,PORTU3_OUT);
                 }

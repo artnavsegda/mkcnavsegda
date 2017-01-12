@@ -33,12 +33,13 @@ Count=0
 Count=0
 ActiveImageIndex=-1
 [OPENED_FILES]
-Count=5
+Count=6
 File0=timer.c
 File1=timer.h
 File2=ports.h
 File3=i2c.h
 File4=main.c
+File5=modbus.c
 [EEPROM]
 Count=0
 [ACTIVE_COMMENTS_FILES]
