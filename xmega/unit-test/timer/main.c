@@ -9,6 +9,7 @@ sfr sbit LED0_Direction at PORTR_DIR.B0;
 sfr sbit LED0_Toggle at PORTR_OUTTGL.B0;
 
 struct massive firststage;
+struct massive secondstage;
 
 unsigned int timetoexitmode = 0;
 unsigned char currentmode = STARTLEVEL;
@@ -78,19 +79,19 @@ enum modelist Sequence(enum modelist modetosequence)
 {
         switch(modetosequence)
         {
-                case STARTLEVEL: return CELLDELAY;
-                case CELLDELAY: return CELLDELAY;
-                case CELLLEVEL:        return CELLDELAY;
-                case ZERODELAY:        return CELLDELAY;
+                case STARTLEVEL: return ZERODELAY;
+                case CELLDELAY: return CELLLEVEL;
+                case CELLLEVEL:        return TOTALMERCURYDELAY;
+                case ZERODELAY:        return ZEROTEST;
                 case ZEROTEST: return CELLDELAY;
-                case PURGE:        return CELLDELAY;
-                case TOTALMERCURYDELAY:        return CELLDELAY;
-                case TOTALMERCURY: return CELLDELAY;
-                case ELEMENTALMERCURYDELAY:        return CELLDELAY;
-                case ELEMENTALMERCURY: return CELLDELAY;
-                case PRECALIBRATIONDELAY: return CELLDELAY;
-                case CALIBRATION: return CELLDELAY;
-                case POSTCALIBRATIONDELAY: return CELLDELAY;
+                case PURGE:        return PURGE;
+                case TOTALMERCURYDELAY:        return TOTALMERCURY;
+                case TOTALMERCURY: return ZERODELAY;
+                case ELEMENTALMERCURYDELAY:        return ELEMENTALMERCURY;
+                case ELEMENTALMERCURY: return TOTALMERCURYDELAY;
+                case PRECALIBRATIONDELAY: return CALIBRATION;
+                case CALIBRATION: return POSTCALIBRATIONDELAY;
+                case POSTCALIBRATIONDELAY: return PRECALIBRATIONDELAY;
         }
         return modetosequence;
 }
@@ -139,6 +140,7 @@ void Timer0Overflow_ISR() org IVT_ADDR_TCC0_OVF
         if (timetoexitmode == 0)
                 Exitmode(currentmode);
         Expander_Write_Port(PORTU3,PORTU3_OUT);
+        increment(&secondstage,oversample(&firststage,64)/64);
 }
 
 void main()
