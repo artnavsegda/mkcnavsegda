@@ -4,7 +4,7 @@
 
 
 extern unsigned char PORTU1_OUT, PORTU2_OUT, PORTU3_OUT;
-extern unsigned char PORTU1_OUT, PORTU2_OUT, PORTU3_OUT;
+extern unsigned char PORTU1_DIR, PORTU2_DIR, PORTU3_DIR;
 extern sfr sbit Ignition;
 extern sfr sbit IgnitionDirection;
 
