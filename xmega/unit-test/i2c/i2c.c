@@ -64,7 +64,7 @@ void main()
         PORTU1_OUT = 0x00;
         Expander_Init(0x1a);
         Expander_Set_DirectionPort(0x1a,0x00);
-        PORTU1_OUT = 0x00;
+        PORTU3_OUT = 0x00;
         Ignition = 1;
         Expander_Write_Port(0x1a,PORTU3_OUT);
 
