@@ -45,9 +45,9 @@ void Expander_Init(char ModuleAddress)
 
 void main()
 {
-        /*Expander_Init(0x1a);
-        Expander_Set_DirectionPort(0x1a,0x00);
-        PORTU3_OUT = 0x00;
+        Expander_Init(0x1a);
+        PORTU3_DIR.B7 = 0;
+        Expander_Set_DirectionPort(0x1a,PORTU3_DIR);
 
         while(1)
         {
@@ -57,9 +57,9 @@ void main()
                 PORTU3_OUT.B7 = 0;
                 Expander_Write_Port(0x1a,PORTU3_OUT);
                 Delay_ms(100);
-        }*/
+        }
         
-        Expander_Init(0x18);
+        /*Expander_Init(0x18);
         Expander_Set_DirectionPort(0x18,0x00);
         PORTU1_OUT = 0x00;
         Expander_Init(0x1a);
@@ -78,5 +78,5 @@ void main()
                 CELL_LeftOut = 0;
                 CELL_RightOut = 1;
                 Expander_Write_Port(0x18,PORTU1_OUT);
-        }
+        }*/
 }
