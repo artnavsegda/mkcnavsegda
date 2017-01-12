@@ -140,19 +140,23 @@ void Timer0Overflow_ISR() org IVT_ADDR_TCC0_OVF
         tick = 1;
 }
 
+void Ports_Init(void)
+{
+        Expander_Init(PORTU3);
+        IgnitionDirection = 0;
+        Expander_Set_DirectionPort(PORTU3,PORTU3_DIR);
+}
+
 void main()
 {
         unsigned int result;
         LED0_Direction = 1;
         PMIC_CTRL = 4;
         CPU_SREG.B7 = 1;
-        PORTU3_OUT = 0x00;
+        Ports_Init();
         Timer_Init(&TCC0, 1000000);
         Timer_Interrupt_Enable(&TCC0);
         UARTC0_Init(115200);
-        Expander_Init(PORTU3);
-        IgnitionDirection = 0;
-        Expander_Set_DirectionPort(PORTU3,PORTU3_DIR);
         Entermode(STARTLEVEL);
         
         while (1)
