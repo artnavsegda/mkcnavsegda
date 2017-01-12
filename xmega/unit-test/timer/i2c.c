@@ -1,7 +1,9 @@
 #include "i2c.h"
 
-unsigned char PORTU1_OUT, PORTU2_OUT, PORTU3_OUT;
+unsigned char PORTU1_OUT = 0x00, PORTU2_OUT = 0x00, PORTU3_OUT = 0x00;
 sfr sbit Ignition at PORTU3_OUT.B1;
+unsigned char PORTU1_DIR = 0xFF, PORTU2_DIR = 0xFF, PORTU3_DIR = 0xFF;
+sfr sbit IgnitionDirection at PORTU3_DIR.B1;
 
 void Expander_Write_Byte(char ModuleAddress, char RegAddress, char Data_)
 {

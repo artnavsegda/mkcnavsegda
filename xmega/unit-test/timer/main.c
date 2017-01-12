@@ -161,7 +161,7 @@ void main()
         UARTC0_Init(115200);
         Expander_Init(PORTU3);
         IgnitionDirection = 0;
-        Expander_Set_DirectionPort(PORTU3,0x00);
+        Expander_Set_DirectionPort(PORTU3,PORTU3_DIR);
         Entermode(STARTLEVEL);
         
         while(1);

@@ -6,7 +6,7 @@ Value=0
 [BUILD_TYPE]
 Value=0
 [ACTIVE_TAB]
-Value=timer.c
+Value=main.c
 [USE_EEPROM]
 Value=0
 [USE_HEAP]
@@ -19,7 +19,7 @@ Value=
 Value=0
 [FILES]
 Count=2
-File0=timer.c
+File0=main.c
 File1=i2c.c
 [BINARIES]
 Count=0
@@ -27,9 +27,11 @@ Count=0
 Count=0
 ActiveImageIndex=-1
 [OPENED_FILES]
-Count=2
-File0=timer.c
-File1=..\i2c\i2c.c
+Count=4
+File0=main.c
+File1=..\i2c\main.c
+File2=i2c.h
+File3=i2c.c
 [EEPROM]
 Count=0
 [ACTIVE_COMMENTS_FILES]
@@ -37,11 +39,12 @@ Count=0
 [OTHER_FILES]
 Count=0
 [SEARCH_PATH]
-Count=4
+Count=5
 Path0=C:\Program Files\Mikroelektronika\mikroC PRO for AVR\Defs\
 Path1=C:\Program Files\Mikroelektronika\mikroC PRO for AVR\Uses\
 Path2=Y:\GitHub\mkcnavsegda\xmega\unit-test\timer\
 Path3=C:\Program Files\Mikroelektronika\mikroC PRO for AVR\Uses\GT64KW\
+Path4=Y:\GitHub\mkcnavsegda\xmega\unit-test\i2c\
 [HEADER_PATH]
 Count=1
 Path0=Y:\GitHub\mkcnavsegda\xmega\unit-test\timer\
@@ -51,10 +54,11 @@ File0=i2c.h
 [PLDS]
 Count=0
 [Useses]
-Count=3
+Count=4
 File0=Timer
 File1=UART
 File2=TWI
+File3=
 [EXPANDED_NODES]
 Node0=Sources
 Node1=Header Files

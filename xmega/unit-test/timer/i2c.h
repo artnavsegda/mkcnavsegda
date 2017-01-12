@@ -6,6 +6,7 @@
 extern unsigned char PORTU1_OUT, PORTU2_OUT, PORTU3_OUT;
 extern unsigned char PORTU1_OUT, PORTU2_OUT, PORTU3_OUT;
 extern sfr sbit Ignition;
+extern sfr sbit IgnitionDirection;
 
 void Expander_Write_Byte(char ModuleAddress, char RegAddress, char Data_);
 char Expander_Read_Byte(char ModuleAddress, char RegAddress);

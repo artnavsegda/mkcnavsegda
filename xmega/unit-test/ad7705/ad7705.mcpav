@@ -42,19 +42,19 @@ Path1=C:\Program Files\Mikroelektronika\mikroC PRO for AVR\Uses\
 Path2=Y:\GitHub\mkcnavsegda\xmega\unit-test\ad7705\
 Path3=C:\Program Files\Mikroelektronika\mikroC PRO for AVR\Uses\GT64KW\
 [HEADER_PATH]
-Count=0
+Count=1
+Path0=Y:\GitHub\mkcnavsegda\xmega\unit-test\ad7705\
 [HEADERS]
 Count=1
 File0=average.h
 [PLDS]
 Count=0
 [Useses]
-Count=5
+Count=4
 File0=SPI
 File1=PrintOut
 File2=C_Type
 File3=UART
-File4=
 [EXPANDED_NODES]
 Node0=Sources
 Node1=Header Files

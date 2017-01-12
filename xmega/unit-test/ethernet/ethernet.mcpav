@@ -37,14 +37,14 @@ Count=0
 [OTHER_FILES]
 Count=0
 [SEARCH_PATH]
-Count=5
-Path0=C:\Users\Public\Documents\Mikroelektronika\mikroC PRO for AVR\Defs\
-Path1=C:\Users\Public\Documents\Mikroelektronika\mikroC PRO for AVR\Uses\
-Path2=C:\Users\artna\Documents\GitHub\mkcnavsegda\xmega\unit-test\ethernet\
-Path4=C:\Users\Public\Documents\Mikroelektronika\mikroC PRO for AVR\Uses\GT64KW\
+Count=8
+Path0=C:\Program Files\Mikroelektronika\mikroC PRO for AVR\Defs\
+Path1=C:\Program Files\Mikroelektronika\mikroC PRO for AVR\Uses\GT64KW\
+Path2=Y:\GitHub\mkcnavsegda\xmega\unit-test\ethernet\
+Path3=C:\Program Files\Mikroelektronika\mikroC PRO for AVR\Uses\
 [HEADER_PATH]
-Count=1
-Path0=C:\Users\Public\Documents\Mikroelektronika\mikroC PRO for AVR\Uses\gt64kW\
+Count=2
+Path1=C:\Program Files\Mikroelektronika\mikroC PRO for AVR\Uses\GT64KW\
 [HEADERS]
 Count=0
 [PLDS]

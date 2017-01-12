@@ -6,7 +6,7 @@ Value=0
 [BUILD_TYPE]
 Value=0
 [ACTIVE_TAB]
-Value=..\ad7705\ad7705.c
+Value=C:\Program Files\Mikroelektronika\mikroC PRO for AVR\Uses\GT64KW\__ethenc28j60.h
 [USE_EEPROM]
 Value=0
 [USE_HEAP]
@@ -28,7 +28,10 @@ Count=0
 Count=0
 ActiveImageIndex=-1
 [OPENED_FILES]
-Count=0
+Count=3
+File0=main.c
+File1=C:\Program Files\Mikroelektronika\mikroC PRO for AVR\Uses\GT64KW\__Lib_Delays.c
+File2=C:\Program Files\Mikroelektronika\mikroC PRO for AVR\Uses\GT64KW\__ethenc28j60.h
 [EEPROM]
 Count=0
 [ACTIVE_COMMENTS_FILES]
@@ -52,14 +55,15 @@ File1=ports.h
 [PLDS]
 Count=0
 [Useses]
-Count=7
+Count=8
 File0=UART
 File1=SPI
 File2=PrintOut
 File3=C_Type
 File4=SPI_Ethernet
 File5=C_String
-File6=
+File6=Timer
+File7=TWI
 [EXPANDED_NODES]
 Node0=Sources
 Node1=Header Files
