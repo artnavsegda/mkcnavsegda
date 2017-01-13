@@ -7,8 +7,8 @@ unsigned char currentmode = STARTLEVEL;
 
 extern int coefficent;
 extern int zerolevelavg;
-int celllevelavg;
-int celltempavg;
+extern int celllevelavg;
+extern int celltempavg;
 
 void Sequencer(void)
 {

@@ -6,7 +6,7 @@ Value=0
 [BUILD_TYPE]
 Value=0
 [ACTIVE_TAB]
-Value=sequencer.c
+Value=adc.h
 [USE_EEPROM]
 Value=0
 [USE_HEAP]
@@ -35,11 +35,16 @@ Count=0
 Count=0
 ActiveImageIndex=-1
 [OPENED_FILES]
-Count=4
+Count=9
 File0=ramonitor.c
-File1=sequencer.c
-File2=main.c
-File3=sequencer.h
+File1=adc.h
+File2=average.c
+File3=ports.h
+File4=ports.c
+File5=main.c
+File6=i2c.c
+File7=ramonitor.h
+File8=sequencer.c
 [EEPROM]
 Count=0
 [ACTIVE_COMMENTS_FILES]
@@ -70,7 +75,7 @@ File8=average.h
 [PLDS]
 Count=0
 [Useses]
-Count=7
+Count=8
 File0=SPI_Ethernet
 File1=C_String
 File2=SPI
@@ -78,6 +83,7 @@ File3=TWI
 File4=UART
 File5=Timer
 File6=ADC
+File7=C_Math
 [EXPANDED_NODES]
 Node0=Sources
 Node1=Header Files
