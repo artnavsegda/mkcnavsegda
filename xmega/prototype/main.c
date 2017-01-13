@@ -25,11 +25,13 @@ void Port_Init(void)
         LED2_Direction = 1;
         Expander_Init(PORTU1);
         CELL_LeftOut_Direction = 0;
-	CELL_RightOut_Direction = 0;
-	Expander_Set_DirectionPort(PORTU1,PORTU1_DIR);
-	Expander_Init(PORTU3);
-	IgnitionDirection = 0;
-	Expander_Set_DirectionPort(PORTU3,PORTU3_DIR);
+        CELL_RightOut_Direction = 0;
+        Expander_Set_DirectionPort(PORTU1,PORTU1_DIR);
+        Expander_Init(PORTU3);
+        Expander_Set_DirectionPort(PORTU2,PORTU2_DIR);
+        Expander_Init(PORTU3);
+        IgnitionDirection = 0;
+        Expander_Set_DirectionPort(PORTU3,PORTU3_DIR);
 }
 
 void Prototype_Init(void)
@@ -56,17 +58,17 @@ void main() {
                 SPI_Ethernet_doPacket();
                 if (AD7707_DRDY == 0)
                 {
-                        SPIC_Write(0x38);
-                        SPIC_Read_Bytes((unsigned char *)&result,2);
+                        LED2_Toggle = 1;
+			AD7705_Read_Register(0x38,(unsigned char *)&result,2);
                         increment(&ad7705_averaging_massive,BSWAP_16(result));
                 }
                 if (tick == 1)
                 {
-                        LED0_Toggle = 1;
+                        tick = 0;
+                        LED2_Toggle = 1;
                         Average();
                         Sequencer();
                         RAmonitor();
-                        tick = 0;
                 }
         }
 }

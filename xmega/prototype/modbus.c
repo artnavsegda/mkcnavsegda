@@ -13,6 +13,7 @@ void splitfloat(unsigned int *wordlow, unsigned int *wordhigh, float value)
 unsigned int modbus(struct mbframestruct *askframe)
 {
         int amount = 100;
+        int bcamount = 200;
         int i;
         int firstrequest = 0;
         int requestnumber = 0;
@@ -27,7 +28,7 @@ unsigned int modbus(struct mbframestruct *askframe)
                            askframe->pdu->values->reqreadcoils->bytestofollow++;
                         askframe->length = BSWAP_16(askframe->pdu->values->reqreadcoils->bytestofollow + 3);
                         for (i = 0; i < requestnumber/8; i++)
-                                if(firstrequest+i < amount)
+                                if(firstrequest+i < bcamount)
                                         if (bctable[firstrequest+i] != 0)
                                                 askframe->pdu->values->reqreadcoils->coils[i/8] = askframe->pdu->values->reqreadcoils->coils[i/8] & (0x01 << i%8);
                                         else
@@ -48,7 +49,7 @@ unsigned int modbus(struct mbframestruct *askframe)
                                 askframe->pdu->values->reqreadholdings->registers[i] = BSWAP_16(0x0000); // fill up with zeroes
                 break;
                 case 5:
-                        if (BSWAP_16(askframe->pdu->values->writereg->regaddress) < amount)
+                        if (BSWAP_16(askframe->pdu->values->writereg->regaddress) < bcamount)
                                 if (askframe->pdu->values->writereg->regvalue == 0)
                                         bctable[BSWAP_16(askframe->pdu->values->writereg->regaddress)] = 0;
                                 else
@@ -60,7 +61,7 @@ unsigned int modbus(struct mbframestruct *askframe)
                 break;
                 case 15:
                         for (i = 0; i < BSWAP_16(askframe->pdu->values->writemulticoil->regnumber);i++)
-                                if (BSWAP_16(askframe->pdu->values->writemulticoil->firstreg)+i < amount)
+                                if (BSWAP_16(askframe->pdu->values->writemulticoil->firstreg)+i < bcamount)
                                         if (askframe->pdu->values->writemulticoil->coils == 0)
                                                 bctable[BSWAP_16(askframe->pdu->values->writemulticoil->firstreg)+i] = 0;
                                         else

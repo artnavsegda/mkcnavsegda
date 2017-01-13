@@ -11,29 +11,29 @@ extern unsigned int result;
 
 float calculatecell(long averaged, long zerolevelavg, long celllevelavg, long celltempavg, float c_twentie_five, float kfactor)
 {
-	return (
-			(long) averaged - (long) zerolevelavg
-	) / (float) (
-		(long) celllevelavg - (long) zerolevelavg
-	) * (
-		c_twentie_five * exp (
-			kfactor * (
-				(
-					(
-						(
-							(
-								celltempavg - 180 // ADC zero level
-							) * (
-								(
-									3.3 / 1.6 // Voltage reference
-								) / 4095 // ADC resolution
-							)
-						) - 0.5
-					) * 100.0 // temperature in Celsius
-				) - 25.0
-			)
-		)
-	);
+        return (
+                        (long) averaged - (long) zerolevelavg
+        ) / (float) (
+                (long) celllevelavg - (long) zerolevelavg
+        ) * (
+                c_twentie_five * exp (
+                        kfactor * (
+                                (
+                                        (
+                                                (
+                                                        (
+                                                                celltempavg - 180 // ADC zero level
+                                                        ) * (
+                                                                (
+                                                                        3.3 / 1.6 // Voltage reference
+                                                                ) / 4095 // ADC resolution
+                                                        )
+                                                ) - 0.5
+                                        ) * 100.0 // temperature in Celsius
+                                ) - 25.0
+                        )
+                )
+        );
 }
 
 #define FLOW_SENSOR_SPAN 10
@@ -93,13 +93,34 @@ void RAmonitor(void)
         splitfloat(&table[ERRORSANDWARNINGSLOW],&table[ERRORSANDWARNINGSHIGH], (float)statusword);
         splitfloat(&table[TOTALMERCURYCOEFFICENTLOW],&table[TOTALMERCURYCOEFFICENTHIGH], standard_concentration/(float)((long)coefficent-(long)zerolevelavg));
         
-        table[2]++;
-        table[3] = BSWAP_16(result);
-        for (i = 0; i<8;i++)
-                table[4+i] = ADCA_Read(i);
-        for (i = 0; i<8;i++)
-                table[12+i] = ADCB_Read(i);
-
+        if (currentmode == TOTALMERCURY || currentmode == PURGE)
+        {
+                if (bctable[REQUESTTOSTARTCALIBRATION] == 1)
+                {
+                        bctable[REQUESTTOSTARTCALIBRATION] == 0;
+                        Entermode(PRECALIBRATIONDELAY);
+		}
+                if (bctable[REQUESTTOSTARTZEROTEST] == 1)
+                {
+                        bctable[REQUESTTOSTARTZEROTEST] == 0;
+                        Entermode(ZERODELAY);
+		}
+                if (bctable[REQUESTTOSTARTMEASURMENTOFELEMENTALMERCURY] == 1)
+                {
+                        bctable[REQUESTTOSTARTMEASURMENTOFELEMENTALMERCURY] == 0;
+                        Entermode(ELEMENTALMERCURYDELAY);
+		}
+                if (bctable[REQUESTTOSTARTPURGE] == 1)
+                {
+                        bctable[REQUESTTOSTARTPURGE] == 0;
+                        Entermode(PURGE);
+		}
+                if (bctable[REQUESTTOENDPURGE] == 1)
+                {
+                        bctable[REQUESTTOENDPURGE] == 0;
+                        Exitmode(PURGE);
+		}
+	}
 }
 
 int GetStatus(void)
