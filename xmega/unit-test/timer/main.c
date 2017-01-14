@@ -5,11 +5,17 @@
 
 #define BSWAP_16(x) ((((x) >> 8) & 0xff) | (((x) & 0xff) << 8))
 
+#define ADCB_Cell 3
+
 sfr sbit LED0_Direction at PORTR_DIR.B0;
 sfr sbit LED0_Toggle at PORTR_OUTTGL.B0;
 
+sfr sbit LED2_Direction at PORTD_DIR.B4;
+sfr sbit LED2_Toggle at PORTD_OUTTGL.B4;
+
 struct massive firststage;
 struct massive secondstage;
+struct massive temperature_averaging_massive;
 
 unsigned int timetoexitmode = 0;
 unsigned char currentmode = STARTLEVEL;
@@ -142,6 +148,14 @@ void Timer0Overflow_ISR() org IVT_ADDR_TCC0_OVF
 
 void Ports_Init(void)
 {
+	LED0_Direction = 1;
+	LED2_Direction = 1;
+        Expander_Init(PORTU1);
+        CELL_LeftOut_Direction = 0;
+        CELL_RightOut_Direction = 0;
+        Expander_Set_DirectionPort(PORTU1,PORTU1_DIR);
+        Expander_Init(PORTU2);
+        Expander_Set_DirectionPort(PORTU2,PORTU2_DIR);
         Expander_Init(PORTU3);
         IgnitionDirection = 0;
         Expander_Set_DirectionPort(PORTU3,PORTU3_DIR);
@@ -150,7 +164,6 @@ void Ports_Init(void)
 void main()
 {
         unsigned int result;
-        LED0_Direction = 1;
         PMIC_CTRL = 4;
         CPU_SREG.B7 = 1;
         Ports_Init();
@@ -170,12 +183,15 @@ void main()
                 if (tick == 1)
                 {
                         tick = 0;
-			LED0_Toggle = 1;
-			timetoexitmode--;
-			if (timetoexitmode == 0)
-				Exitmode(currentmode);
-			Expander_Write_Port(PORTU3,PORTU3_OUT);
-			increment(&secondstage,oversample(&firststage,64)/64);
+                        LED0_Toggle = 1;
+                        increment(&secondstage,oversample(&firststage,64)/64);
+                        increment(&temperature_averaging_massive,ADCB_Read(ADCB_Cell));
+                        timetoexitmode--;
+                        if (timetoexitmode == 0)
+                                Exitmode(currentmode);
+                        Expander_Write_Port(PORTU1,PORTU1_OUT);
+                        Expander_Write_Port(PORTU2,PORTU2_OUT);
+                        Expander_Write_Port(PORTU3,PORTU3_OUT);
                 }
         }
 }
