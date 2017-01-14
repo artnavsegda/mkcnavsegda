@@ -26,6 +26,8 @@ void Port_Init(void)
         Expander_Init(PORTU1);
         CELL_LeftOut_Direction = 0;
         CELL_RightOut_Direction = 0;
+        Calibration_Valve_Direction = 0;
+        Zero_Valve_Direction = 0;
         Expander_Set_DirectionPort(PORTU1,PORTU1_DIR);
         Expander_Init(PORTU3);
         Expander_Set_DirectionPort(PORTU2,PORTU2_DIR);
@@ -51,7 +53,7 @@ unsigned char tick = 0;
 unsigned int result;
 
 void main() {
-        
+
         Prototype_Init();
         while(1)
         {

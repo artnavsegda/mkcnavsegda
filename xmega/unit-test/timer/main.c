@@ -49,13 +49,15 @@ void Entermode(enum modelist modetoenter)
         {
                 case STARTLEVEL:
                         Ignition = 1;
-                        //Expander_Write_Port(PORTU3,PORTU3_OUT);
                 break;
                 case CELLDELAY:
+                        CELL_LeftOut = 1;
+                        CELL_RightOut = 0;
                 break;
                 case CELLLEVEL:
                 break;
                 case ZERODELAY:
+                        Zero_Valve = 1;
                 return;
                 break;
                 case ZEROTEST:
@@ -148,11 +150,13 @@ void Timer0Overflow_ISR() org IVT_ADDR_TCC0_OVF
 
 void Ports_Init(void)
 {
-	LED0_Direction = 1;
-	LED2_Direction = 1;
+        LED0_Direction = 1;
+        LED2_Direction = 1;
         Expander_Init(PORTU1);
         CELL_LeftOut_Direction = 0;
         CELL_RightOut_Direction = 0;
+        Calibration_Valve_Direction = 0;
+        Zero_Valve_Direction = 0;
         Expander_Set_DirectionPort(PORTU1,PORTU1_DIR);
         Expander_Init(PORTU2);
         Expander_Set_DirectionPort(PORTU2,PORTU2_DIR);

@@ -13,6 +13,12 @@ extern sfr sbit CELL_RightOut;
 extern sfr sbit CELL_LeftOut_Direction;
 extern sfr sbit CELL_RightOut_Direction;
 
+extern sfr sbit Calibration_Valve;
+extern sfr sbit Zero_Valve;
+
+extern sfr sbit Calibration_Valve_Direction;
+extern sfr sbit Zero_Valve_Direction;
+
 void Expander_Write_Byte(char ModuleAddress, char RegAddress, char Data_);
 char Expander_Read_Byte(char ModuleAddress, char RegAddress);
 void Expander_Set_DirectionPort(char ModuleAddress, char Data_);

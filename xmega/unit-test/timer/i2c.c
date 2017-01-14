@@ -11,6 +11,12 @@ sfr sbit CELL_RightOut at PORTU1_OUT.B6;
 sfr sbit CELL_LeftOut_Direction at PORTU1_DIR.B7;
 sfr sbit CELL_RightOut_Direction at PORTU1_DIR.B6;
 
+sfr sbit Calibration_Valve at PORTU1_OUT.B3;
+sfr sbit Zero_Valve at PORTU1_OUT.B2;
+
+sfr sbit Calibration_Valve_Direction at PORTU1_DIR.B3;
+sfr sbit Zero_Valve_Direction at PORTU1_DIR.B2;
+
 void Expander_Write_Byte(char ModuleAddress, char RegAddress, char Data_)
 {
         TWIE_Start();
