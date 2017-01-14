@@ -64,8 +64,8 @@ float calculatepressure(float voltage)
         return (voltage-0.4)*12;
 }
 
-float c_twentie_five = 25.0;
-float kfactor = 37.0;
+float c_twentie_five = 1297.17;
+float kfactor = 0.0082;
 float standard_concentration = 1.0;
 int coefficent;
 int zerolevelavg;
@@ -99,28 +99,28 @@ void RAmonitor(void)
                 {
                         bctable[REQUESTTOSTARTCALIBRATION] == 0;
                         Entermode(PRECALIBRATIONDELAY);
-		}
+                }
                 if (bctable[REQUESTTOSTARTZEROTEST] == 1)
                 {
                         bctable[REQUESTTOSTARTZEROTEST] == 0;
                         Entermode(ZERODELAY);
-		}
+                }
                 if (bctable[REQUESTTOSTARTMEASURMENTOFELEMENTALMERCURY] == 1)
                 {
                         bctable[REQUESTTOSTARTMEASURMENTOFELEMENTALMERCURY] == 0;
                         Entermode(ELEMENTALMERCURYDELAY);
-		}
+                }
                 if (bctable[REQUESTTOSTARTPURGE] == 1)
                 {
                         bctable[REQUESTTOSTARTPURGE] == 0;
                         Entermode(PURGE);
-		}
+                }
                 if (bctable[REQUESTTOENDPURGE] == 1)
                 {
                         bctable[REQUESTTOENDPURGE] == 0;
                         Exitmode(PURGE);
-		}
-	}
+                }
+        }
 }
 
 int GetStatus(void)

@@ -207,6 +207,9 @@ void main()
                         timetoexitmode--;
                         if (timetoexitmode == 0)
                                 Exitmode(currentmode);
+                                
+
+                                
                         Expander_Write_Port(PORTU1,PORTU1_OUT);
                         Expander_Write_Port(PORTU2,PORTU2_OUT);
                         Expander_Write_Port(PORTU3,PORTU3_OUT);
