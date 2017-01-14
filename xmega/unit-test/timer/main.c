@@ -73,6 +73,7 @@ void Entermode(enum modelist modetoenter)
                 case ELEMENTALMERCURY:
                 break;
                 case PRECALIBRATIONDELAY:
+                        Calibration_Valve = 1;
                 break;
                 case CALIBRATION:
                 break;
@@ -104,6 +105,11 @@ enum modelist Sequence(enum modelist modetosequence)
         return modetosequence;
 }
 
+unsigned int coefficent;
+unsigned int zerolevelavg;
+unsigned int celllevelavg;
+unsigned int celltempavg;
+
 void Exitmode(enum modelist modetoexit)
 {
         switch(modetoexit)
@@ -114,10 +120,16 @@ void Exitmode(enum modelist modetoexit)
                 case CELLDELAY:
                 break;
                 case CELLLEVEL:
+                        celllevelavg = oversample(&secondstage,modeseconds(CELLLEVEL))/modeseconds(CELLLEVEL);
+                        celltempavg = oversample(&temperature_averaging_massive,modeseconds(CELLLEVEL))/modeseconds(CELLLEVEL);
+                        CELL_LeftOut = 0;
+                        CELL_RightOut = 1;
                 break;
                 case ZERODELAY:
                 break;
                 case ZEROTEST:
+                	zerolevelavg = oversample(&secondstage,modeseconds(ZEROTEST))/modeseconds(ZEROTEST);
+                	Zero_Valve = 0;
                 break;
                 case PURGE:
                 break;
@@ -132,6 +144,8 @@ void Exitmode(enum modelist modetoexit)
                 case PRECALIBRATIONDELAY:
                 break;
                 case CALIBRATION:
+                	coefficent = oversample(&secondstage,modeseconds(CALIBRATION))/modeseconds(CALIBRATION);
+                	Calibration_Valve = 0;
                 break;
                 case POSTCALIBRATIONDELAY:
                 break;
