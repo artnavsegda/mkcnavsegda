@@ -20,6 +20,11 @@ struct massive temperature_averaging_massive;
 unsigned int timetoexitmode = 0;
 unsigned char currentmode = STARTLEVEL;
 
+void PrintHandler(char c)
+{
+        UARTC0_Write(c);
+}
+
 int Modeseconds(enum modelist modeneed)
 {
         switch (modeneed)
@@ -105,10 +110,10 @@ enum modelist Sequence(enum modelist modetosequence)
         return modetosequence;
 }
 
-unsigned int coefficent;
-unsigned int zerolevelavg;
-unsigned int celllevelavg;
-unsigned int celltempavg;
+unsigned int coefficent = 0;
+unsigned int zerolevelavg = 0;
+unsigned int celllevelavg = 0;
+unsigned int celltempavg = 0;
 
 void Exitmode(enum modelist modetoexit)
 {
@@ -128,8 +133,8 @@ void Exitmode(enum modelist modetoexit)
                 case ZERODELAY:
                 break;
                 case ZEROTEST:
-                	zerolevelavg = oversample(&secondstage,modeseconds(ZEROTEST))/modeseconds(ZEROTEST);
-                	Zero_Valve = 0;
+                        zerolevelavg = oversample(&secondstage,modeseconds(ZEROTEST))/modeseconds(ZEROTEST);
+                        Zero_Valve = 0;
                 break;
                 case PURGE:
                 break;
@@ -144,8 +149,8 @@ void Exitmode(enum modelist modetoexit)
                 case PRECALIBRATIONDELAY:
                 break;
                 case CALIBRATION:
-                	coefficent = oversample(&secondstage,modeseconds(CALIBRATION))/modeseconds(CALIBRATION);
-                	Calibration_Valve = 0;
+                        coefficent = oversample(&secondstage,modeseconds(CALIBRATION))/modeseconds(CALIBRATION);
+                        Calibration_Valve = 0;
                 break;
                 case POSTCALIBRATIONDELAY:
                 break;
@@ -179,6 +184,24 @@ void Ports_Init(void)
         Expander_Set_DirectionPort(PORTU3,PORTU3_DIR);
 }
 
+void Print_Info(void)
+{
+        PrintOut(PrintHandler, "======= frame =======\r\n");
+        PrintOut(PrintHandler, "mode: %d\r\n", currentmode);
+        PrintOut(PrintHandler, "run %d\r\n", Modeseconds(currentmode));
+        PrintOut(PrintHandler, "countdown: %d\r\n", timetoexitmode);
+        PrintOut(PrintHandler, "next: %d\r\n", Sequence(currentmode));
+        PrintOut(PrintHandler, "next run: %d\r\n", Modeseconds(Sequence(currentmode)));
+        PrintOut(PrintHandler, "DATA(n): %d\r\n", oversample(&firststage,64)/64);
+        PrintOut(PrintHandler, "TEMP(r): %d\r\n", ADCB_Read(ADCB_Cell));
+        PrintOut(PrintHandler, "======= static =======\r\n");
+        PrintOut(PrintHandler, "CFC(r): %d\r\n", coefficent);
+        PrintOut(PrintHandler, "ZLA(r): %d\r\n", zerolevelavg);
+        PrintOut(PrintHandler, "CLA(r): %d\r\n", celllevelavg);
+        PrintOut(PrintHandler, "CTA(r): %d\r\n", celltempavg);
+        PrintOut(PrintHandler, "======= end frame =======\r\n");
+}
+
 void main()
 {
         unsigned int result;
@@ -208,7 +231,7 @@ void main()
                         if (timetoexitmode == 0)
                                 Exitmode(currentmode);
                                 
-
+			Print_Info();
                                 
                         Expander_Write_Port(PORTU1,PORTU1_OUT);
                         Expander_Write_Port(PORTU2,PORTU2_OUT);
