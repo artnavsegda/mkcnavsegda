@@ -115,7 +115,7 @@ enum modelist Sequence(enum modelist modetosequence)
 unsigned int coefficent = 0x17CC;
 unsigned int zerolevelavg = 0x17CC;
 unsigned int celllevelavg = 0x17CC;
-unsigned int celltempavg = 0;
+unsigned int celltempavg = 1670;
 
 void Exitmode(enum modelist modetoexit)
 {
@@ -198,9 +198,9 @@ void Print_Info(void)
         PrintOut(PrintHandler, "next run: %d\r\n", Modeseconds(Sequence(currentmode)));
         PrintOut(PrintHandler, "DATA(r): %5d\r\n", BSWAP_16(result)-0x17CC);
         PrintOut(PrintHandler, "DATA(x16): %5d\r\n", (oversample(&firststage,64)/64)-0x17CC);
-        PrintOut(PrintHandler, "TEMP(r): %5d\r\n", ADCB_Read(ADCB_Cell));
-        PrintOut(PrintHandler, "TEMP(V): %5f\r\n", (ADCB_Read(ADCB_Cell)-180)*((3.3/1.6)/4095));
-        PrintOut(PrintHandler, "TEMP(C): %5f\r\n", (((ADCB_Read(ADCB_Cell)-180)*((3.3/1.6)/4095))-0.5)*100);
+        PrintOut(PrintHandler, "TEMP(r): %5d\r\n", ADCB_Get_Sample(ADCB_Cell));
+        PrintOut(PrintHandler, "TEMP(V): %5f\r\n", (ADCB_Get_Sample(ADCB_Cell)-180)*((3.3/1.6)/4095));
+        PrintOut(PrintHandler, "TEMP(C): %5f\r\n", (((ADCB_Get_Sample(ADCB_Cell)-180)*((3.3/1.6)/4095))-0.5)*100);
         PrintOut(PrintHandler, "======= static =======\r\n");
         PrintOut(PrintHandler, "CFC(r): %5d\r\n", coefficent-0x17CC);
         PrintOut(PrintHandler, "ZLA(r): %5d\r\n", zerolevelavg-0x17CC);
@@ -223,6 +223,8 @@ void main()
         Ports_Init();
         UARTC0_Init(115200);
         AD7705_Init();
+        ADCA_Init_Advanced(_ADC_12bit, _ADC_INTERNAL_REF_VCC);
+        ADCB_Init_Advanced(_ADC_12bit, _ADC_INTERNAL_REF_VCC);
         Timer_Init(&TCC0, 1000000);
         Timer_Interrupt_Enable(&TCC0);
         PMIC_CTRL = 4;
@@ -243,7 +245,7 @@ void main()
                         tick = 0;
                         LED2_Toggle = 1;
                         increment(&secondstage,oversample(&firststage,64)/64);
-                        increment(&temperature_averaging_massive,ADCB_Read(ADCB_Cell));
+                        increment(&temperature_averaging_massive,ADCB_Get_Sample(ADCB_Cell));
                         timetoexitmode--;
                         if (timetoexitmode == 0)
                                 Exitmode(currentmode);
