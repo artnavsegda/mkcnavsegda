@@ -6,7 +6,7 @@ Value=0
 [BUILD_TYPE]
 Value=0
 [ACTIVE_TAB]
-Value=main.c
+Value=..\sd\sd.c
 [USE_EEPROM]
 Value=0
 [USE_HEAP]
@@ -29,10 +29,8 @@ Count=0
 Count=0
 ActiveImageIndex=-1
 [OPENED_FILES]
-Count=3
-File0=main.c
-File1=i2c.c
-File2=i2c.h
+Count=1
+File0=..\sd\sd.c
 [EEPROM]
 Count=0
 [ACTIVE_COMMENTS_FILES]
@@ -58,13 +56,13 @@ File3=average.h
 [PLDS]
 Count=0
 [Useses]
-Count=5
+Count=6
 File0=Timer
 File1=UART
 File2=TWI
 File3=SPI
 File4=ADC
+File5=Mmc
 [EXPANDED_NODES]
-Node0=Sources
-Node1=Header Files
-Count=2
+Node0=Header Files
+Count=1
