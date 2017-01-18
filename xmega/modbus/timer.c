@@ -1,8 +1,17 @@
 #include "timer.h"
 #include "i2c.h"
+#include "average.h"
 
 unsigned int timetoexitmode = 0;
 unsigned char currentmode = STARTLEVEL;
+
+extern unsigned int coefficent;
+extern unsigned int zerolevelavg;
+extern unsigned int celllevelavg;
+extern unsigned int celltempavg;
+
+extern struct massive secondstage;
+extern struct massive temperature_averaging_massive;
 
 int Modeseconds(enum modelist modeneed)
 {
@@ -33,13 +42,17 @@ void Entermode(enum modelist modetoenter)
         {
                 case STARTLEVEL:
                         Ignition = 1;
-                        //Expander_Write_Port(PORTU3,PORTU3_OUT);
+                        CELL_LeftOut = 1;
+                        CELL_RightOut = 0;
                 break;
                 case CELLDELAY:
+                        CELL_LeftOut = 0;
+                        CELL_RightOut = 1;
                 break;
                 case CELLLEVEL:
                 break;
                 case ZERODELAY:
+                        //Zero_Valve = 1;
                 return;
                 break;
                 case ZEROTEST:
@@ -55,6 +68,7 @@ void Entermode(enum modelist modetoenter)
                 case ELEMENTALMERCURY:
                 break;
                 case PRECALIBRATIONDELAY:
+              		//Calibration_Valve = 1;
                 break;
                 case CALIBRATION:
                 break;
@@ -96,10 +110,16 @@ void Exitmode(enum modelist modetoexit)
                 case CELLDELAY:
                 break;
                 case CELLLEVEL:
+                        celllevelavg = oversample(&secondstage,Modeseconds(CELLLEVEL))/Modeseconds(CELLLEVEL);
+                        celltempavg = oversample(&temperature_averaging_massive,Modeseconds(CELLLEVEL))/Modeseconds(CELLLEVEL);
+                        CELL_LeftOut = 1;
+                        CELL_RightOut = 0;
                 break;
                 case ZERODELAY:
                 break;
                 case ZEROTEST:
+                        zerolevelavg = oversample(&secondstage,Modeseconds(ZEROTEST))/Modeseconds(ZEROTEST);
+                        //Zero_Valve = 0;
                 break;
                 case PURGE:
                 break;
@@ -114,6 +134,8 @@ void Exitmode(enum modelist modetoexit)
                 case PRECALIBRATIONDELAY:
                 break;
                 case CALIBRATION:
+                        coefficent = oversample(&secondstage,Modeseconds(CALIBRATION))/Modeseconds(CALIBRATION);
+                        //Calibration_Valve = 0;
                 break;
                 case POSTCALIBRATIONDELAY:
                 break;

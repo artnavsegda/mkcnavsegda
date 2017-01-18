@@ -7,8 +7,11 @@
 #include "i2c.h"
 #include "timer.h"
 
+#define ADCB_Cell 3
+
 struct massive firststage;
 struct massive secondstage;
+struct massive temperature_averaging_massive;
 
 void PrintHandler(char c)
 {
@@ -35,14 +38,45 @@ void Ports_Init(void)
         Expander_Set_DirectionPort(PORTU3,PORTU3_DIR);
 }
 
+unsigned int result;
+unsigned int coefficent = 0x17CC;
+unsigned int zerolevelavg = 0x17CC;
+unsigned int celllevelavg = 4000+0x17CC;
+unsigned int celltempavg = 1670;
+
+void Fill_Table(void)
+{
+	table[2]++;
+	table[3] = currentmode;
+	table[4] = timetoexitmode;
+	table[5] = BSWAP_16(result)-0x17CC;
+	table[6] = (oversample(&firststage,64)/64)-0x17CC;
+	table[7] = ADCB_Get_Sample(ADCB_Cell);
+	splitfloat(&table[8],&table[9],(ADCB_Get_Sample(ADCB_Cell)-180)*((3.3/1.6)/4095));
+	splitfloat(&table[10],&table[11],(((ADCB_Get_Sample(ADCB_Cell)-180)*((3.3/1.6)/4095))-0.5)*100);
+	table[12] = coefficent-0x17CC;
+	table[13] = zerolevelavg-0x17CC;
+	table[14] = celllevelavg-0x17CC;
+	table[15] = celltempavg;
+	splitfloat(&table[16],&table[17], (celltempavg-180)*((3.3/1.6)/4095));
+	splitfloat(&table[18],&table[19], (((celltempavg-180)*((3.3/1.6)/4095))-0.5)*100);
+	table[20] = (int)PORTU1_IN;
+	table[21] = (int)PORTU1_OUT;
+	table[22] = (int)PORTU2_IN;
+	table[23] = (int)PORTU2_OUT;
+	table[24] = (int)PORTU3_IN;
+	table[25] = (int)PORTU3_OUT;
+}
+
 void main()
 {
         int i;
-        unsigned int result;
         Ports_Init();
         UARTC0_Init(115200);
         UART_Set_Active(&UARTC0_Read, &UARTC0_Write, &UARTC0_Data_Ready, &UARTC0_Tx_Idle);
         AD7705_Init();
+        ADCA_Init_Advanced(_ADC_12bit, _ADC_INTERNAL_REF_VCC);
+        ADCB_Init_Advanced(_ADC_12bit, _ADC_INTERNAL_REF_VCC);
         SPI_Ethernet_Init("\x00\x14\xA5\x76\x19\x3f", "\xC0\xA8\x01\x96", 0x01);
         SPI_Ethernet_confNetwork("\xFF\xFF\xFF\x00", "\xC0\xA8\x01\x01", "\xC0\xA8\x01\x01");
         Timer_Init(&TCC0, 1000000);
@@ -64,37 +98,20 @@ void main()
                 {
                         tick = 0;
                         LED2_Toggle = 1;
-                        table[2]++;
-                        table[3] = BSWAP_16(result);
-                        table[4] = oversample(&firststage,16)/16;
-                        table[5] = oversample(&firststage,32)/32;
-                        table[6] = oversample(&firststage,64)/64;
                         increment(&secondstage,oversample(&firststage,64)/64);
-                        table[7] = oversample(&secondstage,8)/8;
-                        table[8] = currentmode;
-                        table[9] = timetoexitmode;
-                        /*for (i = 0; i<8;i++)
-                                table[4+i] = ADCA_Read(i);
-                        for (i = 0; i<8;i++)
-                                table[12+i] = ADCB_Read(i);
-                        for (i = 0; i<16;i=i+2)
-                                splitfloat(&table[20+i], &table[21+i], (float)(ADCA_Read(i/2)/(float)4096));
-                        for (i = 0; i<16;i=i+2)
-                                splitfloat(&table[36+i], &table[37+i], (float)(ADCB_Read(i/2)/(float)4096));*/
-                        if (bctable[0] == 0)
-                        {
-                                CELL_LeftOut = 1;
-                                CELL_RightOut = 0;
-                        }
-                        else
-                        {
-                                CELL_LeftOut = 0;
-                                CELL_RightOut = 1;
-                        }
+                        increment(&temperature_averaging_massive,ADCB_Get_Sample(ADCB_Cell));
                         timetoexitmode--;
                         if (timetoexitmode == 0)
                                 Exitmode(currentmode);
+                                
+                        PORTU1_IN = Expander_Read_Port(PORTU1);
+                        PORTU2_IN = Expander_Read_Port(PORTU2);
+                        PORTU3_IN = Expander_Read_Port(PORTU3);
+                                
+			Fill_Table();
+                        
                         Expander_Write_Port(PORTU1,PORTU1_OUT);
+                        Expander_Write_Port(PORTU2,PORTU2_OUT);
                         Expander_Write_Port(PORTU3,PORTU3_OUT);
                 }
         }
