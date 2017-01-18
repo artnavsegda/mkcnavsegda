@@ -114,7 +114,7 @@ enum modelist Sequence(enum modelist modetosequence)
 
 unsigned int coefficent = 0x17CC;
 unsigned int zerolevelavg = 0x17CC;
-unsigned int celllevelavg = 0x17CC;
+unsigned int celllevelavg = 4000+0x17CC;
 unsigned int celltempavg = 1670;
 
 void Exitmode(enum modelist modetoexit)
