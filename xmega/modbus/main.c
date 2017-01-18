@@ -6,8 +6,7 @@
 #include "average.h"
 #include "i2c.h"
 #include "timer.h"
-
-#define ADCB_Cell 3
+#include "adc.h"
 
 struct massive firststage;
 struct massive secondstage;
@@ -46,26 +45,26 @@ unsigned int celltempavg = 1670;
 
 void Fill_Table(void)
 {
-	table[2]++;
-	table[3] = currentmode;
-	table[4] = timetoexitmode;
-	table[5] = BSWAP_16(result)-0x17CC;
-	table[6] = (oversample(&firststage,64)/64)-0x17CC;
-	table[7] = ADCB_Get_Sample(ADCB_Cell);
-	splitfloat(&table[8],&table[9],(ADCB_Get_Sample(ADCB_Cell)-180)*((3.3/1.6)/4095));
-	splitfloat(&table[10],&table[11],(((ADCB_Get_Sample(ADCB_Cell)-180)*((3.3/1.6)/4095))-0.5)*100);
-	table[12] = coefficent-0x17CC;
-	table[13] = zerolevelavg-0x17CC;
-	table[14] = celllevelavg-0x17CC;
-	table[15] = celltempavg;
-	splitfloat(&table[16],&table[17], (celltempavg-180)*((3.3/1.6)/4095));
-	splitfloat(&table[18],&table[19], (((celltempavg-180)*((3.3/1.6)/4095))-0.5)*100);
-	table[20] = (int)PORTU1_IN;
-	table[21] = (int)PORTU1_OUT;
-	table[22] = (int)PORTU2_IN;
-	table[23] = (int)PORTU2_OUT;
-	table[24] = (int)PORTU3_IN;
-	table[25] = (int)PORTU3_OUT;
+        table[2]++;
+        table[3] = currentmode;
+        table[4] = timetoexitmode;
+        table[5] = BSWAP_16(result)-0x17CC;
+        table[6] = (oversample(&firststage,64)/64)-0x17CC;
+        table[7] = ADCB_Get_Sample(ADCB_Cell);
+        splitfloat(&table[8],&table[9],ADC_Voltage(ADCB_Get_Sample(ADCB_Cell)));
+        splitfloat(&table[10],&table[11],TMP_Celsius(ADC_Voltage(ADCB_Get_Sample(ADCB_Cell))));
+        table[12] = coefficent-0x17CC;
+        table[13] = zerolevelavg-0x17CC;
+        table[14] = celllevelavg-0x17CC;
+        table[15] = celltempavg;
+        splitfloat(&table[16],&table[17], ADC_Voltage(celltempavg));
+        splitfloat(&table[18],&table[19], TMP_Celsius(ADC_Voltage(celltempavg)));
+        table[20] = (int)PORTU1_IN;
+        table[21] = (int)PORTU1_OUT;
+        table[22] = (int)PORTU2_IN;
+        table[23] = (int)PORTU2_OUT;
+        table[24] = (int)PORTU3_IN;
+        table[25] = (int)PORTU3_OUT;
 }
 
 void main()
@@ -108,7 +107,7 @@ void main()
                         PORTU2_IN = Expander_Read_Port(PORTU2);
                         PORTU3_IN = Expander_Read_Port(PORTU3);
                                 
-			Fill_Table();
+                        Fill_Table();
                         
                         Expander_Write_Port(PORTU1,PORTU1_OUT);
                         Expander_Write_Port(PORTU2,PORTU2_OUT);

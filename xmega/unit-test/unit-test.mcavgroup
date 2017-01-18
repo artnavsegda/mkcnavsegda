@@ -1,5 +1,5 @@
 [PROJECTS]
-Count=10
+Count=11
 Project0=spi\spi.mcpav
 Project1=blink\blink.mcpav
 Project2=serial\serial.mcpav
