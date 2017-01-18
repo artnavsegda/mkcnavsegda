@@ -186,6 +186,7 @@ void Ports_Init(void)
 }
 
 unsigned int result;
+unsigned int zerostage;
 
 void Print_Info(void)
 {
@@ -196,7 +197,7 @@ void Print_Info(void)
         PrintOut(PrintHandler, "next: %d\r\n", (int)Sequence(currentmode));
         PrintOut(PrintHandler, "next run: %d\r\n", Modeseconds(Sequence(currentmode)));
         PrintOut(PrintHandler, "DATA(r): %5d\r\n", BSWAP_16(result)-0x17CC);
-        PrintOut(PrintHandler, "DATA(x16): %5d\r\n", (oversample(&firststage,64)/64)-0x17CC);
+        PrintOut(PrintHandler, "DATA(x16): %5d\r\n", zerostage-0x17CC);
         PrintOut(PrintHandler, "TEMP(r): %5d\r\n", ADCB_Get_Sample(ADCB_Cell));
         PrintOut(PrintHandler, "TEMP(V): %5f\r\n", ADC_Voltage(ADCB_Get_Sample(ADCB_Cell)));
         PrintOut(PrintHandler, "TEMP(C): %5f\r\n", TMP_Celsius(ADC_Voltage(ADCB_Get_Sample(ADCB_Cell))));
@@ -208,7 +209,7 @@ void Print_Info(void)
         PrintOut(PrintHandler, "CTA(V): %5f\r\n", ADC_Voltage(celltempavg));
         PrintOut(PrintHandler, "CTA(C): %5f\r\n", TMP_Celsius(ADC_Voltage(celltempavg)));
         PrintOut(PrintHandler, "======= DIGITAL =======\r\n");
-        PrintOut(PrintHandler, "DIGITAL: %5f\r\n", (((float)(((long)oversample(&firststage,64)/64)-(long)zerolevelavg)/(float)((long)celllevelavg-(long)zerolevelavg))*((float)(1297.17*exp(0.0082*(((((celltempavg-180)*((3.3/1.6)/4095))-0.5)*100)-25))))));
+        PrintOut(PrintHandler, "DIGITAL: %5f\r\n", (((zerostage-zerolevelavg)/(celllevelavg-zerolevelavg))*(1297.17*exp(0.0082*(TMP_Celsius(ADC_Voltage(celltempavg))-25)))));
         PrintOut(PrintHandler, "======= IO =======\r\n");
         PrintOut(PrintHandler, "U1_IN: %x\r\n", (int)PORTU1_IN);
         PrintOut(PrintHandler, "U1_OUT: %x\r\n", (int)PORTU1_OUT);
@@ -245,7 +246,8 @@ void main()
                 {
                         tick = 0;
                         LED2_Toggle = 1;
-                        increment(&secondstage,oversample(&firststage,64)/64);
+			zerostage = oversample(&firststage,64)/64;
+                        increment(&secondstage,zerostage);
                         increment(&temperature_averaging_massive,ADCB_Get_Sample(ADCB_Cell));
                         timetoexitmode--;
                         if (timetoexitmode == 0)
