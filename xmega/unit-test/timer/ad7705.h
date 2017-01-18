@@ -1,3 +1,5 @@
+#define ADCZERO 0x17CC
+
 extern sfr sbit AD7705_CS;
 extern sfr sbit AD7705_DRDY;
 

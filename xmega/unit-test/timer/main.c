@@ -111,9 +111,9 @@ enum modelist Sequence(enum modelist modetosequence)
         return modetosequence;
 }
 
-unsigned int coefficent = 0x17CC;
-unsigned int zerolevelavg = 0x17CC;
-unsigned int celllevelavg = 4000+0x17CC;
+unsigned int coefficent = ADCZERO;
+unsigned int zerolevelavg = ADCZERO;
+unsigned int celllevelavg = 4000+ADCZERO;
 unsigned int celltempavg = 1670;
 
 void Exitmode(enum modelist modetoexit)
@@ -196,15 +196,15 @@ void Print_Info(void)
         PrintOut(PrintHandler, "countdown: %d\r\n", timetoexitmode);
         PrintOut(PrintHandler, "next: %d\r\n", (int)Sequence(currentmode));
         PrintOut(PrintHandler, "next run: %d\r\n", Modeseconds(Sequence(currentmode)));
-        PrintOut(PrintHandler, "DATA(r): %5d\r\n", BSWAP_16(result)-0x17CC);
-        PrintOut(PrintHandler, "DATA(x16): %5d\r\n", zerostage-0x17CC);
+        PrintOut(PrintHandler, "DATA(r): %5d\r\n", BSWAP_16(result)-ADCZERO);
+        PrintOut(PrintHandler, "DATA(x16): %5d\r\n", zerostage-ADCZERO);
         PrintOut(PrintHandler, "TEMP(r): %5d\r\n", ADCB_Get_Sample(ADCB_Cell));
         PrintOut(PrintHandler, "TEMP(V): %5f\r\n", ADC_Voltage(ADCB_Get_Sample(ADCB_Cell)));
         PrintOut(PrintHandler, "TEMP(C): %5f\r\n", TMP_Celsius(ADC_Voltage(ADCB_Get_Sample(ADCB_Cell))));
         PrintOut(PrintHandler, "======= static =======\r\n");
-        PrintOut(PrintHandler, "CFC(r): %5d\r\n", coefficent-0x17CC);
-        PrintOut(PrintHandler, "ZLA(r): %5d\r\n", zerolevelavg-0x17CC);
-        PrintOut(PrintHandler, "CLA(r): %5d\r\n", celllevelavg-0x17CC);
+        PrintOut(PrintHandler, "CFC(r): %5d\r\n", coefficent-ADCZERO);
+        PrintOut(PrintHandler, "ZLA(r): %5d\r\n", zerolevelavg-ADCZERO);
+        PrintOut(PrintHandler, "CLA(r): %5d\r\n", celllevelavg-ADCZERO);
         PrintOut(PrintHandler, "CTA(r): %d\r\n", celltempavg);
         PrintOut(PrintHandler, "CTA(V): %5f\r\n", ADC_Voltage(celltempavg));
         PrintOut(PrintHandler, "CTA(C): %5f\r\n", TMP_Celsius(ADC_Voltage(celltempavg)));
