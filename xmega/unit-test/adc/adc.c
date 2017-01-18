@@ -5,6 +5,21 @@ void PrintHandler(char c)
 
 #define ADCB_Cell 3
 
+float ADC_Voltage(unsigned int adcvalue);
+float TMP_Celsius(float voltage);
+
+float ADC_Voltage(unsigned int adcvalue)
+{
+        const float popugai = (3.3/1.6)/4095;
+        const int adczero = 180;
+        return (adcvalue-adczero)*popugai;
+}
+
+float TMP_Celsius(float voltage)
+{
+	return ((voltage-0.5)*100);
+}
+
 void main() {
         UARTC0_Init(115200);
         ADCB_Init_Advanced(_ADC_12bit, _ADC_INTERNAL_REF_VCC);
@@ -17,4 +32,3 @@ void main() {
                 delay_ms(100);
         }
 }
-

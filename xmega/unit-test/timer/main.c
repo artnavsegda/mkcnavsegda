@@ -2,10 +2,9 @@
 #include "timer.h"
 #include "ad7705.h"
 #include "average.h"
+#include "adc.h"
 
 #define BSWAP_16(x) ((((x) >> 8) & 0xff) | (((x) & 0xff) << 8))
-
-#define ADCB_Cell 3
 
 sfr sbit LED0_Direction at PORTR_DIR.B0;
 sfr sbit LED0_Toggle at PORTR_OUTTGL.B0;
@@ -199,8 +198,8 @@ void Print_Info(void)
         PrintOut(PrintHandler, "DATA(r): %5d\r\n", BSWAP_16(result)-0x17CC);
         PrintOut(PrintHandler, "DATA(x16): %5d\r\n", (oversample(&firststage,64)/64)-0x17CC);
         PrintOut(PrintHandler, "TEMP(r): %5d\r\n", ADCB_Get_Sample(ADCB_Cell));
-        PrintOut(PrintHandler, "TEMP(V): %5f\r\n", (ADCB_Get_Sample(ADCB_Cell)-180)*((3.3/1.6)/4095));
-        PrintOut(PrintHandler, "TEMP(C): %5f\r\n", (((ADCB_Get_Sample(ADCB_Cell)-180)*((3.3/1.6)/4095))-0.5)*100);
+        PrintOut(PrintHandler, "TEMP(V): %5f\r\n", ADC_Voltage(ADCB_Get_Sample(ADCB_Cell)));
+        PrintOut(PrintHandler, "TEMP(C): %5f\r\n", TMP_Celsius(ADC_Voltage(ADCB_Get_Sample(ADCB_Cell))));
         PrintOut(PrintHandler, "======= static =======\r\n");
         PrintOut(PrintHandler, "CFC(r): %5d\r\n", coefficent-0x17CC);
         PrintOut(PrintHandler, "ZLA(r): %5d\r\n", zerolevelavg-0x17CC);
