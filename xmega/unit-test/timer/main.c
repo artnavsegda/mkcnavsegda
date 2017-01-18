@@ -18,7 +18,7 @@ struct massive secondstage;
 struct massive temperature_averaging_massive;
 
 unsigned int timetoexitmode = 0;
-unsigned char currentmode = STARTLEVEL;
+unsigned int currentmode = STARTLEVEL;
 
 void PrintHandler(char c)
 {
@@ -184,16 +184,19 @@ void Ports_Init(void)
         Expander_Set_DirectionPort(PORTU3,PORTU3_DIR);
 }
 
+unsigned int result;
+
 void Print_Info(void)
 {
         PrintOut(PrintHandler, "======= frame =======\r\n");
         PrintOut(PrintHandler, "mode: %d\r\n", currentmode);
         PrintOut(PrintHandler, "run %d\r\n", Modeseconds(currentmode));
         PrintOut(PrintHandler, "countdown: %d\r\n", timetoexitmode);
-        PrintOut(PrintHandler, "next: %d\r\n", Sequence(currentmode));
+        PrintOut(PrintHandler, "next: %d\r\n", (int)Sequence(currentmode));
         PrintOut(PrintHandler, "next run: %d\r\n", Modeseconds(Sequence(currentmode)));
-        PrintOut(PrintHandler, "DATA(n): %d\r\n", oversample(&firststage,64)/64);
-        PrintOut(PrintHandler, "TEMP(r): %d\r\n", ADCB_Read(ADCB_Cell));
+        PrintOut(PrintHandler, "DATA(r): %x\r\n", BSWAP_16(result));
+        PrintOut(PrintHandler, "DATA(n): %x\r\n", oversample(&firststage,64)/64);
+        PrintOut(PrintHandler, "TEMP(r): %x\r\n", ADCB_Read(ADCB_Cell));
         PrintOut(PrintHandler, "======= static =======\r\n");
         PrintOut(PrintHandler, "CFC(r): %d\r\n", coefficent);
         PrintOut(PrintHandler, "ZLA(r): %d\r\n", zerolevelavg);
@@ -211,13 +214,14 @@ void Print_Info(void)
 
 void main()
 {
-        unsigned int result;
-        PMIC_CTRL = 4;
-        CPU_SREG.B7 = 1;
         Ports_Init();
+        UARTC0_Init(115200);
+        AD7705_Init();
         Timer_Init(&TCC0, 1000000);
         Timer_Interrupt_Enable(&TCC0);
-        UARTC0_Init(115200);
+        PMIC_CTRL = 4;
+        CPU_SREG.B7 = 1;
+        PrintOut(PrintHandler, "START\r\n");
         Entermode(STARTLEVEL);
         
         while (1)
@@ -231,7 +235,7 @@ void main()
                 if (tick == 1)
                 {
                         tick = 0;
-                        LED0_Toggle = 1;
+                        LED2_Toggle = 1;
                         increment(&secondstage,oversample(&firststage,64)/64);
                         increment(&temperature_averaging_massive,ADCB_Read(ADCB_Cell));
                         timetoexitmode--;
@@ -241,7 +245,7 @@ void main()
                         PORTU1_IN = Expander_Read_Port(PORTU1);
                         PORTU2_IN = Expander_Read_Port(PORTU2);
                         PORTU3_IN = Expander_Read_Port(PORTU3);
-			Print_Info();
+                        Print_Info();
                         Expander_Write_Port(PORTU1,PORTU1_OUT);
                         Expander_Write_Port(PORTU2,PORTU2_OUT);
                         Expander_Write_Port(PORTU3,PORTU3_OUT);
