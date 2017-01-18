@@ -30,18 +30,18 @@ int Modeseconds(enum modelist modeneed)
         switch (modeneed)
         {
                 case STARTLEVEL: return 10;
-                case CELLDELAY: return 100;
-                case CELLLEVEL:        return 100;
-                case ZERODELAY: return 100;
-                case ZEROTEST: return 100;
-                case PURGE: return 100;
-                case TOTALMERCURYDELAY: return 100;
+                case CELLDELAY: return 10;
+                case CELLLEVEL:        return 10;
+                case ZERODELAY: return 10;
+                case ZEROTEST: return 10;
+                case PURGE: return 10;
+                case TOTALMERCURYDELAY: return 10;
                 case TOTALMERCURY: return 100;
-                case ELEMENTALMERCURYDELAY: return 100;
-                case ELEMENTALMERCURY: return 100;
-                case PRECALIBRATIONDELAY: return 100;
-                case CALIBRATION: return 100;
-                case POSTCALIBRATIONDELAY: return 100;
+                case ELEMENTALMERCURYDELAY: return 10;
+                case ELEMENTALMERCURY: return 10;
+                case PRECALIBRATIONDELAY: return 10;
+                case CALIBRATION: return 10;
+                case POSTCALIBRATIONDELAY: return 10;
         }
         return 0;
 }
@@ -110,9 +110,9 @@ enum modelist Sequence(enum modelist modetosequence)
         return modetosequence;
 }
 
-unsigned int coefficent = 0;
-unsigned int zerolevelavg = 0;
-unsigned int celllevelavg = 0;
+unsigned int coefficent = 0x17CC;
+unsigned int zerolevelavg = 0x17CC;
+unsigned int celllevelavg = 0x17CC;
 unsigned int celltempavg = 0;
 
 void Exitmode(enum modelist modetoexit)
@@ -194,21 +194,21 @@ void Print_Info(void)
         PrintOut(PrintHandler, "countdown: %d\r\n", timetoexitmode);
         PrintOut(PrintHandler, "next: %d\r\n", (int)Sequence(currentmode));
         PrintOut(PrintHandler, "next run: %d\r\n", Modeseconds(Sequence(currentmode)));
-        PrintOut(PrintHandler, "DATA(r): %x\r\n", BSWAP_16(result));
-        PrintOut(PrintHandler, "DATA(n): %x\r\n", oversample(&firststage,64)/64);
-        PrintOut(PrintHandler, "TEMP(r): %x\r\n", ADCB_Read(ADCB_Cell));
+        PrintOut(PrintHandler, "DATA(r): %5d\r\n", BSWAP_16(result)-0x17CC);
+        PrintOut(PrintHandler, "DATA(x16): %5d\r\n", (oversample(&firststage,64)/64)-0x17CC);
+        PrintOut(PrintHandler, "TEMP(r): %5d\r\n", ADCB_Read(ADCB_Cell));
         PrintOut(PrintHandler, "======= static =======\r\n");
-        PrintOut(PrintHandler, "CFC(r): %d\r\n", coefficent);
-        PrintOut(PrintHandler, "ZLA(r): %d\r\n", zerolevelavg);
-        PrintOut(PrintHandler, "CLA(r): %d\r\n", celllevelavg);
+        PrintOut(PrintHandler, "CFC(r): %5d\r\n", coefficent-0x17CC);
+        PrintOut(PrintHandler, "ZLA(r): %5d\r\n", zerolevelavg-0x17CC);
+        PrintOut(PrintHandler, "CLA(r): %5d\r\n", celllevelavg-0x17CC);
         PrintOut(PrintHandler, "CTA(r): %d\r\n", celltempavg);
         PrintOut(PrintHandler, "======= IO =======\r\n");
-        PrintOut(PrintHandler, "U1_IN: %x\r\n", PORTU1_IN);
-        PrintOut(PrintHandler, "U1_OUT: %x\r\n", PORTU1_OUT);
-        PrintOut(PrintHandler, "U2_IN: %x\r\n", PORTU2_IN);
-        PrintOut(PrintHandler, "U2_OUT: %x\r\n", PORTU2_OUT);
-        PrintOut(PrintHandler, "U3_IN: %x\r\n", PORTU3_IN);
-        PrintOut(PrintHandler, "U3_OUT: %x\r\n", PORTU3_OUT);
+        PrintOut(PrintHandler, "U1_IN: %x\r\n", (int)PORTU1_IN);
+        PrintOut(PrintHandler, "U1_OUT: %x\r\n", (int)PORTU1_OUT);
+        PrintOut(PrintHandler, "U2_IN: %x\r\n", (int)PORTU2_IN);
+        PrintOut(PrintHandler, "U2_OUT: %x\r\n", (int)PORTU2_OUT);
+        PrintOut(PrintHandler, "U3_IN: %x\r\n", (int)PORTU3_IN);
+        PrintOut(PrintHandler, "U3_OUT: %x\r\n", (int)PORTU3_OUT);
         PrintOut(PrintHandler, "======= end frame =======\r\n");
 }
 
