@@ -63,6 +63,8 @@ void Entermode(enum modelist modetoenter)
                 break;
                 case ZERODELAY:
                         Zero_Valve = 1;
+                        CELL_LeftOut = 0;
+                        CELL_RightOut = 1;
                 return;
                 break;
                 case ZEROTEST:
