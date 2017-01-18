@@ -47,10 +47,15 @@ Count=0
 [PLDS]
 Count=0
 [Useses]
-Count=3
+Count=8
 File0=UART
 File1=SPI
 File2=Mmc
+File3=Mmc_FAT16
+File4=C_String
+File5=Mmc_Fat16_Config
+File6=C_Type
+File7=Conversions
 [EXPANDED_NODES]
 Node0=Sources
 Count=1
