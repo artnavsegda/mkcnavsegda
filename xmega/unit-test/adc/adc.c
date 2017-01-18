@@ -17,7 +17,7 @@ float ADC_Voltage(unsigned int adcvalue)
 
 float TMP_Celsius(float voltage)
 {
-	return ((voltage-0.5)*100);
+        return ((voltage-0.5)*100);
 }
 
 void main() {
@@ -26,9 +26,10 @@ void main() {
 
         while(1)
         {
+        	PrintOut(PrintHandler, "===================== START ==================\r\n");
                 PrintOut(PrintHandler, "TEMP(r): %5d\r\n", ADCB_Get_Sample(ADCB_Cell));
                 PrintOut(PrintHandler, "TEMP(V): %5f\r\n", (ADCB_Get_Sample(ADCB_Cell)-180)*((3.3/1.6)/4095));
-                PrintOut(PrintHandler, "TEMP(C): %5f\r\n", (((ADCB_Get_Sample(ADCB_Cell)-180)*((3.3/1.6)/4095))-0.5)*100)
-                delay_ms(100);
+                PrintOut(PrintHandler, "TEMP(C): %5f\r\n", (((ADCB_Get_Sample(ADCB_Cell)-180)*((3.3/1.6)/4095))-0.5)*100);
+                delay_ms(1000);
         }
 }
