@@ -36,6 +36,15 @@ float calculatecell(long averaged, long zerolevelavg, long celllevelavg, long ce
         );
 }
 
+float calculatecalibration(long averaged, long zerolevelavg, long coefficent, float standard_concentration)
+{
+	return (
+		(long) averaged - (long) zerolevelavg
+	) / (float) (
+		(long) coefficent - (long) zerolevelavg
+	) * standard_concentration;
+}
+
 #define FLOW_SENSOR_SPAN 10
 #define EXPECTED_FLOW_SENSOR_VOLTAGE 9.0
 #define RESISTOR_DIVIDER 0.319
@@ -82,13 +91,13 @@ void RAmonitor(void)
         bctable[AVAILABILITYOFEXTERNALREQUEST] = (currentmode == TOTALMERCURY);
         bctable[STATUSOFZEROTEST] = (currentmode == ZEROTEST || currentmode == ZERODELAY);
         bctable[STATUSOFCALIBRATION] = (currentmode == CALIBRATION || currentmode == PRECALIBRATIONDELAY || currentmode == POSTCALIBRATIONDELAY);
-        //if (currentmode == ELEMENTALMERCURY) table[ELEMENTALMERCURYROW] = calculatecalibration(BSWAP_16(result), zerolevelavg, coefficent, standard_concentration)); // TODO: not working until averaging code
+        if (currentmode == ELEMENTALMERCURY) splitfloat(&table[ELEMENTALMERCURYROWLOW],&table[ELEMENTALMERCURYROWHIGH], calculatecalibration(BSWAP_16(result), zerolevelavg, coefficent, standard_concentration));
         if (currentmode == TOTALMERCURY) splitfloat(&table[TOTALMERCURYROWLOW], &table[TOTALMERCURYROWHIGH], calculatecell(oversample(&ad7705_averaging_massive,32)/32, zerolevelavg, celllevelavg, celltempavg, c_twentie_five, kfactor));
-        splitfloat(&table[MONITORFLOWLOW], &table[MONITORFLOWHIGH], calculateflow(ADC_Voltage(ADCB_Read(ADCB_Flow))));
-        splitfloat(&table[VACUUMLOW],&table[VACUUMHIGH], calculatepressure(ADC_Voltage(ADCA_Read(ADCA_Vacuum))));
-        splitfloat(&table[DILUTIONPRESSURELOW],&table[DILUTIONPRESSUREHIGH], calculatepressure(ADC_Voltage(ADCA_Read(ADCA_Dilution))));
-        splitfloat(&table[BYPASSPRESSURELOW],&table[BYPASSPRESSUREHIGH], calculatepressure(ADC_Voltage(ADCA_Read(ADCA_Bypass))));
-        splitfloat(&table[TEMPERATUREOFSPECTROMETERLOW],&table[TEMPERATUREOFSPECTROMETERHIGH], (ADC_Voltage(ADCB_Read(ADCB_Cell))-0.5)*100);
+        splitfloat(&table[MONITORFLOWLOW], &table[MONITORFLOWHIGH], calculateflow(ADC_Voltage(ADCB_Get_Sample(ADCB_Flow))));
+        splitfloat(&table[VACUUMLOW],&table[VACUUMHIGH], calculatepressure(ADC_Voltage(ADCA_Get_Sample(ADCA_Vacuum))));
+        splitfloat(&table[DILUTIONPRESSURELOW],&table[DILUTIONPRESSUREHIGH], calculatepressure(ADC_Voltage(ADCA_Get_Sample(ADCA_Dilution))));
+        splitfloat(&table[BYPASSPRESSURELOW],&table[BYPASSPRESSUREHIGH], calculatepressure(ADC_Voltage(ADCA_Get_Sample(ADCA_Bypass))));
+        splitfloat(&table[TEMPERATUREOFSPECTROMETERLOW],&table[TEMPERATUREOFSPECTROMETERHIGH], (ADC_Voltage(ADCB_Get_Sample(ADCB_Cell))-0.5)*100);
         splitfloat(&table[CODEOFACURRENTMODELOW],&table[CODEOFACURRENTMODEHIGH], (float)currentmode);
         splitfloat(&table[ERRORSANDWARNINGSLOW],&table[ERRORSANDWARNINGSHIGH], (float)statusword);
         splitfloat(&table[TOTALMERCURYCOEFFICENTLOW],&table[TOTALMERCURYCOEFFICENTHIGH], standard_concentration/(float)((long)coefficent-(long)zerolevelavg));
@@ -128,10 +137,6 @@ int GetStatus(void)
         int genstatus = 0;
         if (ADC_Voltage(ADCA_Read(0)) < 1.0) genstatus |= LOW_LIGHT;
         if (ADC_Voltage(ADCA_Read(2)) < 0.0) genstatus |= LOW_FLOW;
-        PORTU1_IN = Expander_Read_Port(PORTU1);
-        PORTU2_IN = Expander_Read_Port(PORTU2);
-        PORTU3_IN = Expander_Read_Port(PORTU3);
-
         if (SERVO_4_RIGHT_IN)        genstatus |= CONVERTER;
         if (SERVO_2_RIGHT_IN)        genstatus |= WATLOW1;
         if (SERVO_2_LEFT_IN) genstatus |= WATLOW2;

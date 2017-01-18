@@ -57,7 +57,7 @@ File3=average.h
 [PLDS]
 Count=0
 [Useses]
-Count=8
+Count=9
 File0=Timer
 File1=UART
 File2=TWI
@@ -66,6 +66,7 @@ File4=ADC
 File5=Mmc
 File6=PrintOut
 File7=C_Type
+File8=C_Math
 [EXPANDED_NODES]
 Node0=Sources
 Node1=Header Files

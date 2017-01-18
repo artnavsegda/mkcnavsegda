@@ -17,6 +17,8 @@ void Sysclk_Init(void)
         while(RC32MRDY_bit == 0);
         CPU_CCP = 0xD8;
         CLK_CTRL = 1;
+        PMIC_CTRL = 4;
+        CPU_SREG.B7 = 1;
 }
 
 void Port_Init(void)
@@ -39,13 +41,17 @@ void Port_Init(void)
 void Prototype_Init(void)
 {
         Sysclk_Init();
+        Port_Init();
         UARTC0_Init(115200);
         UART_Set_Active(&UARTC0_Read, &UARTC0_Write, &UARTC0_Data_Ready, &UARTC0_Tx_Idle);
-        Timer_Init(&TCC0, 1000000);
-        Timer_Interrupt_Enable(&TCC0);
+        AD7705_Init();
+        ADCA_Init_Advanced(_ADC_12bit, _ADC_INTERNAL_REF_VCC);
+        ADCB_Init_Advanced(_ADC_12bit, _ADC_INTERNAL_REF_VCC);
         SPIC_Init();
         SPI_Ethernet_Init("\x00\x14\xA5\x76\x19\x3f", "\xC0\xA8\x01\x96", 0x01);
         SPI_Ethernet_confNetwork("\xFF\xFF\xFF\x00", "\xC0\xA8\x01\x01", "\xC0\xA8\x01\x01");
+        Timer_Init(&TCC0, 1000000);
+        Timer_Interrupt_Enable(&TCC0);
         Entermode(STARTLEVEL);
 }
 
@@ -61,7 +67,7 @@ void main() {
                 if (AD7707_DRDY == 0)
                 {
                         LED2_Toggle = 1;
-			AD7705_Read_Register(0x38,(unsigned char *)&result,2);
+                        AD7705_Read_Register(0x38,(unsigned char *)&result,2);
                         increment(&ad7705_averaging_massive,BSWAP_16(result));
                 }
                 if (tick == 1)
@@ -70,7 +76,9 @@ void main() {
                         LED2_Toggle = 1;
                         Average();
                         Sequencer();
+                        Expander_Read_All();
                         RAmonitor();
+                        Expander_Write_All();
                 }
         }
 }

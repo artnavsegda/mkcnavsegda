@@ -208,6 +208,8 @@ void Print_Info(void)
         PrintOut(PrintHandler, "CTA(r): %d\r\n", celltempavg);
         PrintOut(PrintHandler, "CTA(V): %5f\r\n", (celltempavg-180)*((3.3/1.6)/4095));
         PrintOut(PrintHandler, "CTA(C): %5f\r\n", (((celltempavg-180)*((3.3/1.6)/4095))-0.5)*100);
+        PrintOut(PrintHandler, "======= DIGITAL =======\r\n");
+        PrintOut(PrintHandler, "DIGITAL: %5f\r\n", (((float)(((long)oversample(&firststage,64)/64)-(long)zerolevelavg)/(float)((long)celllevelavg-(long)zerolevelavg))*((float)(1297.17*exp(0.0082*(((((celltempavg-180)*((3.3/1.6)/4095))-0.5)*100)-25))))));
         PrintOut(PrintHandler, "======= IO =======\r\n");
         PrintOut(PrintHandler, "U1_IN: %x\r\n", (int)PORTU1_IN);
         PrintOut(PrintHandler, "U1_OUT: %x\r\n", (int)PORTU1_OUT);

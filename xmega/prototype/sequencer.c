@@ -25,10 +25,12 @@ void Entermode(enum modelist modetoenter)
         {
                 case STARTLEVEL:
                         Ignition = 1;
-                break;
-                case CELLDELAY:
                         CELL_LeftOut = 1;
                         CELL_RightOut = 0;
+                break;
+                case CELLDELAY:
+                        CELL_LeftOut = 0;
+                        CELL_RightOut = 1;
                 break;
                 case CELLLEVEL:
                 break;
@@ -72,8 +74,8 @@ void Exitmode(enum modelist modetoexit)
                 case CELLLEVEL:
                         celllevelavg = oversample(&measurment_averaging_massive,modeseconds(CELLLEVEL))/modeseconds(CELLLEVEL);
                         celltempavg = oversample(&temperature_averaging_massive,modeseconds(CELLLEVEL))/modeseconds(CELLLEVEL);
-                        CELL_LeftOut = 0;
-                        CELL_RightOut = 1;
+                        CELL_LeftOut = 1;
+                        CELL_RightOut = 0;
                 break;
                 case ZERODELAY:
                 break;
@@ -109,19 +111,19 @@ enum modelist Sequence(enum modelist modetosequence)
 {
         switch(modetosequence)
         {
-                case STARTLEVEL: return CELLDELAY;
-                case CELLDELAY: return CELLDELAY;
-                case CELLLEVEL:        return CELLDELAY;
-                case ZERODELAY:        return CELLDELAY;
+                case STARTLEVEL: return ZERODELAY;
+                case CELLDELAY: return CELLLEVEL;
+                case CELLLEVEL:        return TOTALMERCURYDELAY;
+                case ZERODELAY:        return ZEROTEST;
                 case ZEROTEST: return CELLDELAY;
-                case PURGE:        return CELLDELAY;
-                case TOTALMERCURYDELAY:        return CELLDELAY;
-                case TOTALMERCURY: return CELLDELAY;
-                case ELEMENTALMERCURYDELAY:        return CELLDELAY;
-                case ELEMENTALMERCURY: return CELLDELAY;
-                case PRECALIBRATIONDELAY: return CELLDELAY;
-                case CALIBRATION: return CELLDELAY;
-                case POSTCALIBRATIONDELAY: return CELLDELAY;
+                case PURGE:        return PURGE;
+                case TOTALMERCURYDELAY:        return TOTALMERCURY;
+                case TOTALMERCURY: return ZERODELAY;
+                case ELEMENTALMERCURYDELAY:        return ELEMENTALMERCURY;
+                case ELEMENTALMERCURY: return TOTALMERCURYDELAY;
+                case PRECALIBRATIONDELAY: return CALIBRATION;
+                case CALIBRATION: return POSTCALIBRATIONDELAY;
+                case POSTCALIBRATIONDELAY: return PRECALIBRATIONDELAY;
         }
         return modetosequence;
 }

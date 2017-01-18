@@ -1,3 +1,5 @@
+#include "ports.h"
+
 void Expander_Write_Byte(char ModuleAddress, char RegAddress, char Data_)
 {
         TWIE_Start();
@@ -39,4 +41,18 @@ void Expander_Init(char ModuleAddress)
 {
         TWIE_Init(100000);
         Expander_Write_Byte(ModuleAddress,0x02,0x00);
+}
+
+void Expander_Read_All(void)
+{
+	PORTU1_IN = Expander_Read_Port(PORTU1);
+	PORTU2_IN = Expander_Read_Port(PORTU2);
+	PORTU3_IN = Expander_Read_Port(PORTU3);
+}
+
+void Expander_Write_All(void)
+{
+	Expander_Write_Port(PORTU1,PORTU1_OUT);
+	Expander_Write_Port(PORTU2,PORTU2_OUT);
+	Expander_Write_Port(PORTU3,PORTU3_OUT);
 }

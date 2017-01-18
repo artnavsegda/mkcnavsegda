@@ -35,9 +35,8 @@ Count=0
 Count=0
 ActiveImageIndex=-1
 [OPENED_FILES]
-Count=2
-File0=main.c
-File1=ramonitor.c
+Count=1
+File0=ramonitor.c
 [EEPROM]
 Count=0
 [ACTIVE_COMMENTS_FILES]
@@ -79,5 +78,4 @@ File6=ADC
 File7=C_Math
 [EXPANDED_NODES]
 Node0=Sources
-Node1=Header Files
-Count=2
+Count=1
