@@ -1,5 +1,6 @@
 #include "i2c.h"
 
+unsigned char PORTU1_IN, PORTU2_IN, PORTU3_IN;
 unsigned char PORTU1_OUT = 0x00, PORTU2_OUT = 0x00, PORTU3_OUT = 0x00;
 sfr sbit Ignition at PORTU3_OUT.B1;
 unsigned char PORTU1_DIR = 0xFF, PORTU2_DIR = 0xFF, PORTU3_DIR = 0xFF;

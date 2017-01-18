@@ -2,6 +2,7 @@
 #define PORTU2 0x19
 #define PORTU3 0x1a
 
+extern unsigned char PORTU1_IN, PORTU2_IN, PORTU3_IN;
 extern unsigned char PORTU1_DIR, PORTU2_DIR, PORTU3_DIR;
 extern unsigned char PORTU1_OUT, PORTU2_OUT, PORTU3_OUT;
 extern sfr sbit Ignition;

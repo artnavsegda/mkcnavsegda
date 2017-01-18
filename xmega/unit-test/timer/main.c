@@ -199,6 +199,13 @@ void Print_Info(void)
         PrintOut(PrintHandler, "ZLA(r): %d\r\n", zerolevelavg);
         PrintOut(PrintHandler, "CLA(r): %d\r\n", celllevelavg);
         PrintOut(PrintHandler, "CTA(r): %d\r\n", celltempavg);
+        PrintOut(PrintHandler, "======= IO =======\r\n");
+        PrintOut(PrintHandler, "U1_IN: %x\r\n", PORTU1_IN);
+        PrintOut(PrintHandler, "U1_OUT: %x\r\n", PORTU1_OUT);
+        PrintOut(PrintHandler, "U2_IN: %x\r\n", PORTU2_IN);
+        PrintOut(PrintHandler, "U2_OUT: %x\r\n", PORTU2_OUT);
+        PrintOut(PrintHandler, "U3_IN: %x\r\n", PORTU3_IN);
+        PrintOut(PrintHandler, "U3_OUT: %x\r\n", PORTU3_OUT);
         PrintOut(PrintHandler, "======= end frame =======\r\n");
 }
 
@@ -230,9 +237,11 @@ void main()
                         timetoexitmode--;
                         if (timetoexitmode == 0)
                                 Exitmode(currentmode);
-                                
+
+                        PORTU1_IN = Expander_Read_Port(PORTU1);
+                        PORTU2_IN = Expander_Read_Port(PORTU2);
+                        PORTU3_IN = Expander_Read_Port(PORTU3);
 			Print_Info();
-                                
                         Expander_Write_Port(PORTU1,PORTU1_OUT);
                         Expander_Write_Port(PORTU2,PORTU2_OUT);
                         Expander_Write_Port(PORTU3,PORTU3_OUT);
