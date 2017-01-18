@@ -54,17 +54,17 @@ void Entermode(enum modelist modetoenter)
         {
                 case STARTLEVEL:
                         Ignition = 1;
-                break;
-                case CELLDELAY:
                         CELL_LeftOut = 1;
                         CELL_RightOut = 0;
+                break;
+                case CELLDELAY:
+                        CELL_LeftOut = 0;
+                        CELL_RightOut = 1;
                 break;
                 case CELLLEVEL:
                 break;
                 case ZERODELAY:
                         Zero_Valve = 1;
-                        CELL_LeftOut = 0;
-                        CELL_RightOut = 1;
                 return;
                 break;
                 case ZEROTEST:
@@ -129,8 +129,8 @@ void Exitmode(enum modelist modetoexit)
                 case CELLLEVEL:
                         celllevelavg = oversample(&secondstage,modeseconds(CELLLEVEL))/modeseconds(CELLLEVEL);
                         celltempavg = oversample(&temperature_averaging_massive,modeseconds(CELLLEVEL))/modeseconds(CELLLEVEL);
-                        CELL_LeftOut = 0;
-                        CELL_RightOut = 1;
+                        CELL_LeftOut = 1;
+                        CELL_RightOut = 0;
                 break;
                 case ZERODELAY:
                 break;
@@ -199,11 +199,15 @@ void Print_Info(void)
         PrintOut(PrintHandler, "DATA(r): %5d\r\n", BSWAP_16(result)-0x17CC);
         PrintOut(PrintHandler, "DATA(x16): %5d\r\n", (oversample(&firststage,64)/64)-0x17CC);
         PrintOut(PrintHandler, "TEMP(r): %5d\r\n", ADCB_Read(ADCB_Cell));
+        PrintOut(PrintHandler, "TEMP(V): %5f\r\n", (ADCB_Read(ADCB_Cell)-180)*((3.3/1.6)/4095));
+        PrintOut(PrintHandler, "TEMP(C): %5f\r\n", (((ADCB_Read(ADCB_Cell)-180)*((3.3/1.6)/4095))-0.5)*100);
         PrintOut(PrintHandler, "======= static =======\r\n");
         PrintOut(PrintHandler, "CFC(r): %5d\r\n", coefficent-0x17CC);
         PrintOut(PrintHandler, "ZLA(r): %5d\r\n", zerolevelavg-0x17CC);
         PrintOut(PrintHandler, "CLA(r): %5d\r\n", celllevelavg-0x17CC);
         PrintOut(PrintHandler, "CTA(r): %d\r\n", celltempavg);
+        PrintOut(PrintHandler, "CTA(V): %5f\r\n", (celltempavg-180)*((3.3/1.6)/4095));
+        PrintOut(PrintHandler, "CTA(C): %5f\r\n", (((celltempavg-180)*((3.3/1.6)/4095))-0.5)*100);
         PrintOut(PrintHandler, "======= IO =======\r\n");
         PrintOut(PrintHandler, "U1_IN: %x\r\n", (int)PORTU1_IN);
         PrintOut(PrintHandler, "U1_OUT: %x\r\n", (int)PORTU1_OUT);

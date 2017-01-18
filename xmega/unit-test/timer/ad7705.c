@@ -15,6 +15,13 @@ void AD7705_Init(void)
         SPIC_Init();
         SPI_Set_Active(&SPIC_Read, &SPIC_Write);
         AD7705_Write_Bytes("\xFF\xFF\xFF\xFF\xFF", 5);
+        delay_ms(1);
+        AD7705_Write_Bytes("\x20\x0C\x10\x04", 4);
+        delay_ms(1);
+        AD7705_Write_Bytes("\x60\x18\x3A\x00", 4);
+        delay_ms(1);
+        AD7705_Write_Bytes("\x70\x89\x78\xD7", 4);
+        delay_ms(1);
 }
 
 void AD7705_Read_Register(unsigned char addr, unsigned char *value, unsigned int NoBytes)
