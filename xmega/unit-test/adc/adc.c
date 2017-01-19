@@ -10,8 +10,8 @@ float TMP_Celsius(float voltage);
 
 float ADC_Voltage(unsigned int adcvalue)
 {
-        const float popugai = (3.3/1.6)/4095;
-        const int adczero = 180;
+        const float popugai = (3.283/1.603)/4095;
+        const int adczero = 186;
         return (adcvalue-adczero)*popugai;
 }
 
@@ -26,10 +26,10 @@ void main() {
 
         while(1)
         {
-        	PrintOut(PrintHandler, "===================== START ==================\r\n");
+                PrintOut(PrintHandler, "===================== START(fix) ==================\r\n");
                 PrintOut(PrintHandler, "TEMP(r): %5d\r\n", ADCB_Get_Sample(ADCB_Cell));
-                PrintOut(PrintHandler, "TEMP(V): %5f\r\n", (ADCB_Get_Sample(ADCB_Cell)-180)*((3.3/1.6)/4095));
-                PrintOut(PrintHandler, "TEMP(C): %5f\r\n", (((ADCB_Get_Sample(ADCB_Cell)-180)*((3.3/1.6)/4095))-0.5)*100);
+                PrintOut(PrintHandler, "TEMP(V): %5f\r\n", (ADCB_Get_Sample(ADCB_Cell)-186)*((3.283/1.603)/4095));
+                PrintOut(PrintHandler, "TEMP(C): %5f\r\n", (((ADCB_Get_Sample(ADCB_Cell)-186)*((3.283/1.603)/4095))-0.5)*100);
                 delay_ms(1000);
         }
 }
