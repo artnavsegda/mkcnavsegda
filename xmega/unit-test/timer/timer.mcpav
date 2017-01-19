@@ -30,10 +30,11 @@ Count=0
 Count=0
 ActiveImageIndex=-1
 [OPENED_FILES]
-Count=3
+Count=4
 File0=main.c
 File1=adc.h
 File2=ad7705.h
+File3=adc.c
 [EEPROM]
 Count=0
 [ACTIVE_COMMENTS_FILES]

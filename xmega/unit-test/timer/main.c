@@ -35,7 +35,7 @@ int Modeseconds(enum modelist modeneed)
                 case ZEROTEST: return 10;
                 case PURGE: return 10;
                 case TOTALMERCURYDELAY: return 10;
-                case TOTALMERCURY: return 100;
+                case TOTALMERCURY: return 10;
                 case ELEMENTALMERCURYDELAY: return 10;
                 case ELEMENTALMERCURY: return 10;
                 case PRECALIBRATIONDELAY: return 10;
@@ -111,10 +111,10 @@ enum modelist Sequence(enum modelist modetosequence)
         return modetosequence;
 }
 
-unsigned int coefficent = ADCZERO;
-unsigned int zerolevelavg = ADCZERO;
-unsigned int celllevelavg = 4000+ADCZERO;
-unsigned int celltempavg = 1670;
+int coefficent = ADCZERO;
+int zerolevelavg = ADCZERO;
+int celllevelavg = 4000+ADCZERO;
+int celltempavg = 1670;
 
 void Exitmode(enum modelist modetoexit)
 {
@@ -186,7 +186,7 @@ void Ports_Init(void)
 }
 
 unsigned int result;
-unsigned int zerostage;
+int zerostage;
 
 void Print_Info(void)
 {
@@ -209,7 +209,7 @@ void Print_Info(void)
         PrintOut(PrintHandler, "CTA(V): %5f\r\n", ADC_Voltage(celltempavg));
         PrintOut(PrintHandler, "CTA(C): %5f\r\n", TMP_Celsius(ADC_Voltage(celltempavg)));
         PrintOut(PrintHandler, "======= DIGITAL =======\r\n");
-        PrintOut(PrintHandler, "DIGITAL: %5f\r\n", (((zerostage-zerolevelavg)/(celllevelavg-zerolevelavg))*(1297.17*exp(0.0082*(TMP_Celsius(ADC_Voltage(celltempavg))-25)))));
+        PrintOut(PrintHandler, "DIGITAL: %5f\r\n", (((float)(zerostage-zerolevelavg)/(float)(celllevelavg-zerolevelavg))*(1297.17*exp(0.0082*(TMP_Celsius(ADC_Voltage(celltempavg))-25)))));
         PrintOut(PrintHandler, "======= IO =======\r\n");
         PrintOut(PrintHandler, "U1_IN: %x\r\n", (int)PORTU1_IN);
         PrintOut(PrintHandler, "U1_OUT: %x\r\n", (int)PORTU1_OUT);
@@ -246,7 +246,7 @@ void main()
                 {
                         tick = 0;
                         LED2_Toggle = 1;
-			zerostage = oversample(&firststage,64)/64;
+                        zerostage = oversample(&firststage,64)/64;
                         increment(&secondstage,zerostage);
                         increment(&temperature_averaging_massive,ADCB_Get_Sample(ADCB_Cell));
                         timetoexitmode--;
