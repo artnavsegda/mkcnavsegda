@@ -38,11 +38,11 @@ float calculatecell(long averaged, long zerolevelavg, long celllevelavg, long ce
 
 float calculatecalibration(long averaged, long zerolevelavg, long coefficent, float standard_concentration)
 {
-	return (
-		(long) averaged - (long) zerolevelavg
-	) / (float) (
-		(long) coefficent - (long) zerolevelavg
-	) * standard_concentration;
+        return (
+                (long) averaged - (long) zerolevelavg
+        ) / (float) (
+                (long) coefficent - (long) zerolevelavg
+        ) * standard_concentration;
 }
 
 #define FLOW_SENSOR_SPAN 10
@@ -80,53 +80,54 @@ int coefficent;
 int zerolevelavg;
 int celllevelavg;
 int celltempavg;
+extern int zerostage;
 
 void RAmonitor(void)
 {
         int statusword;
         int i;
         statusword = GetStatus();
-        bctable[STATUSOFSPECTROMETER] = !(statusword & (LOW_LIGHT|LOW_FLOW));
-        bctable[STATUSOFTHERMOCONTROLLERS] = !(statusword & (CONVERTER|WATLOW1|WATLOW2|WATLOW3|WATLOW4));
-        bctable[AVAILABILITYOFEXTERNALREQUEST] = (currentmode == TOTALMERCURY);
-        bctable[STATUSOFZEROTEST] = (currentmode == ZEROTEST || currentmode == ZERODELAY);
-        bctable[STATUSOFCALIBRATION] = (currentmode == CALIBRATION || currentmode == PRECALIBRATIONDELAY || currentmode == POSTCALIBRATIONDELAY);
-        if (currentmode == ELEMENTALMERCURY) splitfloat(&table[ELEMENTALMERCURYROWLOW],&table[ELEMENTALMERCURYROWHIGH], calculatecalibration(BSWAP_16(result), zerolevelavg, coefficent, standard_concentration));
-        if (currentmode == TOTALMERCURY) splitfloat(&table[TOTALMERCURYROWLOW], &table[TOTALMERCURYROWHIGH], calculatecell(oversample(&ad7705_averaging_massive,32)/32, zerolevelavg, celllevelavg, celltempavg, c_twentie_five, kfactor));
-        splitfloat(&table[MONITORFLOWLOW], &table[MONITORFLOWHIGH], calculateflow(ADC_Voltage(ADCB_Get_Sample(ADCB_Flow))));
-        splitfloat(&table[VACUUMLOW],&table[VACUUMHIGH], calculatepressure(ADC_Voltage(ADCA_Get_Sample(ADCA_Vacuum))));
-        splitfloat(&table[DILUTIONPRESSURELOW],&table[DILUTIONPRESSUREHIGH], calculatepressure(ADC_Voltage(ADCA_Get_Sample(ADCA_Dilution))));
-        splitfloat(&table[BYPASSPRESSURELOW],&table[BYPASSPRESSUREHIGH], calculatepressure(ADC_Voltage(ADCA_Get_Sample(ADCA_Bypass))));
-        splitfloat(&table[TEMPERATUREOFSPECTROMETERLOW],&table[TEMPERATUREOFSPECTROMETERHIGH], (ADC_Voltage(ADCB_Get_Sample(ADCB_Cell))-0.5)*100);
-        splitfloat(&table[CODEOFACURRENTMODELOW],&table[CODEOFACURRENTMODEHIGH], (float)currentmode);
-        splitfloat(&table[ERRORSANDWARNINGSLOW],&table[ERRORSANDWARNINGSHIGH], (float)statusword);
-        splitfloat(&table[TOTALMERCURYCOEFFICENTLOW],&table[TOTALMERCURYCOEFFICENTHIGH], standard_concentration/(float)((long)coefficent-(long)zerolevelavg));
+        bctable[0] = !(statusword & (LOW_LIGHT|LOW_FLOW));
+        bctable[1] = !(statusword & (CONVERTER|WATLOW1|WATLOW2|WATLOW3|WATLOW4));
+        bctable[2] = (currentmode == TOTALMERCURY);
+        bctable[3] = (currentmode == ZEROTEST || currentmode == ZERODELAY);
+        bctable[4] = (currentmode == CALIBRATION || currentmode == PRECALIBRATIONDELAY || currentmode == POSTCALIBRATIONDELAY);
+        if (currentmode == ELEMENTALMERCURY) splitfloat(&table[24],&table[25], calculatecalibration(BSWAP_16(result), zerolevelavg, coefficent, standard_concentration));
+        if (currentmode == TOTALMERCURY) splitfloat(&table[10], &table[11], (((float)(zerostage-zerolevelavg)/(float)(celllevelavg-zerolevelavg))*(1297.17*exp(0.0082*(TMP_Celsius(ADC_Voltage(celltempavg))-25)))));
+        splitfloat(&table[14], &table[15], calculateflow(ADC_Voltage(ADCB_Get_Sample(ADCB_Flow))));
+        splitfloat(&table[16],&table[17], calculatepressure(ADC_Voltage(ADCA_Get_Sample(ADCA_Vacuum))));
+        splitfloat(&table[18],&table[19], calculatepressure(ADC_Voltage(ADCA_Get_Sample(ADCA_Dilution))));
+        splitfloat(&table[20],&table[21], calculatepressure(ADC_Voltage(ADCA_Get_Sample(ADCA_Bypass))));
+        splitfloat(&table[22],&table[23], (ADC_Voltage(ADCB_Get_Sample(ADCB_Cell))-0.5)*100);
+        splitfloat(&table[8],&table[9], (float)currentmode);
+        splitfloat(&table[28],&table[29], (float)statusword);
+        splitfloat(&table[30],&table[31], standard_concentration/(float)((long)coefficent-(long)zerolevelavg));
         
         if (currentmode == TOTALMERCURY || currentmode == PURGE)
         {
-                if (bctable[REQUESTTOSTARTCALIBRATION] == 1)
+                if (bctable[99] == 1)
                 {
-                        bctable[REQUESTTOSTARTCALIBRATION] == 0;
+                        bctable[99] == 0;
                         Entermode(PRECALIBRATIONDELAY);
                 }
-                if (bctable[REQUESTTOSTARTZEROTEST] == 1)
+                if (bctable[100] == 1)
                 {
-                        bctable[REQUESTTOSTARTZEROTEST] == 0;
+                        bctable[100] == 0;
                         Entermode(ZERODELAY);
                 }
-                if (bctable[REQUESTTOSTARTMEASURMENTOFELEMENTALMERCURY] == 1)
+                if (bctable[101] == 1)
                 {
-                        bctable[REQUESTTOSTARTMEASURMENTOFELEMENTALMERCURY] == 0;
+                        bctable[101] == 0;
                         Entermode(ELEMENTALMERCURYDELAY);
                 }
-                if (bctable[REQUESTTOSTARTPURGE] == 1)
+                if (bctable[102] == 1)
                 {
-                        bctable[REQUESTTOSTARTPURGE] == 0;
+                        bctable[102] == 0;
                         Entermode(PURGE);
                 }
-                if (bctable[REQUESTTOENDPURGE] == 1)
+                if (bctable[103] == 1)
                 {
-                        bctable[REQUESTTOENDPURGE] == 0;
+                        bctable[103] == 0;
                         Exitmode(PURGE);
                 }
         }

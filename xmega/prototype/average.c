@@ -2,10 +2,12 @@
 #include "adc.h"
 
 struct massive ad7705_averaging_massive, measurment_averaging_massive, temperature_averaging_massive;
+extern int zerostage;
 
 void Average(void)
 {
-        increment(&measurment_averaging_massive, oversample(&ad7705_averaging_massive, 32));
+        zerostage = oversample(&ad7705_averaging_massive,64)/64;
+        increment(&measurment_averaging_massive, zerostage);
         increment(&temperature_averaging_massive, ADCB_Read(ADCB_Cell));
 }
 

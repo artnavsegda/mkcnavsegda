@@ -57,6 +57,7 @@ void Prototype_Init(void)
 
 unsigned char tick = 0;
 unsigned int result;
+int zerostage;
 
 void main() {
 

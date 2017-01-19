@@ -6,7 +6,7 @@ Value=0
 [BUILD_TYPE]
 Value=0
 [ACTIVE_TAB]
-Value=adc.c
+Value=adc.h
 [USE_EEPROM]
 Value=0
 [USE_HEAP]
@@ -35,10 +35,12 @@ Count=0
 Count=0
 ActiveImageIndex=-1
 [OPENED_FILES]
-Count=3
+Count=5
 File0=ramonitor.c
 File1=main.c
-File2=adc.c
+File2=average.c
+File3=adc.c
+File4=adc.h
 [EEPROM]
 Count=0
 [ACTIVE_COMMENTS_FILES]
@@ -80,4 +82,5 @@ File6=ADC
 File7=C_Math
 [EXPANDED_NODES]
 Node0=Sources
-Count=1
+Node1=Header Files
+Count=2

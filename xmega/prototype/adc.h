@@ -7,3 +7,4 @@
 #define ADCA_Vacuum 4
 
 float ADC_Voltage(unsigned int adcvalue);
+float TMP_Celsius(float voltage);
