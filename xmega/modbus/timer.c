@@ -24,7 +24,7 @@ int Modeseconds(enum modelist modeneed)
                 case ZEROTEST: return 10;
                 case PURGE: return 10;
                 case TOTALMERCURYDELAY: return 10;
-                case TOTALMERCURY: return 10;
+                case TOTALMERCURY: return 100;
                 case ELEMENTALMERCURYDELAY: return 10;
                 case ELEMENTALMERCURY: return 10;
                 case PRECALIBRATIONDELAY: return 10;
@@ -68,7 +68,7 @@ void Entermode(enum modelist modetoenter)
                 case ELEMENTALMERCURY:
                 break;
                 case PRECALIBRATIONDELAY:
-              		//Calibration_Valve = 1;
+                              //Calibration_Valve = 1;
                 break;
                 case CALIBRATION:
                 break;

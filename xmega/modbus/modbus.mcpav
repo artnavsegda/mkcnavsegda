@@ -6,7 +6,7 @@ Value=0
 [BUILD_TYPE]
 Value=0
 [ACTIVE_TAB]
-Value=main.c
+Value=timer.c
 [USE_EEPROM]
 Value=0
 [USE_HEAP]
@@ -34,8 +34,11 @@ Count=0
 Count=0
 ActiveImageIndex=-1
 [OPENED_FILES]
-Count=1
+Count=4
 File0=main.c
+File1=ad7705.h
+File2=adc.c
+File3=timer.c
 [EEPROM]
 Count=0
 [ACTIVE_COMMENTS_FILES]
@@ -65,7 +68,7 @@ File7=adc.h
 [PLDS]
 Count=0
 [Useses]
-Count=7
+Count=8
 File0=UART
 File1=SPI_Ethernet
 File2=C_String
@@ -73,6 +76,7 @@ File3=SPI
 File4=Timer
 File5=ADC
 File6=TWI
+File7=C_Math
 [EXPANDED_NODES]
 Node0=Sources
 Node1=Header Files

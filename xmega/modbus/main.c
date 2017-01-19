@@ -7,6 +7,7 @@
 #include "i2c.h"
 #include "timer.h"
 #include "adc.h"
+#include "ad7705.h"
 
 struct massive firststage;
 struct massive secondstage;
@@ -38,33 +39,35 @@ void Ports_Init(void)
 }
 
 unsigned int result;
-unsigned int coefficent = 0x17CC;
-unsigned int zerolevelavg = 0x17CC;
-unsigned int celllevelavg = 4000+0x17CC;
-unsigned int celltempavg = 1670;
+int zerostage;
+int coefficent = ADCZERO;
+int zerolevelavg = ADCZERO;
+int celllevelavg = 4000+ADCZERO;
+int celltempavg = 1670;
 
 void Fill_Table(void)
 {
         table[2]++;
         table[3] = currentmode;
         table[4] = timetoexitmode;
-        table[5] = BSWAP_16(result)-0x17CC;
-        table[6] = (oversample(&firststage,64)/64)-0x17CC;
+        table[5] = BSWAP_16(result)-ADCZERO;
+        table[6] = zerostage-ADCZERO;
         table[7] = ADCB_Get_Sample(ADCB_Cell);
         splitfloat(&table[8],&table[9],ADC_Voltage(ADCB_Get_Sample(ADCB_Cell)));
         splitfloat(&table[10],&table[11],TMP_Celsius(ADC_Voltage(ADCB_Get_Sample(ADCB_Cell))));
-        table[12] = coefficent-0x17CC;
-        table[13] = zerolevelavg-0x17CC;
-        table[14] = celllevelavg-0x17CC;
+        table[12] = coefficent-ADCZERO;
+        table[13] = zerolevelavg-ADCZERO;
+        table[14] = celllevelavg-ADCZERO;
         table[15] = celltempavg;
         splitfloat(&table[16],&table[17], ADC_Voltage(celltempavg));
         splitfloat(&table[18],&table[19], TMP_Celsius(ADC_Voltage(celltempavg)));
-        table[20] = (int)PORTU1_IN;
-        table[21] = (int)PORTU1_OUT;
-        table[22] = (int)PORTU2_IN;
-        table[23] = (int)PORTU2_OUT;
-        table[24] = (int)PORTU3_IN;
-        table[25] = (int)PORTU3_OUT;
+        splitfloat(&table[20],&table[21], (((float)(zerostage-zerolevelavg)/(float)(celllevelavg-zerolevelavg))*(1297.17*exp(0.0082*(TMP_Celsius(ADC_Voltage(celltempavg))-25)))));
+        table[22] = (int)PORTU1_IN;
+        table[23] = (int)PORTU1_OUT;
+        table[24] = (int)PORTU2_IN;
+        table[25] = (int)PORTU2_OUT;
+        table[26] = (int)PORTU3_IN;
+        table[27] = (int)PORTU3_OUT;
 }
 
 void main()
@@ -97,7 +100,8 @@ void main()
                 {
                         tick = 0;
                         LED2_Toggle = 1;
-                        increment(&secondstage,oversample(&firststage,64)/64);
+                        zerostage = oversample(&firststage,64)/64;
+                        increment(&secondstage,zerostage);
                         increment(&temperature_averaging_massive,ADCB_Get_Sample(ADCB_Cell));
                         timetoexitmode--;
                         if (timetoexitmode == 0)
