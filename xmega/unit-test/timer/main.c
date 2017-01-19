@@ -190,6 +190,7 @@ int zerostage;
 
 void Print_Info(void)
 {
+        PrintOut(PrintHandler, "\033[2J");
         PrintOut(PrintHandler, "======= frame =======\r\n");
         PrintOut(PrintHandler, "mode: %d\r\n", currentmode);
         PrintOut(PrintHandler, "run %d\r\n", Modeseconds(currentmode));
