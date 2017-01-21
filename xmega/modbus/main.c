@@ -82,7 +82,7 @@ void Fill_Table(void)
         splitfloat(&table[22],&table[23], TMP_Celsius(ADC_Voltage(ADCB_Get_Sample(ADCB_Cell))));
         //splitfloat(&table[24],&table[25], (((float)(zerostage-zerolevelavg)/(float)(celllevelavg-zerolevelavg))*(1297.17*exp(0.0082*(TMP_Celsius(ADC_Voltage(celltempavg))-25)))));
         splitfloat(&table[28],&table[29], (float)GetStatus());
-        splitfloat(&table[30],&table[31], 1297.17*exp(0.0082*(TMP_Celsius(ADC_Voltage(celltempavg))-25)));
+        splitfloat(&table[30],&table[31], (1297.17*exp(0.0082*(TMP_Celsius(ADC_Voltage(celltempavg))-25)))/(float)(celllevelavg-zerolevelavg));
 }
 
 void main()
@@ -121,10 +121,10 @@ void main()
                         timetoexitmode--;
                         if (timetoexitmode == 0)
                                 Exitmode(currentmode);
-			Operatemode();
-			Expander_Read_All();
+                        Operatemode();
+                        Expander_Read_All();
                         Fill_Table();
-			Expander_Write_All();
+                        Expander_Write_All();
                 }
         }
 }
