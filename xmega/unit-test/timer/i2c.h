@@ -20,6 +20,12 @@ extern sfr sbit Zero_Valve;
 extern sfr sbit Calibration_Valve_Direction;
 extern sfr sbit Zero_Valve_Direction;
 
+extern sfr sbit SERVO_4_RIGHT_IN;
+extern sfr sbit SERVO_2_RIGHT_IN;
+extern sfr sbit SERVO_2_LEFT_IN;
+extern sfr sbit SERVO_3_RIGHT_IN;
+extern sfr sbit SERVO_3_LEFT_IN;
+
 void Expander_Write_Byte(char ModuleAddress, char RegAddress, char Data_);
 char Expander_Read_Byte(char ModuleAddress, char RegAddress);
 void Expander_Set_DirectionPort(char ModuleAddress, char Data_);

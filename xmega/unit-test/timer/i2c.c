@@ -18,6 +18,12 @@ sfr sbit Zero_Valve at PORTU1_OUT.B2;
 sfr sbit Calibration_Valve_Direction at PORTU1_DIR.B3;
 sfr sbit Zero_Valve_Direction at PORTU1_DIR.B2;
 
+sfr sbit SERVO_4_RIGHT_IN at PORTU3_IN.B6;
+sfr sbit SERVO_2_RIGHT_IN at PORTU2_IN.B7;
+sfr sbit SERVO_2_LEFT_IN at PORTU1_IN.B1;
+sfr sbit SERVO_3_RIGHT_IN at PORTU2_IN.B3;
+sfr sbit SERVO_3_LEFT_IN at PORTU2_IN.B4;
+
 void Expander_Write_Byte(char ModuleAddress, char RegAddress, char Data_)
 {
         TWIE_Start();

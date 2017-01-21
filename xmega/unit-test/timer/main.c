@@ -6,6 +6,16 @@
 
 #define BSWAP_16(x) ((((x) >> 8) & 0xff) | (((x) & 0xff) << 8))
 
+#define ALLOK 0
+#define NO_DATA 1
+#define LOW_LIGHT 2
+#define LOW_FLOW 4
+#define CONVERTER 8
+#define WATLOW1 16
+#define WATLOW2 32
+#define WATLOW3 64
+#define WATLOW4 128
+
 sfr sbit LED0_Direction at PORTR_DIR.B0;
 sfr sbit LED0_Toggle at PORTR_OUTTGL.B0;
 
@@ -187,6 +197,19 @@ void Ports_Init(void)
 
 unsigned int result;
 int zerostage;
+
+int GetStatus(void)
+{
+        int genstatus = 0;
+        if (ADC_Voltage(ADCB_Get_Sample(ADCB_PMT_Voltage)) < 1.0) genstatus |= LOW_LIGHT;
+        if (ADC_Voltage(ADCB_Get_Sample(ADCB_Flow)) < 0.0) genstatus |= LOW_FLOW;
+        if (SERVO_4_RIGHT_IN) genstatus |= CONVERTER;
+        if (SERVO_2_RIGHT_IN) genstatus |= WATLOW1;
+        if (SERVO_2_LEFT_IN) genstatus |= WATLOW2;
+        if (SERVO_3_RIGHT_IN) genstatus |= WATLOW3;
+        if (SERVO_3_LEFT_IN) genstatus |= WATLOW4;
+        return genstatus;
+}
 
 void Print_Info(void)
 {
