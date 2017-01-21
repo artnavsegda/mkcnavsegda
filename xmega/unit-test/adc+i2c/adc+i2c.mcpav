@@ -26,8 +26,10 @@ Count=0
 Count=0
 ActiveImageIndex=-1
 [OPENED_FILES]
-Count=1
+Count=3
 File0=adc+i2c.c
+File1=..\timer\i2c.c
+File2=..\timer\i2c.h
 [EEPROM]
 Count=0
 [ACTIVE_COMMENTS_FILES]
@@ -47,10 +49,12 @@ Count=0
 [PLDS]
 Count=0
 [Useses]
-Count=3
+Count=5
 File0=ADC
 File1=TWI
 File2=UART
+File3=PrintOut
+File4=C_Type
 [EXPANDED_NODES]
 Node0=Sources
 Count=1
