@@ -6,7 +6,7 @@ Value=0
 [BUILD_TYPE]
 Value=0
 [ACTIVE_TAB]
-Value=adc.h
+Value=ramonitor.c
 [USE_EEPROM]
 Value=0
 [USE_HEAP]
@@ -35,7 +35,8 @@ Count=0
 Count=0
 ActiveImageIndex=-1
 [OPENED_FILES]
-Count=0
+Count=1
+File0=ramonitor.c
 [EEPROM]
 Count=0
 [ACTIVE_COMMENTS_FILES]
@@ -76,4 +77,5 @@ File5=Timer
 File6=ADC
 File7=C_Math
 [EXPANDED_NODES]
-Count=0
+Node0=Sources
+Count=1

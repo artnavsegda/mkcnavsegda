@@ -136,8 +136,8 @@ void RAmonitor(void)
 int GetStatus(void)
 {
         int genstatus = 0;
-        if (ADC_Voltage(ADCA_Read(0)) < 1.0) genstatus |= LOW_LIGHT;
-        if (ADC_Voltage(ADCA_Read(2)) < 0.0) genstatus |= LOW_FLOW;
+        if (ADC_Voltage(ADCA_Get_Sample(0)) < 1.0) genstatus |= LOW_LIGHT;
+        if (ADC_Voltage(ADCA_Get_Sample(2)) < 0.0) genstatus |= LOW_FLOW;
         if (SERVO_4_RIGHT_IN)        genstatus |= CONVERTER;
         if (SERVO_2_RIGHT_IN)        genstatus |= WATLOW1;
         if (SERVO_2_LEFT_IN) genstatus |= WATLOW2;
