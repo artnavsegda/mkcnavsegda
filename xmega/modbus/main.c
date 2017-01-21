@@ -53,10 +53,10 @@ int GetStatus(void)
         int genstatus = 0;
         if (ADC_Voltage(ADCB_Get_Sample(ADCB_PMT_Voltage)) < 1.0) genstatus |= LOW_LIGHT;
         if (ADC_Voltage(ADCB_Get_Sample(ADCB_Flow)) < 0.0) genstatus |= LOW_FLOW;
-        if (SERVO_4_RIGHT_IN)        genstatus |= CONVERTER;
-        if (SERVO_2_RIGHT_IN)        genstatus |= WATLOW1;
+        if (SERVO_4_RIGHT_IN) genstatus |= CONVERTER;
+        if (SERVO_2_RIGHT_IN) genstatus |= WATLOW1;
         if (SERVO_2_LEFT_IN) genstatus |= WATLOW2;
-        if (SERVO_3_RIGHT_IN)        genstatus |= WATLOW3;
+        if (SERVO_3_RIGHT_IN) genstatus |= WATLOW3;
         if (SERVO_3_LEFT_IN) genstatus |= WATLOW4;
         return genstatus;
 }
@@ -83,14 +83,15 @@ void Fill_Table(void)
         table[15] = celltempavg;
         splitfloat(&table[16],&table[17], ADC_Voltage(celltempavg));
         splitfloat(&table[18],&table[19], TMP_Celsius(ADC_Voltage(celltempavg)));
-        splitfloat(&table[20],&table[21],ADC_Voltage(ADCB_Get_Sample(ADCB_Cell)));
-        splitfloat(&table[22],&table[23],TMP_Celsius(ADC_Voltage(ADCB_Get_Sample(ADCB_Cell))));
-        table[24] = (int)PORTU1_IN;
-        table[25] = (int)PORTU1_OUT;
-        table[26] = (int)PORTU2_IN;
-        table[27] = (int)PORTU2_OUT;
-        table[28] = (int)PORTU3_IN;
-        table[29] = (int)PORTU3_OUT;
+        splitfloat(&table[20],&table[21], ADC_Voltage(ADCB_Get_Sample(ADCB_Cell)));
+        splitfloat(&table[22],&table[23], TMP_Celsius(ADC_Voltage(ADCB_Get_Sample(ADCB_Cell))));
+        splitfloat(&table[28],&table[29], (float)GetStatus());
+        table[32] = (int)PORTU1_IN;
+        table[33] = (int)PORTU1_OUT;
+        table[34] = (int)PORTU2_IN;
+        table[35] = (int)PORTU2_OUT;
+        table[36] = (int)PORTU3_IN;
+        table[37] = (int)PORTU3_OUT;
 }
 
 void main()
