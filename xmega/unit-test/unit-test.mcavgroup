@@ -1,5 +1,5 @@
 [PROJECTS]
-Count=11
+Count=12
 Project0=spi\spi.mcpav
 Project1=blink\blink.mcpav
 Project2=serial\serial.mcpav
@@ -11,5 +11,6 @@ Project7=ad7705\ad7705.mcpav
 Project8=timer\timer.mcpav
 Project9=sd\sd.mcpav
 Project10=adc\adc.mcpav
+Project11=adc+i2c\adc+i2c.mcpav
 [ActiveProject]
-Index=8
+Index=11

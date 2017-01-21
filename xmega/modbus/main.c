@@ -48,26 +48,26 @@ int celltempavg = 1670;
 void Fill_Table(void)
 {
         table[2]++;
-        table[3] = currentmode;
         table[4] = timetoexitmode;
         table[5] = BSWAP_16(result)-ADCZERO;
         table[6] = zerostage-ADCZERO;
         table[7] = ADCB_Get_Sample(ADCB_Cell);
-        splitfloat(&table[8],&table[9],ADC_Voltage(ADCB_Get_Sample(ADCB_Cell)));
-        splitfloat(&table[10],&table[11],TMP_Celsius(ADC_Voltage(ADCB_Get_Sample(ADCB_Cell))));
+        splitfloat(&table[8],&table[9], (float)currentmode);
+        splitfloat(&table[10],&table[11], (((float)(zerostage-zerolevelavg)/(float)(celllevelavg-zerolevelavg))*(1297.17*exp(0.0082*(TMP_Celsius(ADC_Voltage(celltempavg))-25)))));
         table[12] = coefficent-ADCZERO;
         table[13] = zerolevelavg-ADCZERO;
         table[14] = celllevelavg-ADCZERO;
         table[15] = celltempavg;
         splitfloat(&table[16],&table[17], ADC_Voltage(celltempavg));
         splitfloat(&table[18],&table[19], TMP_Celsius(ADC_Voltage(celltempavg)));
-        splitfloat(&table[20],&table[21], (((float)(zerostage-zerolevelavg)/(float)(celllevelavg-zerolevelavg))*(1297.17*exp(0.0082*(TMP_Celsius(ADC_Voltage(celltempavg))-25)))));
-        table[22] = (int)PORTU1_IN;
-        table[23] = (int)PORTU1_OUT;
-        table[24] = (int)PORTU2_IN;
-        table[25] = (int)PORTU2_OUT;
-        table[26] = (int)PORTU3_IN;
-        table[27] = (int)PORTU3_OUT;
+        splitfloat(&table[20],&table[21],ADC_Voltage(ADCB_Get_Sample(ADCB_Cell)));
+        splitfloat(&table[22],&table[23],TMP_Celsius(ADC_Voltage(ADCB_Get_Sample(ADCB_Cell))));
+        table[24] = (int)PORTU1_IN;
+        table[25] = (int)PORTU1_OUT;
+        table[26] = (int)PORTU2_IN;
+        table[27] = (int)PORTU2_OUT;
+        table[28] = (int)PORTU3_IN;
+        table[29] = (int)PORTU3_OUT;
 }
 
 void main()
