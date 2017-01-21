@@ -9,6 +9,16 @@
 #include "adc.h"
 #include "ad7705.h"
 
+#define ALLOK 0
+#define NO_DATA 1
+#define LOW_LIGHT 2
+#define LOW_FLOW 4
+#define CONVERTER 8
+#define WATLOW1 16
+#define WATLOW2 32
+#define WATLOW3 64
+#define WATLOW4 128
+
 struct massive firststage;
 struct massive secondstage;
 struct massive temperature_averaging_massive;
@@ -36,6 +46,19 @@ void Ports_Init(void)
         Expander_Init(PORTU3);
         IgnitionDirection = 0;
         Expander_Set_DirectionPort(PORTU3,PORTU3_DIR);
+}
+
+int GetStatus(void)
+{
+        int genstatus = 0;
+        if (ADC_Voltage(ADCB_Get_Sample(ADCB_PMT_Voltage)) < 1.0) genstatus |= LOW_LIGHT;
+        if (ADC_Voltage(ADCB_Get_Sample(ADCB_Flow)) < 0.0) genstatus |= LOW_FLOW;
+        if (SERVO_4_RIGHT_IN)        genstatus |= CONVERTER;
+        if (SERVO_2_RIGHT_IN)        genstatus |= WATLOW1;
+        if (SERVO_2_LEFT_IN) genstatus |= WATLOW2;
+        if (SERVO_3_RIGHT_IN)        genstatus |= WATLOW3;
+        if (SERVO_3_LEFT_IN) genstatus |= WATLOW4;
+        return genstatus;
 }
 
 unsigned int result;
