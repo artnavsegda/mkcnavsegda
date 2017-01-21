@@ -21,3 +21,4 @@ int Modeseconds(enum modelist modeneed);
 void Entermode(enum modelist modetoenter);
 enum modelist Sequence(enum modelist modetosequence);
 void Exitmode(enum modelist modetoexit);
+void Operatemode(void);

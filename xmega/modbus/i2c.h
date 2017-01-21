@@ -13,6 +13,12 @@ extern sfr sbit CELL_RightOut;
 extern sfr sbit IgnitionDirection;
 extern sfr sbit Ignition;
 
+extern sfr sbit Calibration_Valve;
+extern sfr sbit Zero_Valve;
+
+extern sfr sbit Calibration_Valve_Direction;
+extern sfr sbit Zero_Valve_Direction;
+
 extern sfr sbit SERVO_4_RIGHT_IN;
 extern sfr sbit SERVO_2_RIGHT_IN;
 extern sfr sbit SERVO_2_LEFT_IN;
@@ -25,3 +31,5 @@ void Expander_Set_DirectionPort(char ModuleAddress, char Data_);
 void Expander_Write_Port(char ModuleAddress, char Data_);
 char Expander_Read_Port(char ModuleAddress);
 void Expander_Init(char ModuleAddress);
+void Expander_Read_All(void);
+void Expander_Write_All(void);

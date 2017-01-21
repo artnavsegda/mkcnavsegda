@@ -26,10 +26,8 @@ Count=0
 Count=0
 ActiveImageIndex=-1
 [OPENED_FILES]
-Count=3
+Count=1
 File0=adc+i2c.c
-File1=..\timer\i2c.c
-File2=..\timer\i2c.h
 [EEPROM]
 Count=0
 [ACTIVE_COMMENTS_FILES]

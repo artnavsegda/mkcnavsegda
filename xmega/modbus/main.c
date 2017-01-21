@@ -42,6 +42,8 @@ void Ports_Init(void)
         Expander_Init(PORTU1);
         CELL_LeftOut_Direction = 0;
         CELL_RightOut_Direction = 0;
+        Calibration_Valve_Direction = 0;
+        Zero_Valve_Direction = 0;
         Expander_Set_DirectionPort(PORTU1,PORTU1_DIR);
         Expander_Init(PORTU3);
         IgnitionDirection = 0;
@@ -58,6 +60,8 @@ int GetStatus(void)
         if (SERVO_2_LEFT_IN) genstatus |= WATLOW2;
         if (SERVO_3_RIGHT_IN) genstatus |= WATLOW3;
         if (SERVO_3_LEFT_IN) genstatus |= WATLOW4;
+        bctable[0] = !(genstatus & (LOW_LIGHT|LOW_FLOW));
+        bctable[1] = !(genstatus & (CONVERTER|WATLOW1|WATLOW2|WATLOW3|WATLOW4));
         return genstatus;
 }
 
@@ -70,28 +74,17 @@ int celltempavg = 1670;
 
 void Fill_Table(void)
 {
-        table[2]++;
-        table[4] = timetoexitmode;
-        table[5] = BSWAP_16(result)-ADCZERO;
-        table[6] = zerostage-ADCZERO;
-        table[7] = ADCB_Get_Sample(ADCB_Cell);
         splitfloat(&table[8],&table[9], (float)currentmode);
         splitfloat(&table[10],&table[11], (((float)(zerostage-zerolevelavg)/(float)(celllevelavg-zerolevelavg))*(1297.17*exp(0.0082*(TMP_Celsius(ADC_Voltage(celltempavg))-25)))));
-        table[12] = coefficent-ADCZERO;
-        table[13] = zerolevelavg-ADCZERO;
-        table[14] = celllevelavg-ADCZERO;
-        table[15] = celltempavg;
-        splitfloat(&table[16],&table[17], ADC_Voltage(celltempavg));
-        splitfloat(&table[18],&table[19], TMP_Celsius(ADC_Voltage(celltempavg)));
-        splitfloat(&table[20],&table[21], ADC_Voltage(ADCB_Get_Sample(ADCB_Cell)));
+        //splitfloat(&table[12],&table[13], (((float)(zerostage-zerolevelavg)/(float)(celllevelavg-zerolevelavg))*(1297.17*exp(0.0082*(TMP_Celsius(ADC_Voltage(celltempavg))-25)))));
+        splitfloat(&table[14],&table[15], (((ADC_Voltage(ADCB_Get_Sample(ADCB_Flow))/(3.3/(10+3.3)))/9.0)-0.1)*(10/0.4));
+        splitfloat(&table[16],&table[17], ADC_Voltage(ADCA_Get_Sample(ADCA_Vacuum)));
+        splitfloat(&table[18],&table[19], ADC_Voltage(ADCA_Get_Sample(ADCA_Dilution)));
+        splitfloat(&table[20],&table[21], ADC_Voltage(ADCA_Get_Sample(ADCA_Bypass)));
         splitfloat(&table[22],&table[23], TMP_Celsius(ADC_Voltage(ADCB_Get_Sample(ADCB_Cell))));
+        //splitfloat(&table[24],&table[25], (((float)(zerostage-zerolevelavg)/(float)(celllevelavg-zerolevelavg))*(1297.17*exp(0.0082*(TMP_Celsius(ADC_Voltage(celltempavg))-25)))));
         splitfloat(&table[28],&table[29], (float)GetStatus());
-        table[32] = (int)PORTU1_IN;
-        table[33] = (int)PORTU1_OUT;
-        table[34] = (int)PORTU2_IN;
-        table[35] = (int)PORTU2_OUT;
-        table[36] = (int)PORTU3_IN;
-        table[37] = (int)PORTU3_OUT;
+        //splitfloat(&table[30],&table[31], (((float)(zerostage-zerolevelavg)/(float)(celllevelavg-zerolevelavg))*(1297.17*exp(0.0082*(TMP_Celsius(ADC_Voltage(celltempavg))-25)))));
 }
 
 void main()
@@ -130,16 +123,10 @@ void main()
                         timetoexitmode--;
                         if (timetoexitmode == 0)
                                 Exitmode(currentmode);
-                                
-                        PORTU1_IN = Expander_Read_Port(PORTU1);
-                        PORTU2_IN = Expander_Read_Port(PORTU2);
-                        PORTU3_IN = Expander_Read_Port(PORTU3);
-                                
+			Operatemode();
+			Expander_Read_All();
                         Fill_Table();
-                        
-                        Expander_Write_Port(PORTU1,PORTU1_OUT);
-                        Expander_Write_Port(PORTU2,PORTU2_OUT);
-                        Expander_Write_Port(PORTU3,PORTU3_OUT);
+			Expander_Write_All();
                 }
         }
 }
