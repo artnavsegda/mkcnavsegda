@@ -26,7 +26,8 @@ Count=0
 Count=0
 ActiveImageIndex=-1
 [OPENED_FILES]
-Count=0
+Count=1
+File0=sd.c
 [EEPROM]
 Count=0
 [ACTIVE_COMMENTS_FILES]
@@ -46,7 +47,7 @@ Count=0
 [PLDS]
 Count=0
 [Useses]
-Count=9
+Count=10
 File0=UART
 File1=SPI
 File2=Mmc
@@ -56,6 +57,7 @@ File5=Mmc_Fat16_Config
 File6=C_Type
 File7=Conversions
 File8=ADC
+File9=C_Stdlib
 [EXPANDED_NODES]
 Node0=Sources
 Count=1

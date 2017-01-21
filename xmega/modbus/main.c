@@ -22,13 +22,18 @@
 struct massive firststage;
 struct massive secondstage;
 struct massive temperature_averaging_massive;
+unsigned int result;
+int zerostage;
+int coefficent = ADCZERO;
+int zerolevelavg = ADCZERO;
+int celllevelavg = 4000+ADCZERO;
+int celltempavg = 1670;
+int tick = 0;
 
 void PrintHandler(char c)
 {
         UART_Write(c);
 }
-
-int tick = 0;
 
 void Timer0Overflow_ISR() org IVT_ADDR_TCC0_OVF
 {
@@ -65,13 +70,6 @@ int GetStatus(void)
         return genstatus;
 }
 
-unsigned int result;
-int zerostage;
-int coefficent = ADCZERO;
-int zerolevelavg = ADCZERO;
-int celllevelavg = 4000+ADCZERO;
-int celltempavg = 1670;
-
 void Fill_Table(void)
 {
         splitfloat(&table[8],&table[9], (float)currentmode);
@@ -84,7 +82,7 @@ void Fill_Table(void)
         splitfloat(&table[22],&table[23], TMP_Celsius(ADC_Voltage(ADCB_Get_Sample(ADCB_Cell))));
         //splitfloat(&table[24],&table[25], (((float)(zerostage-zerolevelavg)/(float)(celllevelavg-zerolevelavg))*(1297.17*exp(0.0082*(TMP_Celsius(ADC_Voltage(celltempavg))-25)))));
         splitfloat(&table[28],&table[29], (float)GetStatus());
-        //splitfloat(&table[30],&table[31], (((float)(zerostage-zerolevelavg)/(float)(celllevelavg-zerolevelavg))*(1297.17*exp(0.0082*(TMP_Celsius(ADC_Voltage(celltempavg))-25)))));
+        splitfloat(&table[30],&table[31], 1297.17*exp(0.0082*(TMP_Celsius(ADC_Voltage(celltempavg))-25)));
 }
 
 void main()

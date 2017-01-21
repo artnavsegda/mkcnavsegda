@@ -1,9 +1,12 @@
 sbit Mmc_Chip_Select at PORTC_OUT.B4;
 sbit Mmc_Chip_Select_Direction at PORTC_DIR.B4;
 
-void readset(void)
+int getvalue(char value[], char buffer[])
 {
-
+        char * pch;
+        pch = strtok(strstr(buffer,value),"=");
+        pch = strtok(0," \n");
+        return atoi(pch);
 }
 
 void writeset(void)
@@ -12,9 +15,10 @@ void writeset(void)
 }
 
 void main() {
+	int one, two;
         char sd_init, sd_format, sd_exists, sd_assign;
         unsigned long filesize;
-        char data_buffer[512];
+        char settings[512];
         unsigned int no_bytes;
         UARTC0_Init(115200);
         Delay_ms(10);
@@ -26,15 +30,15 @@ void main() {
         switch(sd_init)
         {
                 case 0:
-	                UARTC0_Write_Text("SD FAT Init-OK\r\n");
-		break;
-		case 1:
-                	UARTC0_Write_Text("SD FAT not found\r\n");
-		break;
-		default:
-                	UARTC0_Write_Text("SD Init-error\r\n");
-		break;
-	}
+                        UARTC0_Write_Text("SD FAT Init-OK\r\n");
+                break;
+                case 1:
+                        UARTC0_Write_Text("SD FAT not found\r\n");
+                break;
+                default:
+                        UARTC0_Write_Text("SD Init-error\r\n");
+                break;
+        }
                 
         if (sd_init == 1)
         {
@@ -52,9 +56,9 @@ void main() {
                 sd_exists = Mmc_Fat_Exists("DIGITAL.TXT");
                 if (sd_exists == 0)
                         UARTC0_Write_Text("file/directory doesn't exist\r\n");
-		else if (sd_exists == 1)
-		        UARTC0_Write_Text("file/directory exists\r\n");
-	}
+                else if (sd_exists == 1)
+                        UARTC0_Write_Text("file/directory exists\r\n");
+        }
         
         if (sd_init == 0 || sd_format == 0)
         {
@@ -70,18 +74,24 @@ void main() {
         if (sd_exists == 1)
         {
                 Mmc_Fat_Reset(&filesize);
-                no_bytes = Mmc_Fat_ReadN(&filesize, 500);
+                no_bytes = Mmc_Fat_ReadN(&settings, filesize);
+                if (no_bytes > 0)
+                {
+                        one = getvalue(settings, "one");
+                        two = getvalue(settings, "two");
+                }
+                
         }
         else if (sd_assign == 1)
         {
                 Mmc_Fat_Rewrite();
-                Mmc_Fat_Write("Hello world\n",13);
+                Mmc_Fat_Write("one=1\ntwo=2\n",14);
         }
         
-	if (sd_assign == 1)
-	{
-	        Mmc_Fat_Close();
-	}
+        if (sd_assign == 1)
+        {
+                Mmc_Fat_Close();
+        }
                 
 
         while(1);
