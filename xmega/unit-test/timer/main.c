@@ -265,17 +265,17 @@ void main()
         AD7705_Init();
         ADCA_Init_Advanced(_ADC_12bit, _ADC_INTERNAL_REF_VCC);
         //ADCA_PRESCALER.B2 = 1; //div64
-        ADCA_PRESCALER = 7 //div512
+        ADCA_PRESCALER = 7; //div512
         ADCB_Init_Advanced(_ADC_12bit, _ADC_INTERNAL_REF_VCC);
         //ADCB_PRESCALER.B2 = 1; //div64
-        ADCB_PRESCALER = 7 //div512
+        ADCB_PRESCALER = 7; //div512
         Timer_Init(&TCC0, 1000000);
         Timer_Interrupt_Enable(&TCC0);
         PMIC_CTRL = 4;
         CPU_SREG.B7 = 1;
         PrintOut(PrintHandler, "START\r\n");
         Entermode(STARTLEVEL);
-        
+
         while (1)
         {
                 if (AD7705_DRDY == 0)

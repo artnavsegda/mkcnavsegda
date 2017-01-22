@@ -89,7 +89,11 @@ void main()
         UART_Set_Active(&UARTC0_Read, &UARTC0_Write, &UARTC0_Data_Ready, &UARTC0_Tx_Idle);
         AD7705_Init();
         ADCA_Init_Advanced(_ADC_12bit, _ADC_INTERNAL_REF_VCC);
+        //ADCA_PRESCALER.B2 = 1; //div64
+        ADCA_PRESCALER = 7; //div512
         ADCB_Init_Advanced(_ADC_12bit, _ADC_INTERNAL_REF_VCC);
+        //ADCB_PRESCALER.B2 = 1; //div64
+        ADCB_PRESCALER = 7; //div512
         SPI_Ethernet_Init("\x00\x14\xA5\x76\x19\x3f", "\xC0\xA8\x01\x96", 0x01);
         SPI_Ethernet_confNetwork("\xFF\xFF\xFF\x00", "\xC0\xA8\x01\x01", "\xC0\xA8\x01\x01");
         Timer_Init(&TCC0, 1000000);
