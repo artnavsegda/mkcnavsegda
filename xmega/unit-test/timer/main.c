@@ -211,6 +211,7 @@ void Print_Info(void)
         PrintOut(PrintHandler, "next run: %d\r\n", Modeseconds(Sequence(currentmode)));
         PrintOut(PrintHandler, "DATA(r): %5d\r\n", BSWAP_16(result)-ADCZERO);
         PrintOut(PrintHandler, "DATA(x16): %5d\r\n", zerostage-ADCZERO);
+        PrintOut(PrintHandler, "======= ADC =======\r\n");
         PrintOut(PrintHandler, "TEMP(r): %5d\r\n", ADCB_Get_Sample(ADCB_Cell));
         PrintOut(PrintHandler, "TEMP(V): %5f\r\n", ADC_Voltage(ADCB_Get_Sample(ADCB_Cell)));
         PrintOut(PrintHandler, "TEMP(C): %5f\r\n", TMP_Celsius(ADC_Voltage(ADCB_Get_Sample(ADCB_Cell))));
@@ -223,6 +224,7 @@ void Print_Info(void)
         PrintOut(PrintHandler, "CTA(C): %5f\r\n", TMP_Celsius(ADC_Voltage(celltempavg)));
         PrintOut(PrintHandler, "======= DIGITAL =======\r\n");
         PrintOut(PrintHandler, "DIGITAL: %5f\r\n", (((float)(zerostage-zerolevelavg)/(float)(celllevelavg-zerolevelavg))*(1297.17*exp(0.0082*(TMP_Celsius(ADC_Voltage(celltempavg))-25)))));
+        PrintOut(PrintHandler, "CFN:: %5f\r\n", (1297.17*exp(0.0082*(TMP_Celsius(ADC_Voltage(celltempavg))-25)))/(float)(celllevelavg-zerolevelavg));
         PrintOut(PrintHandler, "STATUS: %5d\r\n", (lowlight<<1)|(lowflow<<2)|(PORTU3_IN.B6<<3)|(PORTU2_IN.B7<<4)|(PORTU1_IN.B1<<5)|(PORTU2_IN.B3<<6)|(PORTU2_IN.B4<<7));
         PrintOut(PrintHandler, "======= IO =======\r\n");
         PrintOut(PrintHandler, "U1_IN: %x\r\n", (int)PORTU1_IN);
