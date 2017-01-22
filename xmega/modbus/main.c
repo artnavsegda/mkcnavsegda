@@ -55,33 +55,20 @@ void Ports_Init(void)
         Expander_Set_DirectionPort(PORTU3,PORTU3_DIR);
 }
 
-unsigned char GetStatus(void)
-{
-        unsigned char genstatus = 0;
-        if (ADC_Voltage(ADCB_Get_Sample(ADCB_PMT_Voltage)) < 1.0) genstatus |= LOW_LIGHT;
-        if (ADC_Voltage(ADCB_Get_Sample(ADCB_Flow)) < 0.0) genstatus |= LOW_FLOW;
-        if (SERVO_4_RIGHT_IN) genstatus |= CONVERTER;
-        if (SERVO_2_RIGHT_IN) genstatus |= WATLOW1;
-        if (SERVO_2_LEFT_IN) genstatus |= WATLOW2;
-        if (SERVO_3_RIGHT_IN) genstatus |= WATLOW3;
-        if (SERVO_3_LEFT_IN) genstatus |= WATLOW4;
-        bctable[0] = !(genstatus & (LOW_LIGHT|LOW_FLOW));
-        bctable[1] = !(genstatus & (CONVERTER|WATLOW1|WATLOW2|WATLOW3|WATLOW4));
-        return genstatus;
-}
-
 void Fill_Table(void)
 {
+        char lowlight = ADC_Voltage(ADCB_Get_Sample(ADCB_PMT_Voltage)) < 1.0;
+        char lowflow = ADC_Voltage(ADCB_Get_Sample(ADCB_Flow)) < 0.0;
+        bctable[0] = lowlight | lowflow;
+        bctable[1] = PORTU3_IN.B6 | PORTU2_IN.B7 | PORTU1_IN.B1 | PORTU2_IN.B3 | PORTU2_IN.B4;
         splitfloat(&table[8],&table[9], (float)currentmode);
         splitfloat(&table[10],&table[11], (((float)(zerostage-zerolevelavg)/(float)(celllevelavg-zerolevelavg))*(1297.17*exp(0.0082*(TMP_Celsius(ADC_Voltage(celltempavg))-25)))));
-        //splitfloat(&table[12],&table[13], (((float)(zerostage-zerolevelavg)/(float)(celllevelavg-zerolevelavg))*(1297.17*exp(0.0082*(TMP_Celsius(ADC_Voltage(celltempavg))-25)))));
         splitfloat(&table[14],&table[15], ADC_Voltage(ADCB_Get_Sample(ADCB_Flow)));
         splitfloat(&table[16],&table[17], ADC_Voltage(ADCA_Get_Sample(ADCA_Vacuum)));
         splitfloat(&table[18],&table[19], ADC_Voltage(ADCA_Get_Sample(ADCA_Dilution)));
         splitfloat(&table[20],&table[21], ADC_Voltage(ADCA_Get_Sample(ADCA_Bypass)));
         splitfloat(&table[22],&table[23], TMP_Celsius(ADC_Voltage(ADCB_Get_Sample(ADCB_Cell))));
-        //splitfloat(&table[24],&table[25], (((float)(zerostage-zerolevelavg)/(float)(celllevelavg-zerolevelavg))*(1297.17*exp(0.0082*(TMP_Celsius(ADC_Voltage(celltempavg))-25)))));
-        splitfloat(&table[28],&table[29], (float)GetStatus());
+        splitfloat(&table[28],&table[29], (float)((lowlight<<1)|(lowflow<<2)|(PORTU3_IN.B6<<3)|(PORTU2_IN.B7<<4)|(PORTU1_IN.B1<<5)|(PORTU2_IN.B3<<6)|(PORTU2_IN.B4<<7)));
         splitfloat(&table[30],&table[31], (1297.17*exp(0.0082*(TMP_Celsius(ADC_Voltage(celltempavg))-25)))/(float)(celllevelavg-zerolevelavg));
 }
 
