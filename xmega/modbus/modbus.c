@@ -2,7 +2,7 @@
 #include "bswap.h"
 
 unsigned int table[100] = {0x0000, 0x0000}; //= {0xDEAD, 0xBEEF};
-unsigned char bctable[100] = {0x0, 0x1, 0x0, 0x0, 0x1};
+unsigned char bctable[200] = {0x0, 0x0, 0x0, 0x0, 0x0};
 
 void splitfloat(unsigned int *wordlow, unsigned int *wordhigh, float value)
 {
