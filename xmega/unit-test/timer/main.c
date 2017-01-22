@@ -212,9 +212,28 @@ void Print_Info(void)
         PrintOut(PrintHandler, "DATA(r): %5d\r\n", BSWAP_16(result)-ADCZERO);
         PrintOut(PrintHandler, "DATA(x16): %5d\r\n", zerostage-ADCZERO);
         PrintOut(PrintHandler, "======= ADC =======\r\n");
+        PrintOut(PrintHandler, "PMTV(r): %5d\r\n", ADCB_Get_Sample(ADCB_PMT_Voltage));
+        PrintOut(PrintHandler, "PMTV(V): %5f\r\n", ADC_Voltage(ADCB_Get_Sample(ADCB_PMT_Voltage)));
+        PrintOut(PrintHandler, "PMTC(r): %5d\r\n", ADCB_Get_Sample(ADCB_PMT_Current));
+        PrintOut(PrintHandler, "PMTC(V): %5f\r\n", ADC_Voltage(ADCB_Get_Sample(ADCB_PMT_Current)));
+        PrintOut(PrintHandler, "FLOW(r): %5d\r\n", ADCB_Get_Sample(ADCB_Flow));
+        PrintOut(PrintHandler, "FLOW(V): %5f\r\n", ADC_Voltage(ADCB_Get_Sample(ADCB_Flow)));
         PrintOut(PrintHandler, "TEMP(r): %5d\r\n", ADCB_Get_Sample(ADCB_Cell));
         PrintOut(PrintHandler, "TEMP(V): %5f\r\n", ADC_Voltage(ADCB_Get_Sample(ADCB_Cell)));
         PrintOut(PrintHandler, "TEMP(C): %5f\r\n", TMP_Celsius(ADC_Voltage(ADCB_Get_Sample(ADCB_Cell))));
+        PrintOut(PrintHandler, "BYPC(r): %5d\r\n", ADCA_Get_Sample(ADCA_Bypass));
+        PrintOut(PrintHandler, "BYPC(V): %5f\r\n", ADC_Voltage(ADCA_Get_Sample(ADCA_Bypass)));
+        PrintOut(PrintHandler, "DLTN(r): %5d\r\n", ADCA_Get_Sample(ADCA_Dilution));
+        PrintOut(PrintHandler, "DLTN(V): %5f\r\n", ADC_Voltage(ADCA_Get_Sample(ADCA_Dilution)));
+        PrintOut(PrintHandler, "VACM(r): %5d\r\n", ADCA_Get_Sample(ADCA_Vacuum));
+        PrintOut(PrintHandler, "VACM(V): %5f\r\n", ADC_Voltage(ADCA_Get_Sample(ADCA_Vacuum)));
+        PrintOut(PrintHandler, "======= IO =======\r\n");
+        PrintOut(PrintHandler, "U1_IN: %x\r\n", (int)PORTU1_IN);
+        PrintOut(PrintHandler, "U1_OUT: %x\r\n", (int)PORTU1_OUT);
+        PrintOut(PrintHandler, "U2_IN: %x\r\n", (int)PORTU2_IN);
+        PrintOut(PrintHandler, "U2_OUT: %x\r\n", (int)PORTU2_OUT);
+        PrintOut(PrintHandler, "U3_IN: %x\r\n", (int)PORTU3_IN);
+        PrintOut(PrintHandler, "U3_OUT: %x\r\n", (int)PORTU3_OUT);
         PrintOut(PrintHandler, "======= static =======\r\n");
         PrintOut(PrintHandler, "CFC(r): %5d\r\n", coefficent-ADCZERO);
         PrintOut(PrintHandler, "ZLA(r): %5d\r\n", zerolevelavg-ADCZERO);
@@ -226,13 +245,6 @@ void Print_Info(void)
         PrintOut(PrintHandler, "DIGITAL: %5f\r\n", (((float)(zerostage-zerolevelavg)/(float)(celllevelavg-zerolevelavg))*(1297.17*exp(0.0082*(TMP_Celsius(ADC_Voltage(celltempavg))-25)))));
         PrintOut(PrintHandler, "CFN:: %5f\r\n", (1297.17*exp(0.0082*(TMP_Celsius(ADC_Voltage(celltempavg))-25)))/(float)(celllevelavg-zerolevelavg));
         PrintOut(PrintHandler, "STATUS: %5d\r\n", (lowlight<<1)|(lowflow<<2)|(PORTU3_IN.B6<<3)|(PORTU2_IN.B7<<4)|(PORTU1_IN.B1<<5)|(PORTU2_IN.B3<<6)|(PORTU2_IN.B4<<7));
-        PrintOut(PrintHandler, "======= IO =======\r\n");
-        PrintOut(PrintHandler, "U1_IN: %x\r\n", (int)PORTU1_IN);
-        PrintOut(PrintHandler, "U1_OUT: %x\r\n", (int)PORTU1_OUT);
-        PrintOut(PrintHandler, "U2_IN: %x\r\n", (int)PORTU2_IN);
-        PrintOut(PrintHandler, "U2_OUT: %x\r\n", (int)PORTU2_OUT);
-        PrintOut(PrintHandler, "U3_IN: %x\r\n", (int)PORTU3_IN);
-        PrintOut(PrintHandler, "U3_OUT: %x\r\n", (int)PORTU3_OUT);
         PrintOut(PrintHandler, "======= end frame =======\r\n");
 }
 
