@@ -12,11 +12,13 @@ sfr sbit CELL_RightOut at PORTU1_OUT.B6;
 sfr sbit CELL_LeftOut_Direction at PORTU1_DIR.B7;
 sfr sbit CELL_RightOut_Direction at PORTU1_DIR.B6;
 
-sfr sbit Calibration_Valve at PORTU1_OUT.B3;
-sfr sbit Zero_Valve at PORTU1_OUT.B2;
+sfr sbit Elemental_Valve at PORTU3_OUT.B4;
+sfr sbit Calibration_Valve at PORTU3_OUT.B3;
+sfr sbit Zero_Valve at PORTU3_OUT.B2;
 
-sfr sbit Calibration_Valve_Direction at PORTU1_DIR.B3;
-sfr sbit Zero_Valve_Direction at PORTU1_DIR.B2;
+sfr sbit Elemental_Valve_Direction at PORTU3_DIR.B4;
+sfr sbit Calibration_Valve_Direction at PORTU3_DIR.B3;
+sfr sbit Zero_Valve_Direction at PORTU3_DIR.B2;
 
 sfr sbit SERVO_4_RIGHT_IN at PORTU3_IN.B6;
 sfr sbit SERVO_2_RIGHT_IN at PORTU2_IN.B7;

@@ -185,18 +185,26 @@ void Ports_Init(void)
         Expander_Init(PORTU1);
         CELL_LeftOut_Direction = 0;
         CELL_RightOut_Direction = 0;
-        Calibration_Valve_Direction = 0;
-        Zero_Valve_Direction = 0;
         Expander_Set_DirectionPort(PORTU1,PORTU1_DIR);
         Expander_Init(PORTU2);
         Expander_Set_DirectionPort(PORTU2,PORTU2_DIR);
         Expander_Init(PORTU3);
         IgnitionDirection = 0;
+        Calibration_Valve_Direction = 0;
+        Zero_Valve_Direction = 0;
+        Elemental_Valve_Direction = 0;
         Expander_Set_DirectionPort(PORTU3,PORTU3_DIR);
 }
 
 unsigned int result;
 int zerostage;
+
+void Print_Binary(unsigned char value)
+{
+	int i;
+	for (i = 0; i < 8; i++)
+		PrintOut(PrintHandler, "%d", (int)(value >> 7-i) & 0x01);
+}
 
 void Print_Info(void)
 {
@@ -229,12 +237,29 @@ void Print_Info(void)
         PrintOut(PrintHandler, "VACM(r): %5d\r\n", ADCA_Get_Sample(ADCA_Vacuum));
         PrintOut(PrintHandler, "VACM(V): %5f\r\n", ADC_Voltage(ADCA_Get_Sample(ADCA_Vacuum)));
         PrintOut(PrintHandler, "======= IO =======\r\n");
-        PrintOut(PrintHandler, "U1_IN: %x\r\n", (int)PORTU1_IN);
-        PrintOut(PrintHandler, "U1_OUT: %x\r\n", (int)PORTU1_OUT);
-        PrintOut(PrintHandler, "U2_IN: %x\r\n", (int)PORTU2_IN);
-        PrintOut(PrintHandler, "U2_OUT: %x\r\n", (int)PORTU2_OUT);
-        PrintOut(PrintHandler, "U3_IN: %x\r\n", (int)PORTU3_IN);
-        PrintOut(PrintHandler, "U3_OUT: %x\r\n", (int)PORTU3_OUT);
+        Print_Binary(PORTU1_IN);
+        PrintOut(PrintHandler, " U1_IN: %x\r\n", (int)PORTU1_IN);
+        Print_Binary(PORTU1_OUT);
+        PrintOut(PrintHandler, " U1_OUT: %x\r\n", (int)PORTU1_OUT);
+        Print_Binary(PORTU2_IN);
+        PrintOut(PrintHandler, " U2_IN: %x\r\n", (int)PORTU2_IN);
+        Print_Binary(PORTU2_OUT);
+        PrintOut(PrintHandler, " U2_OUT: %x\r\n", (int)PORTU2_OUT);
+        Print_Binary(PORTU3_IN);
+        PrintOut(PrintHandler, " U3_IN: %x\r\n", (int)PORTU3_IN);
+        Print_Binary(PORTU3_OUT);
+        PrintOut(PrintHandler, " U3_OUT: %x\r\n", (int)PORTU3_OUT);
+        PrintOut(PrintHandler, "======= Input =======\r\n");
+        PrintOut(PrintHandler, "CONVERTER: %d\r\n", (int)PORTU3_IN.B6);
+        PrintOut(PrintHandler, "WATLOW1: %d\r\n", (int)PORTU2_IN.B7);
+        PrintOut(PrintHandler, "WATLOW2: %d\r\n", (int)PORTU1_IN.B1);
+        PrintOut(PrintHandler, "WATLOW3: %d\r\n", (int)PORTU2_IN.B3);
+        PrintOut(PrintHandler, "WATLOW4: %d\r\n", (int)PORTU2_IN.B4);
+        PrintOut(PrintHandler, "======= OUTPUT =======\r\n");
+        PrintOut(PrintHandler, "EV: %d\r\n", (int)Elemental_Valve);
+        PrintOut(PrintHandler, "CV: %d\r\n", (int)Calibration_Valve);
+        PrintOut(PrintHandler, "ZV: %d\r\n", (int)Zero_Valve);
+        PrintOut(PrintHandler, "IG: %d\r\n", (int)Ignition);
         PrintOut(PrintHandler, "======= static =======\r\n");
         PrintOut(PrintHandler, "CFC(r): %5d\r\n", coefficent-ADCZERO);
         PrintOut(PrintHandler, "ZLA(r): %5d\r\n", zerolevelavg-ADCZERO);
@@ -264,11 +289,11 @@ void main()
         UARTC0_Init(115200);
         AD7705_Init();
         ADCA_Init_Advanced(_ADC_12bit, _ADC_INTERNAL_REF_VCC);
-        //ADCA_PRESCALER.B2 = 1; //div64
-        ADCA_PRESCALER = 7; //div512
+        ADCA_PRESCALER.B2 = 1; //div64
+        //ADCA_PRESCALER = 7; //div512
         ADCB_Init_Advanced(_ADC_12bit, _ADC_INTERNAL_REF_VCC);
-        //ADCB_PRESCALER.B2 = 1; //div64
-        ADCB_PRESCALER = 7; //div512
+        ADCB_PRESCALER.B2 = 1; //div64
+        //ADCB_PRESCALER = 7; //div512
         Timer_Init(&TCC0, 1000000);
         Timer_Interrupt_Enable(&TCC0);
         PMIC_CTRL = 4;

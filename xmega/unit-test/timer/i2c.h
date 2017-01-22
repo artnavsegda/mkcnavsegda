@@ -14,9 +14,11 @@ extern sfr sbit CELL_RightOut;
 extern sfr sbit CELL_LeftOut_Direction;
 extern sfr sbit CELL_RightOut_Direction;
 
+extern sfr sbit Elemental_Valve;
 extern sfr sbit Calibration_Valve;
 extern sfr sbit Zero_Valve;
 
+extern sfr sbit Elemental_Valve_Direction;
 extern sfr sbit Calibration_Valve_Direction;
 extern sfr sbit Zero_Valve_Direction;
 
