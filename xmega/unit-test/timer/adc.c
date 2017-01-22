@@ -1,4 +1,4 @@
-float ADC_Voltage(unsigned int adcvalue)
+float ADC_Voltage(int adcvalue)
 {
         const float popugai = (3.283/1.603)/4095;
         const int adczero = 186;

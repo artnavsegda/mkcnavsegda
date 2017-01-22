@@ -30,8 +30,12 @@ Count=0
 Count=0
 ActiveImageIndex=-1
 [OPENED_FILES]
-Count=1
+Count=5
 File0=main.c
+File1=C:\Program Files\Mikroelektronika\mikroC PRO for AVR\Defs\ATXMEGA256A3BU.c
+File2=ad7705.c
+File3=adc.c
+File4=adc.h
 [EEPROM]
 Count=0
 [ACTIVE_COMMENTS_FILES]

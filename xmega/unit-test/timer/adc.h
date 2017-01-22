@@ -6,5 +6,5 @@
 #define ADCA_Dilution 5
 #define ADCA_Vacuum 4
 
-float ADC_Voltage(unsigned int adcvalue);
+float ADC_Voltage(int adcvalue);
 float TMP_Celsius(float voltage);
