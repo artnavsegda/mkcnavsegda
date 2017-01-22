@@ -198,21 +198,10 @@ void Ports_Init(void)
 unsigned int result;
 int zerostage;
 
-int GetStatus(void)
-{
-        int genstatus = 0;
-        if (ADC_Voltage(ADCB_Get_Sample(ADCB_PMT_Voltage)) < 1.0) genstatus |= LOW_LIGHT;
-        if (ADC_Voltage(ADCB_Get_Sample(ADCB_Flow)) < 0.0) genstatus |= LOW_FLOW;
-        if (SERVO_4_RIGHT_IN) genstatus |= CONVERTER;
-        if (SERVO_2_RIGHT_IN) genstatus |= WATLOW1;
-        if (SERVO_2_LEFT_IN) genstatus |= WATLOW2;
-        if (SERVO_3_RIGHT_IN) genstatus |= WATLOW3;
-        if (SERVO_3_LEFT_IN) genstatus |= WATLOW4;
-        return genstatus;
-}
-
 void Print_Info(void)
 {
+        char lowlight = ADC_Voltage(ADCB_Get_Sample(ADCB_PMT_Voltage)) < 1.0;
+        char lowflow = ADC_Voltage(ADCB_Get_Sample(ADCB_Flow)) < 0.0;
         PrintOut(PrintHandler, "\033[2J");
         PrintOut(PrintHandler, "======= frame =======\r\n");
         PrintOut(PrintHandler, "mode: %d\r\n", currentmode);
@@ -234,7 +223,7 @@ void Print_Info(void)
         PrintOut(PrintHandler, "CTA(C): %5f\r\n", TMP_Celsius(ADC_Voltage(celltempavg)));
         PrintOut(PrintHandler, "======= DIGITAL =======\r\n");
         PrintOut(PrintHandler, "DIGITAL: %5f\r\n", (((float)(zerostage-zerolevelavg)/(float)(celllevelavg-zerolevelavg))*(1297.17*exp(0.0082*(TMP_Celsius(ADC_Voltage(celltempavg))-25)))));
-        PrintOut(PrintHandler, "STATUS: %5d\r\n", GetStatus());
+        PrintOut(PrintHandler, "STATUS: %5d\r\n", (lowlight<<1)|(lowflow<<2)|(PORTU3_IN.B6<<3)|(PORTU2_IN.B7<<4)|(PORTU1_IN.B1<<5)|(PORTU2_IN.B3<<6)|(PORTU2_IN.B4<<7));
         PrintOut(PrintHandler, "======= IO =======\r\n");
         PrintOut(PrintHandler, "U1_IN: %x\r\n", (int)PORTU1_IN);
         PrintOut(PrintHandler, "U1_OUT: %x\r\n", (int)PORTU1_OUT);
