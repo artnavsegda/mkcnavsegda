@@ -1,19 +1,19 @@
 // TFT display connections
 char TFT_16bit_DataPort_Lo at PORTC_OUT;
 char TFT_16bit_DataPort_Hi at PORTA_OUT;
-sbit TFT_16bit_WR at PORTE_OUT.B3;
-sbit TFT_16bit_RD at PORTE_OUT.B2;
-sbit TFT_16bit_CS at PORTE_OUT.B1;
-sbit TFT_16bit_RS at PORTE_OUT.B0;
-sbit TFT_16bit_RST at PORTD_OUT.B0;
+sbit TFT_16bit_WR at PORTB_OUT.B3;
+sbit TFT_16bit_RD at PORTB_OUT.B2;
+sbit TFT_16bit_CS at PORTB_OUT.B1;
+sbit TFT_16bit_RS at PORTB_OUT.B0;
+sbit TFT_16bit_RST at PORTB_OUT.B4;
 
 char TFT_16bit_DataPort_Lo_Direction at PORTC_DIR;
 char TFT_16bit_DataPort_Hi_Direction at PORTA_DIR;
-sbit TFT_16bit_WR_Direction at PORTE_DIR.B3;
-sbit TFT_16bit_RD_Direction at PORTE_DIR.B2;
-sbit TFT_16bit_CS_Direction at PORTE_DIR.B1;
-sbit TFT_16bit_RS_Direction at PORTE_DIR.B0;
-sbit TFT_16bit_RST_Direction at PORTD_DIR.B0;
+sbit TFT_16bit_WR_Direction at PORTB_DIR.B3;
+sbit TFT_16bit_RD_Direction at PORTB_DIR.B2;
+sbit TFT_16bit_CS_Direction at PORTB_DIR.B1;
+sbit TFT_16bit_RS_Direction at PORTB_DIR.B0;
+sbit TFT_16bit_RST_Direction at PORTB_DIR.B4;
 // End of TFT display connections
 
 
