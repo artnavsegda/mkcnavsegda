@@ -209,6 +209,7 @@ void Print_Info(void)
         PrintOut(PrintHandler, "countdown: %d\r\n", timetoexitmode);
         PrintOut(PrintHandler, "next: %d\r\n", (int)Sequence(currentmode));
         PrintOut(PrintHandler, "next run: %d\r\n", Modeseconds(Sequence(currentmode)));
+        PrintOut(PrintHandler, "DATA(h): %5x\r\n", BSWAP_16(result));
         PrintOut(PrintHandler, "DATA(r): %5d\r\n", BSWAP_16(result)-ADCZERO);
         PrintOut(PrintHandler, "DATA(x16): %5d\r\n", zerostage-ADCZERO);
         PrintOut(PrintHandler, "======= ADC =======\r\n");

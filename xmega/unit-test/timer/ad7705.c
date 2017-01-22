@@ -12,7 +12,7 @@ void AD7705_Write_Bytes(char *buffer, unsigned NoBytes)
 
 void AD7705_Init(void)
 {
-        SPIC_Init();
+        SPIC_Init_Advanced(_SPI_MASTER, _SPI_FCY_DIV4, _SPI_CLK_LO_LEADING);
         SPI_Set_Active(&SPIC_Read, &SPIC_Write);
         AD7705_Write_Bytes("\xFF\xFF\xFF\xFF\xFF", 5);
         delay_ms(1);

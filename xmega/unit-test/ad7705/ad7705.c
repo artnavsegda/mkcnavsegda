@@ -20,7 +20,8 @@ void AD7705_Write_Bytes(char *buffer, unsigned NoBytes)
 
 void AD7705_Init(void)
 {
-        SPIC_Init();
+        SPIC_Init_Advanced(_SPI_MASTER, _SPI_FCY_DIV4, _SPI_CLK_LO_LEADING);
+        //SPIC_Init();
         SPI_Set_Active(&SPIC_Read, &SPIC_Write);
         AD7705_Write_Bytes("\xFF\xFF\xFF\xFF\xFF", 5);
 }
@@ -40,13 +41,24 @@ void PrintHandler(char c)
         UARTC0_Write(c);
 }
 
+void Sysclk_Init(void)
+{
+        OSC_CTRL = 0x02;
+        while(RC32MRDY_bit == 0);
+        CPU_CCP = 0xD8;
+        CLK_CTRL = 1;
+}
+
 void main() {
         unsigned int result;
+        Sysclk_Init();
         LED0_Direction = 1;
         UARTC0_Init(115200);
         AD7705_Init();
         delay_ms(10);
-        AD7705_Write_Bytes("\x20\x0C\x10\x04", 4);
+        AD7705_Write_Bytes("\x20\x0C",2);
+        delay_ms(10);
+        AD7705_Write_Bytes("\x10\x04", 2);
         delay_ms(10);
         AD7705_Write_Bytes("\x60\x18\x3A\x00", 4);
         delay_ms(10);
@@ -61,8 +73,11 @@ void main() {
                         AD7705_Read_Register(0x38,(unsigned char *)&result,2);
                         increment(&firststage,BSWAP_16(result));
                         
-                        PrintOut(PrintHandler, "raw: %5d, ", BSWAP_16(result)-0x17CC);
-                        PrintOut(PrintHandler, "x16: %5d\r\n", (oversample(&firststage,64)/64)-0x17CC);
+                        PrintOut(PrintHandler, "hex: %5x, ", BSWAP_16(result));
+                        PrintOut(PrintHandler, "raw: %5d, ", BSWAP_16(result));
+                        PrintOut(PrintHandler, "x16: %5d\r\n", (oversample(&firststage,64)/64));
+                        //PrintOut(PrintHandler, "raw: %5d, ", BSWAP_16(result)-0x7FFF);
+                        //PrintOut(PrintHandler, "x16: %5d\r\n", (oversample(&firststage,64)/64)-0x7FFF);
                   }
         }
 }
