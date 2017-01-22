@@ -40,17 +40,11 @@ void PrintHandler(char c)
         UARTC0_Write(c);
 }
 
-int GetStatus(void)
+unsigned char GetStatus(void)
 {
-        int genstatus = 0;
-        if (ADC_Voltage(ADCB_Get_Sample(ADCB_PMT_Voltage)) < 1.0) genstatus |= LOW_LIGHT;
-        if (ADC_Voltage(ADCB_Get_Sample(ADCB_Flow)) < 0.0) genstatus |= LOW_FLOW;
-        if (SERVO_4_RIGHT_IN) genstatus |= CONVERTER;
-        if (SERVO_2_RIGHT_IN) genstatus |= WATLOW1;
-        if (SERVO_2_LEFT_IN) genstatus |= WATLOW2;
-        if (SERVO_3_RIGHT_IN) genstatus |= WATLOW3;
-        if (SERVO_3_LEFT_IN) genstatus |= WATLOW4;
-        return genstatus;
+        char lowlight = ADC_Voltage(ADCB_Get_Sample(ADCB_PMT_Voltage)) < 1.0;
+        char lowflow = ADC_Voltage(ADCB_Get_Sample(ADCB_Flow)) < 0.0;
+        return (lowlight<<1)|(lowflow<<2)|(PORTU3_IN.B6<<3)|(PORTU2_IN.B7<<4)|(PORTU1_IN.B1<<5)|(PORTU2_IN.B3<<6)|(PORTU2_IN.B4<<7);
 }
 
 void Expander_Write_Byte(char ModuleAddress, char RegAddress, char Data_)
@@ -98,11 +92,11 @@ void main() {
         UARTC0_Init(115200);
         PrintOut(PrintHandler, "START\r\n");
         while (1)
-	{
-	        delay_ms(1000);
+        {
+                delay_ms(1000);
                 PORTU1_IN = Expander_Read_Port(PORTU1);
                 PORTU2_IN = Expander_Read_Port(PORTU2);
                 PORTU3_IN = Expander_Read_Port(PORTU3);
-	        PrintOut(PrintHandler, "STATUS: %5d\r\n", GetStatus());
-	}
+                PrintOut(PrintHandler, "STATUS: %5d\r\n", GetStatus());
+        }
 }

@@ -55,9 +55,9 @@ void Ports_Init(void)
         Expander_Set_DirectionPort(PORTU3,PORTU3_DIR);
 }
 
-int GetStatus(void)
+unsigned char GetStatus(void)
 {
-        int genstatus = 0;
+        unsigned char genstatus = 0;
         if (ADC_Voltage(ADCB_Get_Sample(ADCB_PMT_Voltage)) < 1.0) genstatus |= LOW_LIGHT;
         if (ADC_Voltage(ADCB_Get_Sample(ADCB_Flow)) < 0.0) genstatus |= LOW_FLOW;
         if (SERVO_4_RIGHT_IN) genstatus |= CONVERTER;
@@ -75,7 +75,7 @@ void Fill_Table(void)
         splitfloat(&table[8],&table[9], (float)currentmode);
         splitfloat(&table[10],&table[11], (((float)(zerostage-zerolevelavg)/(float)(celllevelavg-zerolevelavg))*(1297.17*exp(0.0082*(TMP_Celsius(ADC_Voltage(celltempavg))-25)))));
         //splitfloat(&table[12],&table[13], (((float)(zerostage-zerolevelavg)/(float)(celllevelavg-zerolevelavg))*(1297.17*exp(0.0082*(TMP_Celsius(ADC_Voltage(celltempavg))-25)))));
-        splitfloat(&table[14],&table[15], (((ADC_Voltage(ADCB_Get_Sample(ADCB_Flow))/(3.3/(10+3.3)))/9.0)-0.1)*(10/0.4));
+        splitfloat(&table[14],&table[15], ADC_Voltage(ADCB_Get_Sample(ADCB_Flow)));
         splitfloat(&table[16],&table[17], ADC_Voltage(ADCA_Get_Sample(ADCA_Vacuum)));
         splitfloat(&table[18],&table[19], ADC_Voltage(ADCA_Get_Sample(ADCA_Dilution)));
         splitfloat(&table[20],&table[21], ADC_Voltage(ADCA_Get_Sample(ADCA_Bypass)));
@@ -85,9 +85,18 @@ void Fill_Table(void)
         splitfloat(&table[30],&table[31], (1297.17*exp(0.0082*(TMP_Celsius(ADC_Voltage(celltempavg))-25)))/(float)(celllevelavg-zerolevelavg));
 }
 
+void Sysclk_Init(void)
+{
+        OSC_CTRL = 0x02;
+        while(RC32MRDY_bit == 0);
+        CPU_CCP = 0xD8;
+        CLK_CTRL = 1;
+}
+
 void main()
 {
         int i;
+        Sysclk_Init();
         Ports_Init();
         UARTC0_Init(115200);
         UART_Set_Active(&UARTC0_Read, &UARTC0_Write, &UARTC0_Data_Ready, &UARTC0_Tx_Idle);
