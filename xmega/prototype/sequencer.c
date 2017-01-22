@@ -1,6 +1,7 @@
 #include "sequencer.h"
 #include "average.h"
 #include "ports.h"
+#include "modbus.h"
 
 unsigned int timetoexitmode = 0;
 unsigned char currentmode = STARTLEVEL;
@@ -147,4 +148,36 @@ int Modeseconds(enum modelist modeneed)
                 case POSTCALIBRATIONDELAY: return 10;
         }
         return 0;
+}
+
+void Operatemode(void)
+{
+        if (currentmode == TOTALMERCURY || currentmode == PURGE)
+        {
+                if (bctable[99] == 1)
+                {
+                        bctable[99] == 0;
+                        Entermode(PRECALIBRATIONDELAY);
+                }
+                if (bctable[100] == 1)
+                {
+                        bctable[100] == 0;
+                        Entermode(ZERODELAY);
+                }
+                if (bctable[101] == 1)
+                {
+                        bctable[101] == 0;
+                        Entermode(ELEMENTALMERCURYDELAY);
+                }
+                if (bctable[102] == 1)
+                {
+                        bctable[102] == 0;
+                        Entermode(PURGE);
+                }
+                if (bctable[103] == 1)
+                {
+                        bctable[103] == 0;
+                        Exitmode(PURGE);
+                }
+        }
 }

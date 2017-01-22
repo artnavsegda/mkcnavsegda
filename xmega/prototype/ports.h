@@ -48,11 +48,12 @@ extern sfr sbit IgnitionDirection;
 extern sfr sbit Calibration_Valve;
 extern sfr sbit Zero_Valve;
 
+extern sfr sbit Elemental_Valve_Direction;
 extern sfr sbit Calibration_Valve_Direction;
 extern sfr sbit Zero_Valve_Direction;
 
-extern sfr sbit SERVO_4_RIGHT_IN;
-extern sfr sbit SERVO_2_RIGHT_IN;
-extern sfr sbit SERVO_2_LEFT_IN;
-extern sfr sbit SERVO_3_RIGHT_IN;
-extern sfr sbit SERVO_3_LEFT_IN;
+extern sfr sbit CONVERTER;
+extern sfr sbit WATLOW1;
+extern sfr sbit WATLOW2;
+extern sfr sbit WATLOW3;
+extern sfr sbit WATLOW4;

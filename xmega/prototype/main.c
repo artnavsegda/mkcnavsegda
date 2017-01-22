@@ -19,6 +19,8 @@ void Sysclk_Init(void)
         CLK_CTRL = 1;
         PMIC_CTRL = 4;
         CPU_SREG.B7 = 1;
+        ADCA_PRESCALER.B2 = 1;
+        ADCB_PRESCALER.B2 = 1;
 }
 
 void Port_Init(void)
@@ -28,13 +30,14 @@ void Port_Init(void)
         Expander_Init(PORTU1);
         CELL_LeftOut_Direction = 0;
         CELL_RightOut_Direction = 0;
-        Calibration_Valve_Direction = 0;
-        Zero_Valve_Direction = 0;
         Expander_Set_DirectionPort(PORTU1,PORTU1_DIR);
         Expander_Init(PORTU3);
         Expander_Set_DirectionPort(PORTU2,PORTU2_DIR);
         Expander_Init(PORTU3);
         IgnitionDirection = 0;
+        Elemental_Valve_Direction = 0;
+        Calibration_Valve_Direction = 0;
+        Zero_Valve_Direction = 0;
         Expander_Set_DirectionPort(PORTU3,PORTU3_DIR);
 }
 
@@ -79,6 +82,7 @@ void main() {
                         Sequencer();
                         Expander_Read_All();
                         RAmonitor();
+                        Operatemode();
                         Expander_Write_All();
                 }
         }

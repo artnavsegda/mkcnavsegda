@@ -1,8 +1,8 @@
 #include "prototype.h"
 #include "modbus.h"
 
-unsigned int table[100] = {0xABCD, 0xDEAD, 0x0000};
-unsigned char bctable[100] = {0x0, 0x1, 0x0, 0x0, 0x1};
+unsigned int table[100] = {0x0000, 0x0000, 0x0000};
+unsigned char bctable[200] = {0x0, 0x0, 0x0, 0x0, 0x0};
 
 void splitfloat(unsigned int *wordlow, unsigned int *wordhigh, float value)
 {
