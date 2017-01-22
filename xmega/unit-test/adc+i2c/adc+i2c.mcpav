@@ -6,7 +6,7 @@ Value=0
 [BUILD_TYPE]
 Value=0
 [ACTIVE_TAB]
-Value=adc+i2c.c
+Value=..\timer\main.c
 [USE_EEPROM]
 Value=0
 [USE_HEAP]
@@ -27,7 +27,7 @@ Count=0
 ActiveImageIndex=-1
 [OPENED_FILES]
 Count=1
-File0=adc+i2c.c
+File0=..\timer\main.c
 [EEPROM]
 Count=0
 [ACTIVE_COMMENTS_FILES]
@@ -47,12 +47,13 @@ Count=0
 [PLDS]
 Count=0
 [Useses]
-Count=5
+Count=6
 File0=ADC
 File1=TWI
 File2=UART
 File3=PrintOut
 File4=C_Type
+File5=
 [EXPANDED_NODES]
 Node0=Sources
 Count=1
