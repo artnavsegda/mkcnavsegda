@@ -13,12 +13,24 @@ char * getvalue(char *value, char *buffer2)
 
 char * getip(char *value, char buffer2)
 {
-	static char ip[4];
-	ip[0] = atoi(strtok(getvalue(value,buffer2),"."));
-	ip[1] = atoi(strtok(0,"."));
-	ip[2] = atoi(strtok(0,"."));
-	ip[3] = atoi(strtok(0,"."));
-	return ip;
+        static char ip[4];
+        ip[0] = atoi(strtok(getvalue(value,buffer2),"."));
+        ip[1] = atoi(strtok(0,"."));
+        ip[2] = atoi(strtok(0,"."));
+        ip[3] = atoi(strtok(0,"."));
+        return ip;
+}
+
+char * getmac(char *value, char buffer2)
+{
+        static char mac[6];
+        mac[0] = xtoi(strtok(getvalue(value,buffer2),":"));
+        mac[1] = xtoi(strtok(0,":"));
+        mac[2] = xtoi(strtok(0,":"));
+        mac[3] = xtoi(strtok(0,":"));
+        mac[4] = xtoi(strtok(0,":"));
+        mac[5] = xtoi(strtok(0,":"));
+        return mac;
 }
 
 void writeset(void)
