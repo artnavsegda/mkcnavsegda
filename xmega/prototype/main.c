@@ -5,6 +5,7 @@
 #include "sequencer.h"
 #include "average.h"
 #include "i2c.h"
+#include "global.h"
 
 void PrintHandler(char c)
 {

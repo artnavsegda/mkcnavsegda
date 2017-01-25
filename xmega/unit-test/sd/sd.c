@@ -1,12 +1,24 @@
 sbit Mmc_Chip_Select at PORTC_OUT.B4;
 sbit Mmc_Chip_Select_Direction at PORTC_DIR.B4;
 
-int getvalue(char value[], char buffer[])
+char * getvalue(char *value, char *buffer2)
 {
         char * pch;
+        static char buffer[100];
+        strcpy(buffer,buffer2);
         pch = strtok(strstr(buffer,value),"=");
         pch = strtok(0," \n");
-        return atoi(pch);
+        return pch;
+}
+
+char * getip(char *value, char buffer2)
+{
+	static char ip[4];
+	ip[0] = atoi(strtok(getvalue(value,buffer2),"."));
+	ip[1] = atoi(strtok(0,"."));
+	ip[2] = atoi(strtok(0,"."));
+	ip[3] = atoi(strtok(0,"."));
+	return ip;
 }
 
 void writeset(void)
@@ -15,7 +27,7 @@ void writeset(void)
 }
 
 void main() {
-	int one, two;
+        int one, two;
         char sd_init, sd_format, sd_exists, sd_assign;
         unsigned long filesize;
         char settings[512];
