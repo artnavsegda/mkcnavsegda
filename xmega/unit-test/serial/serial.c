@@ -1,31 +1,47 @@
 void PrintHandler(char c)
 {
-        UART_Write(c);
+        UARTC0_Write(c);
+}
+
+char str[100] = "one=1 two=2 three=3.14 ip=192.168.1.150";
+
+char * getopt(char *config2, char *token)
+{
+	static char config[100];
+	char * pch;
+	if (strstr(config2,token)==0)
+		return "0";
+	strcpy(config,config2);
+	pch = strtok(strstr(config,token),"=");
+	pch = strtok(0," \n");
+	return pch;
+}
+
+char * getip(char *config2, char *token)
+{
+	static char ip[4];
+	ip[0] = atoi(strtok(getopt(config2,token),"."));
+	ip[1] = atoi(strtok(0,"."));
+	ip[2] = atoi(strtok(0,"."));
+	ip[3] = atoi(strtok(0,"."));
+	return ip;
 }
 
 void main() {
+        char *ip;
         UARTC0_Init(9600);
-        //UARTC1_Init(9600);
-        //UARTD0_Init(9600);
-        //UARTD1_Init(9600);
-        //UARTE0_Init(9600);
-        //UARTF0_Init(9600);
-        
+	UART_Set_Active(&UARTC0_Read, &UARTC0_Write, &UARTC0_Data_Ready, &UARTC0_Tx_Idle);
+	
+	PrintOut(PrintHandler, "one int value %d\r\n",atoi(getopt(str,"one")));
+	PrintOut(PrintHandler, "two int value %d\r\n",atoi(getopt(str,"two")));
+	PrintOut(PrintHandler, "one int value %d\r\n",atoi(getopt(str,"one")));
+	PrintOut(PrintHandler, "three three value %f\r\n",atof(getopt(str,"three")));
+	ip = getip(str,"ip");
+	PrintOut(PrintHandler, "ip %u.%u.%u.%u\r\n",(int)ip[0],(int)ip[1],(int)ip[2],(int)ip[3]);
+
          while (1)
         {
-                UART_Set_Active(&UARTC0_Read, &UARTC0_Write, &UARTC0_Data_Ready, &UARTC0_Tx_Idle);
-                PrintOut(PrintHandler, "Hello %x\r\n", 0xDEAD);
-                delay_ms(1000);
-                //UARTC0_Write(0xFF);
-                //UART_Set_Active(&UARTC1_Read, &UARTC1_Write, &UARTC1_Data_Ready, &UARTC1_Tx_Idle);
-                //UARTC1_Write(0xFF);
-                //UART_Set_Active(&UARTD0_Read, &UARTD0_Write, &UARTD0_Data_Ready, &UARTD0_Tx_Idle);
-                //UARTD0_Write(0xFF);
-                //UART_Set_Active(&UARTD1_Read, &UARTD1_Write, &UARTD1_Data_Ready, &UARTD1_Tx_Idle);
-                //UARTD1_Write(0xFF);
-                //UART_Set_Active(&UARTE0_Read, &UARTE0_Write, &UARTE0_Data_Ready, &UARTE0_Tx_Idle);
-                //UARTE0_Write(0xFF);
-                //UART_Set_Active(&UARTF0_Read, &UARTF0_Write, &UARTF0_Data_Ready, &UARTF0_Tx_Idle);
-                //UARTF0_Write(0xFF);
+                //PrintOut(PrintHandler, "Hello %x\r\n", 0xDEAD);
+                //delay_ms(1000);
         }
 }
