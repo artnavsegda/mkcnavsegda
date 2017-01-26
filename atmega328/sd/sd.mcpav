@@ -6,7 +6,7 @@ Value=0
 [BUILD_TYPE]
 Value=0
 [ACTIVE_TAB]
-Value=sd.c
+Value=..\blink\blink.c
 [USE_EEPROM]
 Value=0
 [USE_HEAP]
@@ -26,8 +26,9 @@ Count=0
 Count=0
 ActiveImageIndex=-1
 [OPENED_FILES]
-Count=1
+Count=2
 File0=sd.c
+File1=..\blink\blink.c
 [EEPROM]
 Count=0
 [ACTIVE_COMMENTS_FILES]
@@ -37,9 +38,9 @@ Count=0
 [SEARCH_PATH]
 Count=4
 Path0=C:\Program Files\Mikroelektronika\mikroC PRO for AVR\Defs\
-Path1=C:\Program Files\Mikroelektronika\mikroC PRO for AVR\Uses\LTE64KW\
-Path2=C:\Program Files\Mikroelektronika\mikroC PRO for AVR\Uses\
-Path3=Y:\GitHub\mkcnavsegda\atmega328\sd\
+Path1=C:\Program Files\Mikroelektronika\mikroC PRO for AVR\Uses\
+Path2=Y:\GitHub\mkcnavsegda\atmega328\sd\
+Path3=C:\Program Files\Mikroelektronika\mikroC PRO for AVR\Uses\LTE64KW\
 [HEADER_PATH]
 Count=0
 [HEADERS]

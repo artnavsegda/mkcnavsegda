@@ -6,7 +6,7 @@ Value=0
 [BUILD_TYPE]
 Value=0
 [ACTIVE_TAB]
-Value=sd.c
+Value=..\ethernet+sd\ethernet+sd.c
 [USE_EEPROM]
 Value=0
 [USE_HEAP]
@@ -26,8 +26,7 @@ Count=0
 Count=0
 ActiveImageIndex=-1
 [OPENED_FILES]
-Count=1
-File0=sd.c
+Count=0
 [EEPROM]
 Count=0
 [ACTIVE_COMMENTS_FILES]
@@ -47,7 +46,7 @@ Count=0
 [PLDS]
 Count=0
 [Useses]
-Count=10
+Count=13
 File0=UART
 File1=SPI
 File2=Mmc
@@ -58,6 +57,9 @@ File6=C_Type
 File7=Conversions
 File8=ADC
 File9=C_Stdlib
+File10=PrintOut
+File11=SPI_Ethernet
+File12=Sprintf
 [EXPANDED_NODES]
 Node0=Sources
 Count=1
