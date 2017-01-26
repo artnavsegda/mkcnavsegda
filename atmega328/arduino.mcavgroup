@@ -1,6 +1,7 @@
 [PROJECTS]
-Count=2
+Count=3
 Project0=sd\sd.mcpav
 Project1=blink\blink.mcpav
+Project2=serial\serial.mcpav
 [ActiveProject]
-Index=0
+Index=2
