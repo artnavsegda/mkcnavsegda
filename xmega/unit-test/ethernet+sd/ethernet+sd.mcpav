@@ -41,13 +41,14 @@ Path1=C:\Program Files\Mikroelektronika\mikroC PRO for AVR\Uses\
 Path2=Y:\GitHub\mkcnavsegda\xmega\unit-test\ethernet+sd\
 Path3=C:\Program Files\Mikroelektronika\mikroC PRO for AVR\Uses\GT64KW\
 [HEADER_PATH]
-Count=0
+Count=1
+Path0=C:\Program Files\Mikroelektronika\mikroC PRO for AVR\Uses\GT64KW\
 [HEADERS]
 Count=0
 [PLDS]
 Count=0
 [Useses]
-Count=13
+Count=12
 File0=Mmc_FAT16
 File1=C_String
 File2=Mmc_Fat16_Config
@@ -60,7 +61,6 @@ File8=UART
 File9=PrintOut
 File10=C_Stdlib
 File11=Sprintf
-File12=
 [EXPANDED_NODES]
 Node0=Sources
 Count=1
