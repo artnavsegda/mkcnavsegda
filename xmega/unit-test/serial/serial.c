@@ -15,7 +15,8 @@ void main() {
         {
                 UART_Set_Active(&UARTC0_Read, &UARTC0_Write, &UARTC0_Data_Ready, &UARTC0_Tx_Idle);
                 PrintOut(PrintHandler, "Hello %x\r\n", 0xDEAD);
-                UARTC0_Write(0xFF);
+                delay_ms(1000);
+                //UARTC0_Write(0xFF);
                 //UART_Set_Active(&UARTC1_Read, &UARTC1_Write, &UARTC1_Data_Ready, &UARTC1_Tx_Idle);
                 //UARTC1_Write(0xFF);
                 //UART_Set_Active(&UARTD0_Read, &UARTD0_Write, &UARTD0_Data_Ready, &UARTD0_Tx_Idle);

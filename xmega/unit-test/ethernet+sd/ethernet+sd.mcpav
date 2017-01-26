@@ -26,9 +26,8 @@ Count=0
 Count=0
 ActiveImageIndex=-1
 [OPENED_FILES]
-Count=2
-File0=..\ethernet\ports.c
-File1=ethernet+sd.c
+Count=1
+File0=ethernet+sd.c
 [EEPROM]
 Count=0
 [ACTIVE_COMMENTS_FILES]
@@ -48,7 +47,7 @@ Count=0
 [PLDS]
 Count=0
 [Useses]
-Count=12
+Count=13
 File0=Mmc_FAT16
 File1=C_String
 File2=Mmc_Fat16_Config
@@ -61,6 +60,7 @@ File8=UART
 File9=PrintOut
 File10=C_Stdlib
 File11=Sprintf
+File12=
 [EXPANDED_NODES]
 Node0=Sources
 Count=1
