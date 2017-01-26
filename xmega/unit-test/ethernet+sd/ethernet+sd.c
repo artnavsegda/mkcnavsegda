@@ -7,39 +7,7 @@ sfr sbit SPI_Ethernet_CS_Direction  at PORTC_DIR.B0;
 sfr sbit Mmc_Chip_Select at PORTC_OUT.B4;
 sfr sbit Mmc_Chip_Select_Direction at PORTC_DIR.B4;
 
-/*char * getvalue(char *value, char *buffer2)
-{
-        char * pch;
-        static char buffer[100];
-        strcpy(buffer,buffer2);
-        pch = strtok(strstr(buffer,value),"=");
-        pch = strtok(0," \n");
-        return pch;
-}
-
-char * getmac(char *value, char buffer2)
-{
-        static char mac[6];
-        mac[0] = xtoi(strtok(getvalue(value,buffer2),":"));
-        mac[1] = xtoi(strtok(0,":"));
-        mac[2] = xtoi(strtok(0,":"));
-        mac[3] = xtoi(strtok(0,":"));
-        mac[4] = xtoi(strtok(0,":"));
-        mac[5] = xtoi(strtok(0,":"));
-        return mac;
-}
-
-char * getip(char *value, char buffer2)
-{
-        static char ip[4];
-        ip[0] = atoi(strtok(getvalue(value,buffer2),"."));
-        ip[1] = atoi(strtok(0,"."));
-        ip[2] = atoi(strtok(0,"."));
-        ip[3] = atoi(strtok(0,"."));
-        return ip;
-}*/
-
-char str[100] = "one=1 two=2 three=3.14 ip=192.168.1.151";
+char str[100] = "ip=192.168.1.151 mac=de:ad:be:ef:fe:ed";
 
 char * getopt(char *config2, char *token)
 {
@@ -61,6 +29,18 @@ char * getip(char *config2, char *token)
         ip[2] = atoi(strtok(0,"."));
         ip[3] = atoi(strtok(0,"."));
         return ip;
+}
+
+char * getmac(char *config2, char *token)
+{
+        static char mac[6];
+        mac[0] = xtoi(strtok(getopt(config2,token),":"));
+        mac[1] = xtoi(strtok(0,":"));
+        mac[2] = xtoi(strtok(0,":"));
+        mac[3] = xtoi(strtok(0,":"));
+        mac[4] = xtoi(strtok(0,":"));
+        mac[5] = xtoi(strtok(0,":"));
+        return mac;
 }
 
 unsigned int SPI_Ethernet_UserTCP(unsigned char *remoteHost, unsigned int remotePort, unsigned int localPort, unsigned int reqLength, TEthPktFlags *flags)
@@ -100,7 +80,7 @@ void main()
         //Mmc_Fat_Reset(&filesize);
         //Mmc_Fat_ReadN(&settings, filesize);
         //Mmc_Fat_Close();
-        SPI_Ethernet_Init("\x00\x14\xA5\x76\x19\x3f", getip(str,"ip"), 0x01);
+        SPI_Ethernet_Init(getmac(str,"mac"), getip(str,"ip"), 0x01);
         SPI_Ethernet_confNetwork("\xFF\xFF\xFF\x00", "\xC0\xA8\x01\x01", "\xC0\xA8\x01\x01");
         while (1)
                 SPI_Ethernet_doPacket();
