@@ -1,6 +1,11 @@
 sbit Mmc_Chip_Select at PORTC_OUT.B4;
 sbit Mmc_Chip_Select_Direction at PORTC_DIR.B4;
 
+void PrintHandler(char c)
+{
+        UARTC0_Write(c);
+}
+
 char * getopt(char *config2, char *token)
 {
         static char config[100];
@@ -65,17 +70,17 @@ void main() {
         {
                 sd_format = Mmc_Fat_QuickFormat("DIGITAL");
                 switch(sd_format)
-		{
-			case 0:
-                        	UARTC0_Write_Text("Card was detected, successfully formated and initialized\r\n");
-			break;
-                	case 1:
-                        	UARTC0_Write_Text("FAT16 format was unsuccessful\r\n");
-			break;
-			default:
-                        	UARTC0_Write_Text("MMC/SD card was not detected\r\n");
-			break;
-		}
+                {
+                        case 0:
+                                UARTC0_Write_Text("Card was detected, successfully formated and initialized\r\n");
+                        break;
+                        case 1:
+                                UARTC0_Write_Text("FAT16 format was unsuccessful\r\n");
+                        break;
+                        default:
+                                UARTC0_Write_Text("MMC/SD card was not detected\r\n");
+                        break;
+                }
         }
         
         if (sd_init == 0)
@@ -101,11 +106,16 @@ void main() {
         if (sd_exists == 1)
         {
                 Mmc_Fat_Reset(&filesize);
-                no_bytes = Mmc_Fat_ReadN(&settings, filesize);
+                PrintOut(PrintHandler, "requested file is %d bytes long\r\n",filesize);
+                no_bytes = Mmc_Fat_ReadN(settings, filesize);
+                PrintOut(PrintHandler, "%d bytes is read from file to string\r\n",no_bytes);
+                UARTC0_Write_Text(settings);
                 if (no_bytes > 0)
                 {
-                        one = atoi(getopt(settings, "one"));
-                        two = atoi(getopt(settings, "two"));
+                        //one = atoi(getopt(settings, "one"));
+                        //two = atoi(getopt(settings, "two"));
+                        PrintOut(PrintHandler, "one int value %d\r\n",atoi(getopt(settings,"one")));
+                        PrintOut(PrintHandler, "two int value %d\r\n",atoi(getopt(settings,"two")));
                 }
                 
         }
