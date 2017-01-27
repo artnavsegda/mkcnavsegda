@@ -7,7 +7,7 @@ sfr sbit SPI_Ethernet_CS_Direction  at PORTC_DIR.B0;
 sfr sbit Mmc_Chip_Select at PORTC_OUT.B4;
 sfr sbit Mmc_Chip_Select_Direction at PORTC_DIR.B4;
 
-char str[100] = "ip=192.168.1.151 mac=de:ad:be:ef:fe:ed";
+char settings[100] = "ip=192.168.1.151 mac=de:ad:be:ef:fe:ed";
 
 char * getopt(char *config2, char *token)
 {
@@ -55,8 +55,8 @@ unsigned int SPI_Ethernet_UserUDP(unsigned char *remoteHost, unsigned int remote
 
 void main()
 {
-        char sd_init;
-        //unsigned long filesize;
+        char sd_init, sd_assign;
+        unsigned long filesize;
         //char settings[512];
         UARTC0_Init(115200);//init uart
         Delay_ms(10);//wait for uart to start
@@ -68,6 +68,12 @@ void main()
         {
                 case 0:
                         UARTC0_Write_Text("SD FAT Init-OK\r\n");
+                        sd_assign = Mmc_Fat_Assign("SETTINGS.TXT",0);
+                        if (sd_assign == 1)
+                        {
+                                Mmc_Fat_Reset(&filesize);
+                                Mmc_Fat_ReadN(settings, filesize);
+                        }
                 break;
                 case 1:
                         UARTC0_Write_Text("SD FAT not found\r\n");
@@ -80,7 +86,7 @@ void main()
         //Mmc_Fat_Reset(&filesize);
         //Mmc_Fat_ReadN(&settings, filesize);
         //Mmc_Fat_Close();
-        SPI_Ethernet_Init(getmac(str,"mac"), getip(str,"ip"), 0x01);
+        SPI_Ethernet_Init(getmac(settings,"mac"), getip(settings,"ip"), 0x01);
         SPI_Ethernet_confNetwork("\xFF\xFF\xFF\x00", "\xC0\xA8\x01\x01", "\xC0\xA8\x01\x01");
         while (1)
                 SPI_Ethernet_doPacket();
