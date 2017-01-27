@@ -55,7 +55,7 @@ unsigned int SPI_Ethernet_UserUDP(unsigned char *remoteHost, unsigned int remote
 
 void main()
 {
-        char sd_init, sd_assign;
+        char sd_assign, sd_format;
         unsigned long filesize;
         //char settings[512];
         UARTC0_Init(115200);//init uart
@@ -63,13 +63,11 @@ void main()
         UARTC0_Write_Text("MCU-Started\r\n");
         SPIC_Init_Advanced(_SPI_MASTER, _SPI_FCY_DIV2, _SPI_CLK_LO_LEADING);//init spi
         //PORTC_OUT.B4 = 1;
-        sd_init = Mmc_Fat_Init();//init sd card
-        switch(sd_init)
+        switch(Mmc_Fat_Init())
         {
                 case 0:
                         UARTC0_Write_Text("SD FAT Init-OK\r\n");
-                        sd_assign = Mmc_Fat_Assign("SETTINGS.TXT",0);
-                        if (sd_assign == 1)
+                        if (Mmc_Fat_Assign("SETTINGS.TXT",0) == 1)
                         {
                                 Mmc_Fat_Reset(&filesize);
                                 Mmc_Fat_ReadN(settings, filesize);
@@ -77,6 +75,7 @@ void main()
                 break;
                 case 1:
                         UARTC0_Write_Text("SD FAT not found\r\n");
+                        sd_format = Mmc_Fat_QuickFormat("DIGITAL");
                 break;
                 default:
                         UARTC0_Write_Text("SD Init-error\r\n");

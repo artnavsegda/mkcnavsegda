@@ -2,6 +2,8 @@ extern sfr sbit SPI_Ethernet_Rst;
 extern sfr sbit SPI_Ethernet_CS;
 extern sfr sbit SPI_Ethernet_Rst_Direction;
 extern sfr sbit SPI_Ethernet_CS_Direction;
+extern sfr sbit Mmc_Chip_Select;
+extern sfr sbit Mmc_Chip_Select_Direction;
 extern sfr sbit AD7707_DRDY;
 extern sfr sbit AD7705_CS;
 extern sfr sbit LED0;

@@ -1,0 +1,10 @@
+extern struct massive firststage;
+extern struct massive secondstage;
+extern struct massive temperature_averaging_massive;
+extern unsigned int result;
+extern int zerostage;
+extern int coefficent;
+extern int zerolevelavg;
+extern int celllevelavg;
+extern int celltempavg;
+extern int tick;

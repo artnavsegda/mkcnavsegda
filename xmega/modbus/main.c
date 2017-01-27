@@ -8,27 +8,8 @@
 #include "timer.h"
 #include "adc.h"
 #include "ad7705.h"
-
-#define ALLOK 0
-#define NO_DATA 1
-#define LOW_LIGHT 2
-#define LOW_FLOW 4
-#define CONVERTER 8
-#define WATLOW1 16
-#define WATLOW2 32
-#define WATLOW3 64
-#define WATLOW4 128
-
-struct massive firststage;
-struct massive secondstage;
-struct massive temperature_averaging_massive;
-unsigned int result;
-int zerostage;
-int coefficent = ADCZERO;
-int zerolevelavg = ADCZERO;
-int celllevelavg = 4000+ADCZERO;
-int celltempavg = 1670;
-int tick = 0;
+#include "global.h"
+#include "settings.h"
 
 void PrintHandler(char c)
 {
@@ -82,6 +63,7 @@ void Sysclk_Init(void)
 
 void main()
 {
+        unsigned long filesize;
         int i;
         Sysclk_Init();
         Ports_Init();
@@ -94,7 +76,15 @@ void main()
         ADCB_Init_Advanced(_ADC_12bit, _ADC_INTERNAL_REF_VCC);
         ADCB_PRESCALER.B2 = 1; //div64
         //ADCB_PRESCALER = 7; //div512
-        SPI_Ethernet_Init("\x00\x14\xA5\x76\x19\x3f", "\xC0\xA8\x01\x96", 0x01);
+        if (Mmc_Fat_Init() == 0)
+        {
+                if (Mmc_Fat_Assign("SETTINGS.TXT",0) == 1)
+                {
+                        Mmc_Fat_Reset(&filesize);
+                        Mmc_Fat_ReadN(settings, filesize);
+                }
+        }
+        SPI_Ethernet_Init(getmac(settings,"mac"), getip(settings,"ip"), 1);
         SPI_Ethernet_confNetwork("\xFF\xFF\xFF\x00", "\xC0\xA8\x01\x01", "\xC0\xA8\x01\x01");
         Timer_Init(&TCC0, 1000000);
         Timer_Interrupt_Enable(&TCC0);

@@ -6,7 +6,7 @@ Value=0
 [BUILD_TYPE]
 Value=0
 [ACTIVE_TAB]
-Value=main.c
+Value=settings.c
 [USE_EEPROM]
 Value=0
 [USE_HEAP]
@@ -18,7 +18,7 @@ Value=
 [BOOT_TYPE]
 Value=0
 [FILES]
-Count=9
+Count=11
 File0=main.c
 File1=ad7705.c
 File2=ports.c
@@ -28,14 +28,17 @@ File5=average.c
 File6=i2c.c
 File7=timer.c
 File8=adc.c
+File9=global.c
+File10=settings.c
 [BINARIES]
 Count=0
 [IMAGES]
 Count=0
 ActiveImageIndex=-1
 [OPENED_FILES]
-Count=1
+Count=2
 File0=main.c
+File1=settings.c
 [EEPROM]
 Count=0
 [ACTIVE_COMMENTS_FILES]
@@ -43,17 +46,17 @@ Count=0
 [OTHER_FILES]
 Count=0
 [SEARCH_PATH]
-Count=5
+Count=4
 Path0=C:\Program Files\Mikroelektronika\mikroC PRO for AVR\Defs\
 Path1=C:\Program Files\Mikroelektronika\mikroC PRO for AVR\Uses\
-Path2=Z:\GitHub\mkcnavsegda\xmega\modbus\
-Path4=C:\Program Files\Mikroelektronika\mikroC PRO for AVR\Uses\GT64KW\
+Path2=Y:\GitHub\mkcnavsegda\xmega\modbus\
+Path3=C:\Program Files\Mikroelektronika\mikroC PRO for AVR\Uses\GT64KW\
 [HEADER_PATH]
-Count=3
+Count=2
 Path0=C:\Program Files\Mikroelektronika\mikroC PRO for AVR\Uses\GT64KW\
-Path2=Z:\GitHub\mkcnavsegda\xmega\modbus\
+Path1=Y:\GitHub\mkcnavsegda\xmega\modbus\
 [HEADERS]
-Count=8
+Count=10
 File0=ad7705.h
 File1=ports.h
 File2=modbus.h
@@ -62,10 +65,12 @@ File4=average.h
 File5=i2c.h
 File6=timer.h
 File7=adc.h
+File8=global.h
+File9=settings.h
 [PLDS]
 Count=0
 [Useses]
-Count=8
+Count=14
 File0=UART
 File1=SPI_Ethernet
 File2=C_String
@@ -74,6 +79,12 @@ File4=Timer
 File5=ADC
 File6=TWI
 File7=C_Math
+File8=Mmc_FAT16
+File9=Mmc_Fat16_Config
+File10=C_Type
+File11=Mmc
+File12=Conversions
+File13=C_Stdlib
 [EXPANDED_NODES]
 Node0=Sources
 Node1=Header Files

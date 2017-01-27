@@ -7,9 +7,9 @@ long average(unsigned int *selekta,int amount, int startpos, int sizeofmassive) 
         for(i=0; i<amount; i++)
         {
                 if (startpos-i>0)
-			x=x+selekta[startpos-i-1];
+                        x=x+selekta[startpos-i-1];
                 else
-			x=x+selekta[sizeofmassive+(startpos-i)-1];
+                        x=x+selekta[sizeofmassive+(startpos-i)-1];
         }
 
         return x;
