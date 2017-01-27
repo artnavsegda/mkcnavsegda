@@ -44,7 +44,7 @@ void main() {
         int one, two;
         char sd_init, sd_format, sd_exists, sd_assign;
         unsigned long filesize;
-        char settings[512];
+        char settings[512] = "one=2\ntwo=1\n";
         unsigned int no_bytes;
         UARTC0_Init(115200);
         Delay_ms(10);
@@ -85,7 +85,7 @@ void main() {
         
         if (sd_init == 0)
         {
-                sd_exists = Mmc_Fat_Exists("DIGITAL.TXT");
+                sd_exists = Mmc_Fat_Exists("SETTINGS.TXT");
                 if (sd_exists == 0)
                         UARTC0_Write_Text("file/directory doesn't exist\r\n");
                 else if (sd_exists == 1)
@@ -94,7 +94,7 @@ void main() {
         
         if (sd_init == 0 || sd_format == 0)
         {
-                sd_assign = Mmc_Fat_Assign("DIGITAL.TXT",0x80);
+                sd_assign = Mmc_Fat_Assign("SETTINGS.TXT",0x80);
                 if(sd_assign == 0)
                         UARTC0_Write_Text("file does not exist and no new file is created\r\n");
                 else if (sd_assign == 1)
@@ -107,6 +107,7 @@ void main() {
         {
                 Mmc_Fat_Reset(&filesize);
                 PrintOut(PrintHandler, "requested file is %d bytes long\r\n",filesize);
+                UARTC0_Write_Text(settings);
                 no_bytes = Mmc_Fat_ReadN(settings, filesize);
                 PrintOut(PrintHandler, "%d bytes is read from file to string\r\n",no_bytes);
                 UARTC0_Write_Text(settings);
