@@ -1,41 +1,38 @@
 sbit Mmc_Chip_Select at PORTC_OUT.B4;
 sbit Mmc_Chip_Select_Direction at PORTC_DIR.B4;
 
-char * getvalue(char *value, char *buffer2)
+char * getopt(char *config2, char *token)
 {
+        static char config[100];
         char * pch;
-        static char buffer[100];
-        strcpy(buffer,buffer2);
-        pch = strtok(strstr(buffer,value),"=");
+        if (strstr(config2,token)==0)
+                return "0";
+        strcpy(config,config2);
+        pch = strtok(strstr(config,token),"=");
         pch = strtok(0," \n");
         return pch;
 }
 
-char * getip(char *value, char buffer2)
+char * getip(char *config2, char *token)
 {
         static char ip[4];
-        ip[0] = atoi(strtok(getvalue(value,buffer2),"."));
+        ip[0] = atoi(strtok(getopt(config2,token),"."));
         ip[1] = atoi(strtok(0,"."));
         ip[2] = atoi(strtok(0,"."));
         ip[3] = atoi(strtok(0,"."));
         return ip;
 }
 
-char * getmac(char *value, char buffer2)
+char * getmac(char *config2, char *token)
 {
         static char mac[6];
-        mac[0] = xtoi(strtok(getvalue(value,buffer2),":"));
+        mac[0] = xtoi(strtok(getopt(config2,token),":"));
         mac[1] = xtoi(strtok(0,":"));
         mac[2] = xtoi(strtok(0,":"));
         mac[3] = xtoi(strtok(0,":"));
         mac[4] = xtoi(strtok(0,":"));
         mac[5] = xtoi(strtok(0,":"));
         return mac;
-}
-
-void writeset(void)
-{
-
 }
 
 void main() {
@@ -67,12 +64,18 @@ void main() {
         if (sd_init == 1)
         {
                 sd_format = Mmc_Fat_QuickFormat("DIGITAL");
-                if(sd_format == 0)
-                        UARTC0_Write_Text("Card was detected, successfully formated and initialized\r\n");
-                else if (sd_format == 1)
-                        UARTC0_Write_Text("FAT16 format was unsuccessful\r\n");
-                else
-                        UARTC0_Write_Text("MMC/SD card was not detected\r\n");
+                switch(sd_format)
+		{
+			case 0:
+                        	UARTC0_Write_Text("Card was detected, successfully formated and initialized\r\n");
+			break;
+                	case 1:
+                        	UARTC0_Write_Text("FAT16 format was unsuccessful\r\n");
+			break;
+			default:
+                        	UARTC0_Write_Text("MMC/SD card was not detected\r\n");
+			break;
+		}
         }
         
         if (sd_init == 0)
@@ -101,8 +104,8 @@ void main() {
                 no_bytes = Mmc_Fat_ReadN(&settings, filesize);
                 if (no_bytes > 0)
                 {
-                        one = getvalue(settings, "one");
-                        two = getvalue(settings, "two");
+                        one = atoi(getopt(settings, "one"));
+                        two = atoi(getopt(settings, "two"));
                 }
                 
         }
