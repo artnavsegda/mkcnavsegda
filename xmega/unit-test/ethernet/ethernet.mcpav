@@ -18,18 +18,20 @@ Value=
 [BOOT_TYPE]
 Value=0
 [FILES]
-Count=2
+Count=3
 File0=ethernet.c
 File1=ports.c
+File2=modbus.c
 [BINARIES]
 Count=0
 [IMAGES]
 Count=0
 ActiveImageIndex=-1
 [OPENED_FILES]
-Count=2
+Count=3
 File0=ethernet.c
-File1=ports.c
+File1=modbus.c
+File2=modbus.h
 [EEPROM]
 Count=0
 [ACTIVE_COMMENTS_FILES]
@@ -37,16 +39,18 @@ Count=0
 [OTHER_FILES]
 Count=0
 [SEARCH_PATH]
-Count=8
+Count=4
 Path0=C:\Program Files\Mikroelektronika\mikroC PRO for AVR\Defs\
-Path1=C:\Program Files\Mikroelektronika\mikroC PRO for AVR\Uses\GT64KW\
+Path1=C:\Program Files\Mikroelektronika\mikroC PRO for AVR\Uses\
 Path2=Y:\GitHub\mkcnavsegda\xmega\unit-test\ethernet\
-Path3=C:\Program Files\Mikroelektronika\mikroC PRO for AVR\Uses\
+Path3=C:\Program Files\Mikroelektronika\mikroC PRO for AVR\Uses\GT64KW\
 [HEADER_PATH]
 Count=2
-Path1=C:\Program Files\Mikroelektronika\mikroC PRO for AVR\Uses\GT64KW\
+Path0=C:\Program Files\Mikroelektronika\mikroC PRO for AVR\Uses\GT64KW\
+Path1=Y:\GitHub\mkcnavsegda\xmega\unit-test\ethernet\
 [HEADERS]
-Count=0
+Count=1
+File0=modbus.h
 [PLDS]
 Count=0
 [Useses]

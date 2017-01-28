@@ -1,8 +1,8 @@
 #include "modbus.h"
-#include "bswap.h"
+#define BSWAP_16(x) ((((x) >> 8) & 0xff) | (((x) & 0xff) << 8))
 
 unsigned int table[100] = {0x0000, 0x0000}; //= {0xDEAD, 0xBEEF};
-unsigned char bctable[200] = {0,0,0,0,0,0,0,0,0,0,0,0}; //= {0, 1, 0, 1, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1};
+unsigned char bctable[200] = {0x0, 0x0, 0x0, 0x0, 0x0};
 
 void splitfloat(unsigned int *wordlow, unsigned int *wordhigh, float value)
 {
@@ -26,11 +26,14 @@ unsigned int modbus(struct mbframestruct *askframe)
                         if ((requestnumber % 8)>0)
                            askframe->pdu->values->reqreadcoils->bytestofollow++;
                         askframe->length = BSWAP_16(askframe->pdu->values->reqreadcoils->bytestofollow + 3);
-                        for (i = 0; i < askframe->pdu->values->reqreadcoils->bytestofollow; i++)
-                                askframe->pdu->values->reqreadcoils->coils[i] = 0;
-                        for (i = 0; i < requestnumber; i++)
-                                if (bctable[firstrequest+i] != 0)
-                                        askframe->pdu->values->reqreadcoils->coils[i/8] = askframe->pdu->values->reqreadcoils->coils[i/8] | (0x01 << i%8);
+                        for (i = 0; i < requestnumber/8; i++)
+                                if(firstrequest+i < amount)
+                                        if (bctable[firstrequest+i] != 0)
+                                                askframe->pdu->values->reqreadcoils->coils[i/8] = askframe->pdu->values->reqreadcoils->coils[i/8] & (0x01 << i%8);
+                                        else
+                                                askframe->pdu->values->reqreadcoils->coils[i/8] = askframe->pdu->values->reqreadcoils->coils[i/8] | ~(0x01 << i%8);
+                                else
+                                        askframe->pdu->values->reqreadcoils->coils[i/8] = askframe->pdu->values->reqreadcoils->coils[i/8] | ~(0x01 << i%8);
                 break;
                 case 3:
                 case 4:
