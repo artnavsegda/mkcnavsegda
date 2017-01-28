@@ -6,7 +6,7 @@ Value=0
 [BUILD_TYPE]
 Value=0
 [ACTIVE_TAB]
-Value=main.c
+Value=ad7705.c
 [USE_EEPROM]
 Value=0
 [USE_HEAP]
@@ -36,11 +36,9 @@ Count=0
 Count=0
 ActiveImageIndex=-1
 [OPENED_FILES]
-Count=4
+Count=2
 File0=modbus.c
-File1=main.c
-File2=bswap.h
-File3=modbus.h
+File1=ad7705.c
 [EEPROM]
 Count=0
 [ACTIVE_COMMENTS_FILES]
@@ -89,5 +87,4 @@ File12=Conversions
 File13=C_Stdlib
 [EXPANDED_NODES]
 Node0=Sources
-Node1=Header Files
-Count=2
+Count=1
