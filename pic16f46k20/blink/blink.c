@@ -1,4 +1,5 @@
 void main() {
+
   TRISA = 0;           // set direction to be output
   TRISB = 0;           // set direction to be output
   TRISC = 0;           // set direction to be output
