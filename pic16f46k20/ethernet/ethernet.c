@@ -4,6 +4,7 @@
 #define HTTP_REQUEST_SIZE       128
 
 #define putConstString  SPI_Ethernet_putConstString
+#define putString  SPI_Ethernet_putString
 
 sfr sbit SPI_Ethernet_Rst at RD2_bit;
 sfr sbit SPI_Ethernet_CS  at RD3_bit;
@@ -56,7 +57,11 @@ unsigned int  SPI_Ethernet_UserTCP(unsigned char *remoteHost, unsigned int remot
         len += putConstString(httpMimeTypeHTML);     // with text MIME type
         len += putConstString(HTMLheader);
         //len += putConstString("Hello, world !");
-        PrintOut(PrintHandler,"Hello, world !");
+        if (strncmp(getRequest, "/ ", 2) == 0)
+        	PrintOut(PrintHandler,"Index page");
+	else
+	        PrintOut(PrintHandler,"Not Found");
+        //len += putString(getRequest);
         len += putConstString(HTMLfooter);
         return len;
 }

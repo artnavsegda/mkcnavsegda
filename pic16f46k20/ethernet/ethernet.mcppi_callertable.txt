@@ -605,5 +605,6 @@ main
 							____DoIFC
 					SPI_Ethernet_putConstString
 						____DoIFC
+					strncmp
 			SPI_Ethernet_setBitReg
 				____DoIFC
