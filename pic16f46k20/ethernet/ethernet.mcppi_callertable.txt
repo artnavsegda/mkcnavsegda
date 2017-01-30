@@ -544,5 +544,10 @@ main
 					SPI_Ethernet_writeAddr
 						____DoIFC
 				SPI_Ethernet_UserTCP
+					HTTP_getRequest
+						SPI_Ethernet_getByte
+							____DoIFC
+					SPI_Ethernet_putConstString
+						____DoIFC
 			SPI_Ethernet_setBitReg
 				____DoIFC
