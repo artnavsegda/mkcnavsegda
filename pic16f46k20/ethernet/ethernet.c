@@ -32,11 +32,18 @@ const   char    *HTMLfooter = "\
 
 unsigned char   myMacAddr[6] = {0x00, 0x14, 0xA5, 0x76, 0x19, 0x3f} ;   // my MAC address
 unsigned char   myIpAddr[4]  = {192, 168, 1, 150} ;                     // my IP address
+unsigned int    len = 0;            // my reply length
+
+void PrintHandler(char c)
+{
+	SPI_Ethernet_putByte(c);
+	len++;
+}
 
 unsigned int  SPI_Ethernet_UserTCP(unsigned char *remoteHost, unsigned int remotePort, unsigned int localPort, unsigned int reqLength, TEthPktFlags *flags)
 {
-        unsigned int    len = 0;            // my reply length
-	unsigned char   getRequest[HTTP_REQUEST_SIZE + 1];
+        unsigned char   getRequest[HTTP_REQUEST_SIZE + 1];
+        len = 0;
         if(localPort != 80)                     // I listen only to web request on port 80
         {
                 return(0);                     // return without reply
@@ -48,7 +55,8 @@ unsigned int  SPI_Ethernet_UserTCP(unsigned char *remoteHost, unsigned int remot
         len = putConstString(httpHeader);              // HTTP header
         len += putConstString(httpMimeTypeHTML);     // with text MIME type
         len += putConstString(HTMLheader);
-        len += putConstString("Hello, world !");
+        //len += putConstString("Hello, world !");
+        PrintOut(PrintHandler,"Hello, world !");
         len += putConstString(HTMLfooter);
         return len;
 }

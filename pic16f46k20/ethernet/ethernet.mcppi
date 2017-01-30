@@ -48,10 +48,12 @@ File0=httpUtils.h
 [PLDS]
 Count=0
 [Useses]
-Count=3
+Count=5
 File0=SPI_Ethernet
 File1=C_String
 File2=SPI
+File3=PrintOut
+File4=C_Type
 [EXPANDED_NODES]
 Node0=Sources
 Node1=Header Files
