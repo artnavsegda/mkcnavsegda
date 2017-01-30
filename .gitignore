@@ -42,6 +42,7 @@
 *.dct
 *.user.dic
 *.mcpav_callertable.txt
+*.mcppi_callertable.txt
 *.log
 *.dlt
 *.asm
