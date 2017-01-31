@@ -1,8 +1,8 @@
 #include "modbus.h"
 #include "bswap.h"
 
-unsigned int table[100] = {0x0000, 0x0000}; //= {0xDEAD, 0xBEEF};
-unsigned char bctable[200] = {0,0,0,0,0,0,0,0,0,0,0,0}; //= {0, 1, 0, 1, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1};
+unsigned int table[200] = {0x0000, 0x0000}; //= {0xDEAD, 0xBEEF};
+unsigned char bctable[200] = {0,0,0,0,0,0,0,0,0,0,0,0};
 
 void splitfloat(unsigned int *wordlow, unsigned int *wordhigh, float value)
 {
@@ -12,7 +12,7 @@ void splitfloat(unsigned int *wordlow, unsigned int *wordhigh, float value)
 
 unsigned int modbus(struct mbframestruct *askframe)
 {
-        int amount = 100;
+        int amount = 200;
         int i;
         int firstrequest = 0;
         int requestnumber = 0;
@@ -29,8 +29,9 @@ unsigned int modbus(struct mbframestruct *askframe)
                         for (i = 0; i < askframe->pdu->values->reqreadcoils->bytestofollow; i++)
                                 askframe->pdu->values->reqreadcoils->coils[i] = 0;
                         for (i = 0; i < requestnumber; i++)
-                                if (bctable[firstrequest+i] != 0)
-                                        askframe->pdu->values->reqreadcoils->coils[i/8] = askframe->pdu->values->reqreadcoils->coils[i/8] | (0x01 << i%8);
+                                if (firstrequest+i < amount)
+                                        if (bctable[firstrequest+i] != 0)
+                                                askframe->pdu->values->reqreadcoils->coils[i/8] = askframe->pdu->values->reqreadcoils->coils[i/8] | (0x01 << i%8);
                 break;
                 case 3:
                 case 4:
@@ -39,10 +40,10 @@ unsigned int modbus(struct mbframestruct *askframe)
                         askframe->pdu->values->reqreadholdings->bytestofollow = requestnumber * 2;
                         askframe->length = BSWAP_16(askframe->pdu->values->reqreadholdings->bytestofollow + 3);
                         for (i = 0; i < requestnumber;i++)
-                            if(firstrequest+i < amount) // if requested register within allocated range
-                                askframe->pdu->values->reqreadholdings->registers[i] = BSWAP_16(table[firstrequest+i]);
-                            else
-                                askframe->pdu->values->reqreadholdings->registers[i] = BSWAP_16(0x0000); // fill up with zeroes
+                                if(firstrequest+i < amount) // if requested register within allocated range
+                                        askframe->pdu->values->reqreadholdings->registers[i] = BSWAP_16(table[firstrequest+i]);
+                                else
+                                        askframe->pdu->values->reqreadholdings->registers[i] = BSWAP_16(0x0000); // fill up with zeroes
                 break;
                 case 5:
                         if (BSWAP_16(askframe->pdu->values->writereg->regaddress) < amount)

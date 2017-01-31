@@ -19,6 +19,7 @@ void PrintHandler(char c)
 void Timer0Overflow_ISR() org IVT_ADDR_TCC0_OVF
 {
         tick = 1;
+        asm wdr;
 }
 
 void Ports_Init(void)
@@ -44,9 +45,9 @@ void Fill_Table(void)
         bctable[1] = PORTU3_IN.B6 | PORTU2_IN.B7 | PORTU1_IN.B1 | PORTU2_IN.B3 | PORTU2_IN.B4;
         splitfloat(&table[8],&table[9], (float)currentmode);
         if (currentmode == TOTALMERCURY)
-        	splitfloat(&table[10],&table[11], (((float)(zerostage-zerolevelavg)/(float)(celllevelavg-zerolevelavg))*(1297.17*exp(0.0082*(TMP_Celsius(ADC_Voltage(celltempavg))-25)))));
-	else
-	        splitfloat(&table[12],&table[13], (((float)(zerostage-zerolevelavg)/(float)(celllevelavg-zerolevelavg))*(1297.17*exp(0.0082*(TMP_Celsius(ADC_Voltage(celltempavg))-25)))));
+                splitfloat(&table[10],&table[11], (((float)(zerostage-zerolevelavg)/(float)(celllevelavg-zerolevelavg))*(1297.17*exp(0.0082*(TMP_Celsius(ADC_Voltage(celltempavg))-25)))));
+        else
+                splitfloat(&table[12],&table[13], (((float)(zerostage-zerolevelavg)/(float)(celllevelavg-zerolevelavg))*(1297.17*exp(0.0082*(TMP_Celsius(ADC_Voltage(celltempavg))-25)))));
         splitfloat(&table[14],&table[15], ADC_Voltage(ADCB_Get_Sample(ADCB_Flow)));
         splitfloat(&table[16],&table[17], ADC_Voltage(ADCA_Get_Sample(ADCA_Vacuum)));
         splitfloat(&table[18],&table[19], ADC_Voltage(ADCA_Get_Sample(ADCA_Dilution)));
@@ -66,7 +67,7 @@ void Sysclk_Init(void)
 
 void main()
 {
-        unsigned long filesize;
+        unsigned long filesize, no_bytes;
         int i;
         Sysclk_Init();
         Ports_Init();
@@ -84,7 +85,8 @@ void main()
                 if (Mmc_Fat_Assign("SETTINGS.TXT",0) == 1)
                 {
                         Mmc_Fat_Reset(&filesize);
-                        Mmc_Fat_ReadN(settings, filesize);
+                        no_bytes = Mmc_Fat_ReadN(settings, filesize);
+                        settings[no_bytes] = 0; //magic
                 }
         }
         SPI_Ethernet_Init(getmac(settings,"mac"), getip(settings,"ip"), 1);
