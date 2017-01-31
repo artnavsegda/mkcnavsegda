@@ -8,3 +8,4 @@ extern int zerolevelavg;
 extern int celllevelavg;
 extern int celltempavg;
 extern int tick;
+extern char sd_init;

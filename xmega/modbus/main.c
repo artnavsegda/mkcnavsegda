@@ -80,7 +80,8 @@ void main()
         ADCB_Init_Advanced(_ADC_12bit, _ADC_INTERNAL_REF_VCC);
         ADCB_PRESCALER.B2 = 1; //div64
         //ADCB_PRESCALER = 7; //div512
-        if (Mmc_Fat_Init() == 0)
+        sd_init = Mmc_Fat_Init();
+        if (sd_init == 0)
         {
                 if (Mmc_Fat_Assign("SETTINGS.TXT",0) == 1)
                 {

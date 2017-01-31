@@ -15,8 +15,8 @@ sfr sbit SPI_Ethernet_CS_Direction  at TRISD3_bit;
 unsigned char   myMacAddr[6] = {0x00, 0x14, 0xA5, 0x76, 0x19, 0x3f} ;   // my MAC address
 unsigned char   myIpAddr[4]  = {192, 168, 1, 150} ;                     // my IP address
 int    len = 0;            // my reply length
-unsigned char httpHeader[] = "HTTP/1.1 200 OK" ;  // HTTP header
-const unsigned char httpMimeTypeHTML[] = "\nContent-type: text/html\n\n" ;              // HTML MIME type
+unsigned char httpHeader[100] = "HTTP/1.1 200 OK";  // HTTP header
+const unsigned char httpMimeTypeHTML[] = "\nContent-type: text/html\n\n";              // HTML MIME type
 char sd_init = 9, sd_format, sd_exists, sd_assign = 9;
 char webpage[1000];
 
@@ -54,22 +54,18 @@ unsigned int  SPI_Ethernet_UserTCP(unsigned char *remoteHost, unsigned int remot
                 if (sd_assign == 1)
                 {
                         UART1_Write_Text("File open valid\r\n");
+                        sprintf(httpHeader,"HTTP/1.1 %d OK",(int)200);
                         Mmc_Fat_Reset(&filesize);
                         PrintOut(PrintHandler, "file size is %d\r\n", filesize);
                         no_bytes = Mmc_Fat_ReadN(webpage, filesize);
                         webpage[no_bytes] = 0;
                         PrintOut(PrintHandler, "read %d bytes from file\r\n", no_bytes);
                         PrintOut(PrintHandler, "assumed %d text length\r\n",strlen(webpage));
-                        //UART1_Write_Text(webpage);
-                        //len = putString(httpHeader);
-                        //len += putConstString(httpMimeTypeHTML);
-                        //len += putString(webpage);
-                        //len += putString("\n\n");
                 }
                 else
                 {
                         UART1_Write_Text("File not found\r\n");
-			sprintf(httpHeader,"HTTP/1.1 %d Not Found",404);
+			sprintf(httpHeader,"HTTP/1.1 %d Not Found",(int)404);
 			sprintf(webpage,"<!doctype html><html><head><title>404 Not Found</title></head><body><p>%s not found</p></body></html>",getRequest);
                 }
                 len = putString(httpHeader);
