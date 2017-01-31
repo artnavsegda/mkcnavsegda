@@ -25,9 +25,8 @@ Count=0
 Count=0
 ActiveImageIndex=-1
 [OPENED_FILES]
-Count=2
+Count=1
 File0=ethernet_sd.c
-File1=httpUtils.c
 [EEPROM]
 Count=0
 [ACTIVE_COMMENTS_FILES]
@@ -49,7 +48,7 @@ File0=httpUtils.h
 [PLDS]
 Count=0
 [Useses]
-Count=10
+Count=11
 File0=Mmc_FAT16
 File1=C_String
 File2=Mmc_Fat16_Config
@@ -60,6 +59,7 @@ File6=Conversions
 File7=UART
 File8=SPI_Ethernet
 File9=PrintOut
+File10=Sprintf
 [EXPANDED_NODES]
 Node0=Sources
 Count=1
