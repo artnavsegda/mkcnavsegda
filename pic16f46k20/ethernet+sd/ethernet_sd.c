@@ -20,6 +20,7 @@ const char * httpMimeType;
 const char httpMimeTypeHTML[] = "\nContent-type: text/html\n\n" ;              // HTML MIME type
 const char httpMimeTypeScript[] = "\nContent-type: application/javascript\n\n" ;           // JS MIME type
 const char httpMimeTypeText[] = "\nContent-type: text/plain\n\n" ;           // TEXT MIME type
+const char httpMimeTypeCSS[] = "\nContent-type: text/CSS\n\n" ;           // CSS MIME type
 char sd_init = 9, sd_format, sd_exists, sd_assign = 9;
 char webpage[1000];
 
@@ -64,12 +65,14 @@ unsigned int  SPI_Ethernet_UserTCP(unsigned char *remoteHost, unsigned int remot
                         webpage[no_bytes] = 0;
                         PrintOut(PrintHandler, "read %d bytes from file\r\n", no_bytes);
                         PrintOut(PrintHandler, "assumed %d text length\r\n",strlen(webpage));
-			if (strcmp(strchr(getRequest,'.'),".htm")==0)
-				httpMimeType = httpMimeTypeHTML;
-			else if (strcmp(strchr(getRequest,'.'),".js")==0)
-				httpMimeType = httpMimeTypeScript;
-			else if (strcmp(strchr(getRequest,'.'),".txt")==0)
-				httpMimeType = httpMimeTypeText;
+                        if (strcmp(strchr(getRequest,'.'),".htm")==0)
+                                httpMimeType = httpMimeTypeHTML;
+                        else if (strcmp(strchr(getRequest,'.'),".js")==0)
+                                httpMimeType = httpMimeTypeScript;
+                        else if (strcmp(strchr(getRequest,'.'),".txt")==0)
+                                httpMimeType = httpMimeTypeText;
+                        else if (strcmp(strchr(getRequest,'.'),".css")==0)
+                                httpMimeType = httpMimeTypeCSS;
                 }
                 else
                 {
