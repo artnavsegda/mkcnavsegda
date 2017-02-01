@@ -1,6 +1,8 @@
 #include  <__EthEnc28j60.h>
 #include "httpUtils.h"
 
+#define BSWAP_16(x) ((((x) >> 8) & 0xff) | (((x) & 0xff) << 8))
+
 #define HTTP_REQUEST_SIZE       128
 #define putConstString  SPI_Ethernet_putConstString
 #define putString  SPI_Ethernet_putString
@@ -90,7 +92,50 @@ unsigned int  SPI_Ethernet_UserTCP(unsigned char *remoteHost, unsigned int remot
 
 unsigned int  SPI_Ethernet_UserUDP(unsigned char *remoteHost, unsigned int remotePort, unsigned int destPort, unsigned int reqLength, TEthPktFlags *flags)
 {
-        return 0;
+	static int block = 0;
+	int opcode = 0;
+        if (destPort != 69)
+                return 0;
+	len = 0;
+        SPI_Ethernet_getBytes(&opcode,0xFFFF,2);
+        PrintOut(PrintHandler, "Recieved %d opcode\r\n", BSWAP_16(opcode));
+        switch(BSWAP_16(opcode))
+        {
+                case 1:
+                        SPI_Ethernet_getBytes(webpage,0xFFFF,reqLength-2);
+                        PrintOut(PrintHandler, "filename %s\r\n", webpage);
+			opcode = BSWAP_16(3);
+			SPI_Ethernet_putBytes(&opcode,2);
+			len = 2;
+			block = BSWAP_16(1);
+			SPI_Ethernet_putBytes(&block,2);
+			len += 2;
+                        SPI_Ethernet_putBytes(webpage,512);
+                        len +=512;
+                break;
+                case 4:
+                        SPI_Ethernet_getBytes(&block,0xFFFF,2);
+                        PrintOut(PrintHandler, "ACK block %d\r\n", BSWAP_16(block));
+                        opcode = BSWAP_16(3);
+                        SPI_Ethernet_putBytes(&opcode,2);
+                        len = 2;
+                        block = BSWAP_16(BSWAP_16(block)+1);
+                        SPI_Ethernet_putBytes(&block,2);
+                        len += 2;
+                        if (BSWAP_16(block) == 100)
+                        {
+                                SPI_Ethernet_putBytes(webpage,511);
+                                len +=511;
+                        }
+                        else
+                        {
+                                SPI_Ethernet_putBytes(webpage,512);
+                                len +=512;
+                        }
+                break;
+        }
+        //PrintOut(PrintHandler, "filename %s\r\n", &frame[1]);
+        return len;
 }
 
 void main()
