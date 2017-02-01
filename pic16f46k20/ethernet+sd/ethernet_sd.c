@@ -92,46 +92,131 @@ unsigned int  SPI_Ethernet_UserTCP(unsigned char *remoteHost, unsigned int remot
 
 unsigned int  SPI_Ethernet_UserUDP(unsigned char *remoteHost, unsigned int remotePort, unsigned int destPort, unsigned int reqLength, TEthPktFlags *flags)
 {
-	static int block = 0;
-	int opcode = 0;
+	unsigned long filesize;
+	unsigned int no_bytes;
+        static int block = 0;
+        static int errcode;
+        int opcode = 0;
         if (destPort != 69)
                 return 0;
-	len = 0;
+        len = 0;
         SPI_Ethernet_getBytes(&opcode,0xFFFF,2);
         PrintOut(PrintHandler, "Recieved %d opcode\r\n", BSWAP_16(opcode));
         switch(BSWAP_16(opcode))
         {
                 case 1:
                         SPI_Ethernet_getBytes(webpage,0xFFFF,reqLength-2);
-                        PrintOut(PrintHandler, "filename %s\r\n", webpage);
-			opcode = BSWAP_16(3);
-			SPI_Ethernet_putBytes(&opcode,2);
-			len = 2;
-			block = BSWAP_16(1);
-			SPI_Ethernet_putBytes(&block,2);
-			len += 2;
-                        SPI_Ethernet_putBytes(webpage,512);
-                        len +=512;
+                        PrintOut(PrintHandler, "read file %s\r\n", webpage);
+                        if (sd_init != 0)
+                        {
+                        	UART1_Write_Text("SD disfunctional\r\n");
+                                opcode = BSWAP_16(5);
+                                SPI_Ethernet_putBytes(&opcode,2);
+                                len = 2;
+                                errcode = BSWAP_16(3);
+                                SPI_Ethernet_putBytes(&errcode,2);
+                                len += 2;
+                                len += putString("SD disfunctional");
+                        }
+                        else
+                        {
+                                sd_assign = Mmc_Fat_Assign(webpage,0);
+                                if (sd_assign != 1)
+                                {
+                                        UART1_Write_Text("File not present\r\n");
+                                        opcode = BSWAP_16(5);
+                                        SPI_Ethernet_putBytes(&opcode,2);
+                                        len = 2;
+                                        errcode = BSWAP_16(1);
+	                                SPI_Ethernet_putBytes(&errcode,2);
+        	                        len += 2;
+                                        len += putString("File not present\0");
+                                }
+                                else
+                                {
+                                        Mmc_Fat_Reset(&filesize);
+                                        PrintOut(PrintHandler, "file size is %d bytes\r\n", (int)filesize);
+                                        if (filesize < 512)
+                                                no_bytes = Mmc_Fat_ReadN(webpage, filesize);
+					else
+                                        	no_bytes = Mmc_Fat_ReadN(webpage, 512);
+                                        PrintOut(PrintHandler, "start %d bytes read\r\n", (int)no_bytes);
+                                        opcode = BSWAP_16(3);
+                                        SPI_Ethernet_putBytes(&opcode,2);
+                                        len = 2;
+                                        block = BSWAP_16(1);
+                                        SPI_Ethernet_putBytes(&block,2);
+                                        len += 2;
+                                        SPI_Ethernet_putBytes(webpage,no_bytes);
+                                        len +=no_bytes;
+                                }
+                        }
+                break;
+                case 2:
+                        SPI_Ethernet_getBytes(webpage,0xFFFF,reqLength-2);
+                        PrintOut(PrintHandler, "write file %s\r\n", webpage);
+                        if (sd_init != 0)
+                        {
+                        	UART1_Write_Text("SD disfunctional\r\n");
+                                opcode = BSWAP_16(5);
+                                SPI_Ethernet_putBytes(&opcode,2);
+                                len = 2;
+                                len += putString("SD disfunctional\0");
+                        }
+                        else
+                        {
+                                sd_assign = Mmc_Fat_Assign(webpage,0x80);
+                                if (sd_assign != 1)
+                                {
+                                        UART1_Write_Text("File creation failed\r\n");
+                                        opcode = BSWAP_16(5);
+                                        SPI_Ethernet_putBytes(&opcode,2);
+                                        len = 2;
+                                        errcode = BSWAP_16(6);
+	                                SPI_Ethernet_putBytes(&errcode,2);
+        	                        len += 2;
+                                        len += putString("File creation failed\0");
+                                }
+                                else
+                                {
+                                        Mmc_Fat_Rewrite();
+                                        opcode = BSWAP_16(4);
+                                        SPI_Ethernet_putBytes(&opcode,2);
+                                        len = 2;
+                                        block = BSWAP_16(0);
+                                        SPI_Ethernet_putBytes(&block,2);
+                                        len += 2;
+                                }
+                        }
+                break;
+                case 3:
+                        SPI_Ethernet_getBytes(&block,0xFFFF,2);
+                        PrintOut(PrintHandler, "data block %d\r\n", BSWAP_16(block));
+                        PrintOut(PrintHandler, "full package length is %d\r\n", reqLength);
+                        SPI_Ethernet_getBytes(webpage,0xFFFF,reqLength-4);
+                        Mmc_Fat_Write(webpage,reqLength-4);
+                        opcode = BSWAP_16(4);
+                        SPI_Ethernet_putBytes(&opcode,2);
+                        len = 2;
+                        //block = BSWAP_16(BSWAP_16(block)+1);
+                        SPI_Ethernet_putBytes(&block,2);
+                        len += 2;
+                        if (reqLength-4 != 512)
+                                Mmc_Fat_Close();
                 break;
                 case 4:
                         SPI_Ethernet_getBytes(&block,0xFFFF,2);
                         PrintOut(PrintHandler, "ACK block %d\r\n", BSWAP_16(block));
+                        no_bytes = Mmc_Fat_ReadN(webpage, 512);
+                        PrintOut(PrintHandler, "ack %d bytes read\r\n", (int)no_bytes);
                         opcode = BSWAP_16(3);
                         SPI_Ethernet_putBytes(&opcode,2);
                         len = 2;
                         block = BSWAP_16(BSWAP_16(block)+1);
                         SPI_Ethernet_putBytes(&block,2);
                         len += 2;
-                        if (BSWAP_16(block) == 100)
-                        {
-                                SPI_Ethernet_putBytes(webpage,511);
-                                len +=511;
-                        }
-                        else
-                        {
-                                SPI_Ethernet_putBytes(webpage,512);
-                                len +=512;
-                        }
+                        SPI_Ethernet_putBytes(webpage,no_bytes);
+                	len +=no_bytes;
                 break;
         }
         //PrintOut(PrintHandler, "filename %s\r\n", &frame[1]);
