@@ -56,44 +56,55 @@ unsigned int  SPI_Ethernet_UserTCP(unsigned char *remoteHost, unsigned int remot
         UART1_Write_Text("\r\n");
         if (sd_init == 0)
         {
-                sd_assign = Mmc_Fat_Assign(&getRequest[1],0);
-                if (sd_assign == 1)
+                if (strcmp("/dir.htm",getRequest)==0)
                 {
-                        UART1_Write_Text("File open valid\r\n");
-                        sprintf(httpHeader,"HTTP/1.1 %d OK",(int)200);
-                        Mmc_Fat_Reset(&filesize);
-                        PrintOut(PrintHandler, "file size is %d\r\n", filesize);
-                        no_bytes = Mmc_Fat_ReadN(webpage, filesize);
-                        webpage[no_bytes] = 0;
-                        PrintOut(PrintHandler, "read %d bytes from file\r\n", no_bytes);
-                        PrintOut(PrintHandler, "assumed %d text length\r\n",strlen(webpage));
-                        if (strcmp(strchr(getRequest,'.'),".htm")==0)
-                                httpMimeType = httpMimeTypeHTML;
-                        else if (strcmp(strchr(getRequest,'.'),".js")==0)
-                                httpMimeType = httpMimeTypeScript;
-                        else if (strcmp(strchr(getRequest,'.'),".txt")==0)
-                                httpMimeType = httpMimeTypeText;
-                        else if (strcmp(strchr(getRequest,'.'),".css")==0)
-                                httpMimeType = httpMimeTypeCSS;
+                	len = putString(httpHeader);
+                	len += putConstString(httpMimeTypeHTML);
+                	len += putConstString("<!doctype html><html><head><title>File list</title></head><body><pre>");
+                	Mmc_Fat_Dir(WebHandler);
+                	len += putConstString("</pre></body></html>");
                 }
                 else
                 {
-                        UART1_Write_Text("File not found\r\n");
-                        sprintf(httpHeader,"HTTP/1.1 %d Not Found",(int)404);
-                        httpMimeType = httpMimeTypeHTML;
-                        sprintf(webpage,"<!doctype html><html><head><title>404 Not Found</title></head><body><p>%s not found</p></body></html>",getRequest);
+                        sd_assign = Mmc_Fat_Assign(&getRequest[1],0);
+                        if (sd_assign == 1)
+                        {
+                                UART1_Write_Text("File open valid\r\n");
+                                sprintf(httpHeader,"HTTP/1.1 %d OK",(int)200);
+                                Mmc_Fat_Reset(&filesize);
+                                PrintOut(PrintHandler, "file size is %d\r\n", filesize);
+                                no_bytes = Mmc_Fat_ReadN(webpage, filesize);
+                                webpage[no_bytes] = 0;
+                                PrintOut(PrintHandler, "read %d bytes from file\r\n", no_bytes);
+                                PrintOut(PrintHandler, "assumed %d text length\r\n",strlen(webpage));
+                                if (strcmp(strchr(getRequest,'.'),".htm")==0)
+                                        httpMimeType = httpMimeTypeHTML;
+                                else if (strcmp(strchr(getRequest,'.'),".js")==0)
+                                        httpMimeType = httpMimeTypeScript;
+                                else if (strcmp(strchr(getRequest,'.'),".txt")==0)
+                                        httpMimeType = httpMimeTypeText;
+                                else if (strcmp(strchr(getRequest,'.'),".css")==0)
+                                        httpMimeType = httpMimeTypeCSS;
+                        }
+                        else
+                        {
+                                UART1_Write_Text("File not found\r\n");
+                                sprintf(httpHeader,"HTTP/1.1 %d Not Found",(int)404);
+                                httpMimeType = httpMimeTypeHTML;
+                                sprintf(webpage,"<!doctype html><html><head><title>404 Not Found</title></head><body><p>%s not found</p></body></html>",getRequest);
+                        }
+                        len = putString(httpHeader);
+                        len += putConstString(httpMimeType);
+                        len += putString(webpage);
                 }
-                len = putString(httpHeader);
-                len += putConstString(httpMimeType);
-                len += putString(webpage);
         }
         return len;
 }
 
 unsigned int  SPI_Ethernet_UserUDP(unsigned char *remoteHost, unsigned int remotePort, unsigned int destPort, unsigned int reqLength, TEthPktFlags *flags)
 {
-	unsigned long filesize;
-	unsigned int no_bytes;
+        static unsigned long filesize;
+        unsigned int no_bytes;
         static int block = 0;
         static int errcode;
         int opcode = 0;
@@ -109,7 +120,7 @@ unsigned int  SPI_Ethernet_UserUDP(unsigned char *remoteHost, unsigned int remot
                         PrintOut(PrintHandler, "read file %s\r\n", webpage);
                         if (sd_init != 0)
                         {
-                        	UART1_Write_Text("SD disfunctional\r\n");
+                                UART1_Write_Text("SD disfunctional\r\n");
                                 opcode = BSWAP_16(5);
                                 SPI_Ethernet_putBytes(&opcode,2);
                                 len = 2;
@@ -128,8 +139,8 @@ unsigned int  SPI_Ethernet_UserUDP(unsigned char *remoteHost, unsigned int remot
                                         SPI_Ethernet_putBytes(&opcode,2);
                                         len = 2;
                                         errcode = BSWAP_16(1);
-	                                SPI_Ethernet_putBytes(&errcode,2);
-        	                        len += 2;
+                                        SPI_Ethernet_putBytes(&errcode,2);
+                                        len += 2;
                                         len += putString("File not present\0");
                                 }
                                 else
@@ -138,8 +149,8 @@ unsigned int  SPI_Ethernet_UserUDP(unsigned char *remoteHost, unsigned int remot
                                         PrintOut(PrintHandler, "file size is %d bytes\r\n", (int)filesize);
                                         if (filesize < 512)
                                                 no_bytes = Mmc_Fat_ReadN(webpage, filesize);
-					else
-                                        	no_bytes = Mmc_Fat_ReadN(webpage, 512);
+                                        else
+                                                no_bytes = Mmc_Fat_ReadN(webpage, 512);
                                         PrintOut(PrintHandler, "start %d bytes read\r\n", (int)no_bytes);
                                         opcode = BSWAP_16(3);
                                         SPI_Ethernet_putBytes(&opcode,2);
@@ -157,7 +168,7 @@ unsigned int  SPI_Ethernet_UserUDP(unsigned char *remoteHost, unsigned int remot
                         PrintOut(PrintHandler, "write file %s\r\n", webpage);
                         if (sd_init != 0)
                         {
-                        	UART1_Write_Text("SD disfunctional\r\n");
+                                UART1_Write_Text("SD disfunctional\r\n");
                                 opcode = BSWAP_16(5);
                                 SPI_Ethernet_putBytes(&opcode,2);
                                 len = 2;
@@ -173,8 +184,8 @@ unsigned int  SPI_Ethernet_UserUDP(unsigned char *remoteHost, unsigned int remot
                                         SPI_Ethernet_putBytes(&opcode,2);
                                         len = 2;
                                         errcode = BSWAP_16(6);
-	                                SPI_Ethernet_putBytes(&errcode,2);
-        	                        len += 2;
+                                        SPI_Ethernet_putBytes(&errcode,2);
+                                        len += 2;
                                         len += putString("File creation failed\0");
                                 }
                                 else
@@ -207,7 +218,12 @@ unsigned int  SPI_Ethernet_UserUDP(unsigned char *remoteHost, unsigned int remot
                 case 4:
                         SPI_Ethernet_getBytes(&block,0xFFFF,2);
                         PrintOut(PrintHandler, "ACK block %d\r\n", BSWAP_16(block));
-                        no_bytes = Mmc_Fat_ReadN(webpage, 512);
+                        filesize = filesize - 512;
+                        if (filesize < 512)
+                        	no_bytes = Mmc_Fat_ReadN(webpage, filesize);
+                        else
+                                no_bytes = Mmc_Fat_ReadN(webpage, 512);
+                        //no_bytes = Mmc_Fat_ReadN(webpage, 512);
                         PrintOut(PrintHandler, "ack %d bytes read\r\n", (int)no_bytes);
                         opcode = BSWAP_16(3);
                         SPI_Ethernet_putBytes(&opcode,2);
@@ -216,7 +232,7 @@ unsigned int  SPI_Ethernet_UserUDP(unsigned char *remoteHost, unsigned int remot
                         SPI_Ethernet_putBytes(&block,2);
                         len += 2;
                         SPI_Ethernet_putBytes(webpage,no_bytes);
-                	len +=no_bytes;
+                        len +=no_bytes;
                 break;
         }
         //PrintOut(PrintHandler, "filename %s\r\n", &frame[1]);
