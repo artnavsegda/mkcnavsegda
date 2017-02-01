@@ -2,6 +2,7 @@
 #include "modbus.h"
 #include "httpUtils.h"
 #include "global.h"
+#include "bswap.h"
 
 #define HTTP_REQUEST_SIZE       128
 
@@ -76,5 +77,44 @@ unsigned int SPI_Ethernet_UserTCP(unsigned char *remoteHost, unsigned int remote
 
 unsigned int SPI_Ethernet_UserUDP(unsigned char *remoteHost, unsigned int remotePort, unsigned int localPort, unsigned int reqLength, TEthPktFlags *flags)
 {
-        return 0;
+        static int block = 0;
+        int opcode = 0;
+        unsigned int ulen = 0;
+        if (localPort != 69)
+                return 0;
+        SPI_Ethernet_getBytes(&opcode,0xFFFF,2);
+        switch(BSWAP_16(opcode))
+        {
+                case 1:
+                        SPI_Ethernet_getBytes(webpage,0xFFFF,reqLength-2);
+                        opcode = BSWAP_16(3);
+                        SPI_Ethernet_putBytes(&opcode,2);
+                        ulen = 2;
+                        block = BSWAP_16(1);
+                        SPI_Ethernet_putBytes(&block,2);
+                        ulen += 2;
+                        SPI_Ethernet_putBytes(webpage,512);
+                        ulen +=512;
+                break;
+                case 4:
+                        SPI_Ethernet_getBytes(&block,0xFFFF,2);
+                        opcode = BSWAP_16(3);
+                        SPI_Ethernet_putBytes(&opcode,2);
+                        ulen = 2;
+                        block = BSWAP_16(BSWAP_16(block)+1);
+                        SPI_Ethernet_putBytes(&block,2);
+                        ulen += 2;
+                        if (BSWAP_16(block) == 1000)
+                        {
+                                SPI_Ethernet_putBytes(webpage,511);
+                                len +=511;
+                        }
+                        else
+                        {
+                                SPI_Ethernet_putBytes(webpage,512);
+                                ulen +=512;
+                        }
+                break;
+        }
+        return ulen;
 }
