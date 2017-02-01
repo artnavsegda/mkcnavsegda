@@ -4,7 +4,7 @@
 #include "modbus.h"
 
 unsigned int timetoexitmode = 0;
-unsigned char currentmode = STARTLEVEL;
+enum modelist currentmode = STARTLEVEL;
 
 extern unsigned int coefficent;
 extern unsigned int zerolevelavg;
@@ -14,7 +14,7 @@ extern unsigned int celltempavg;
 extern struct massive secondstage;
 extern struct massive temperature_averaging_massive;
 
-int Modeseconds(enum modelist modeneed)
+unsigned int Modeseconds(enum modelist modeneed)
 {
         switch (modeneed)
         {
@@ -72,7 +72,7 @@ void Entermode(enum modelist modetoenter)
                 break;
                 case PRECALIBRATIONDELAY:
                         bctable[4] = 1;
-                	Calibration_Valve = 1;
+                        Calibration_Valve = 1;
                 break;
                 case CALIBRATION:
                 break;

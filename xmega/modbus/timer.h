@@ -15,9 +15,9 @@ enum modelist {
 };
 
 extern unsigned int timetoexitmode;
-extern unsigned char currentmode;
+extern enum modelist currentmode;
 
-int Modeseconds(enum modelist modeneed);
+unsigned int Modeseconds(enum modelist modeneed);
 void Entermode(enum modelist modetoenter);
 enum modelist Sequence(enum modelist modetosequence);
 void Exitmode(enum modelist modetoexit);
