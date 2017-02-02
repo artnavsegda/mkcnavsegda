@@ -39,8 +39,9 @@ Count=0
 Count=0
 ActiveImageIndex=-1
 [OPENED_FILES]
-Count=1
-File0=http.c
+Count=2
+File0=ethernet.c
+File1=http.c
 [EEPROM]
 Count=0
 [ACTIVE_COMMENTS_FILES]

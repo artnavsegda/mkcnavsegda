@@ -7,6 +7,7 @@ const char httpMimeTypeHTML[] = "\nContent-type: text/html\n\n" ;              /
 const char httpMimeTypeScript[] = "\nContent-type: application/javascript\n\n" ;           // JS MIME type
 const char httpMimeTypeText[] = "\nContent-type: text/plain\n\n" ;           // TEXT MIME type
 const char httpMimeTypeCSS[] = "\nContent-type: text/CSS\n\n" ;           // CSS MIME type
+char indexpage[] = "/index.htm";
 
 void WebHandler(char c)
 {
@@ -14,11 +15,11 @@ void WebHandler(char c)
         len++;
 }
 
-unsigned int http(static unsigned char getRequest[])
+unsigned int http(static unsigned char *getRequest)
 {
         unsigned long filesize, no_bytes;
-        if (strlen(getRequest) == 1)
-                 strcpy(getRequest,"/index.htm");
+        if (strcmp(getRequest,"/")==0)
+                 getRequest = indexpage;
         if (sd_init == 0)
         {
                 if (strcmp("/dir.htm",getRequest)==0)
