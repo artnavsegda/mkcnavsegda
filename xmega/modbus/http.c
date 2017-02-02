@@ -30,6 +30,13 @@ unsigned int http(static unsigned char getRequest[])
                         Mmc_Fat_Dir(WebHandler);
                         len += SPI_Ethernet_putConstString("</pre></body></html>");
                 }
+                else if (strcmp("/special",getRequest)==0)
+                {
+                        sprintf(httpHeader,"HTTP/1.1 %d OK",(int)200);
+                        len = SPI_Ethernet_putString(httpHeader);
+                        len += SPI_Ethernet_putConstString(httpMimeTypeText);
+                        len += SPI_Ethernet_putConstString("You're so special");
+                }
                 else
                 {
                         if (Mmc_Fat_Assign(&getRequest[1],0) == 1)
