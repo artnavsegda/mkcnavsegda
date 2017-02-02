@@ -36,6 +36,8 @@ unsigned int http(static unsigned char getRequest[])
                         {
                                 sprintf(httpHeader,"HTTP/1.1 %d OK",(int)200);
                                 Mmc_Fat_Reset(&filesize);
+                                if (filesize > 1400)
+                                        filesize = 1400;
                                 no_bytes = Mmc_Fat_ReadN(webpage, filesize);
                                 webpage[no_bytes] = 0;
                                 if (strcmp(strchr(getRequest,'.'),".htm")==0)

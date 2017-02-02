@@ -14,5 +14,5 @@ int celllevelavg = 4000+ADCZERO;
 int celltempavg = 1670;
 int tick = 0;
 char sd_init = 9;
-char webpage[1000];
+char webpage[1410];
 unsigned int len = 0;
