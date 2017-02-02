@@ -20,13 +20,14 @@ unsigned int SPI_Ethernet_UserTCP(unsigned char *remoteHost, unsigned int remote
                 case 80:
                 {
                         SPI_Ethernet_getBytes(getRequest, 0xFFFF, reqLength);
+                        getRequest[reqLength] = 0;
 			method = strtok(getRequest," ");
 			page = strtok(0," ");
 			buf2 = strtok(0,"");
                         //if(HTTP_getRequest(getRequest, &reqLength, HTTP_REQUEST_SIZE) == 0)
                         //        return 0;
                         flags->canCloseTCP = 1;
-                        len = http(page);
+                        len = http(page,buf2);
                         return len;
                 }
                 break;

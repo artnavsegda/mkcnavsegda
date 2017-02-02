@@ -39,9 +39,10 @@ Count=0
 Count=0
 ActiveImageIndex=-1
 [OPENED_FILES]
-Count=2
+Count=3
 File0=ethernet.c
 File1=http.c
+File2=http.h
 [EEPROM]
 Count=0
 [ACTIVE_COMMENTS_FILES]
@@ -94,4 +95,5 @@ File13=C_Stdlib
 File14=Sprintf
 [EXPANDED_NODES]
 Node0=Sources
-Count=1
+Node1=Header Files
+Count=2

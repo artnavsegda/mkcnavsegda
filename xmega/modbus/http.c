@@ -15,7 +15,7 @@ void WebHandler(char c)
         len++;
 }
 
-unsigned int http(static unsigned char *getRequest)
+unsigned int http(static unsigned char *getRequest,static unsigned char *buf2)
 {
         unsigned long filesize, no_bytes;
         if (strcmp(getRequest,"/")==0)
@@ -37,6 +37,7 @@ unsigned int http(static unsigned char *getRequest)
                         len = SPI_Ethernet_putString(httpHeader);
                         len += SPI_Ethernet_putConstString(httpMimeTypeText);
                         len += SPI_Ethernet_putConstString("You're so special");
+                        len += SPI_Ethernet_putString(strstr(buf2,"\r\n\r\n")+4);
                 }
                 else
                 {

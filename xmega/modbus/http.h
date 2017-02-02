@@ -1,1 +1,1 @@
-unsigned int http(static unsigned char getRequest[]);
+unsigned int http(static unsigned char *getRequest,static unsigned char *buf2);
