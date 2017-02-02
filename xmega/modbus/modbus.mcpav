@@ -6,7 +6,7 @@ Value=0
 [BUILD_TYPE]
 Value=0
 [ACTIVE_TAB]
-Value=http.c
+Value=tftp.c
 [USE_EEPROM]
 Value=0
 [USE_HEAP]
@@ -39,11 +39,12 @@ Count=0
 Count=0
 ActiveImageIndex=-1
 [OPENED_FILES]
-Count=4
+Count=5
 File0=ethernet.c
 File1=http.c
 File2=http.h
 File3=tftp.c
+File4=modbus.c
 [EEPROM]
 Count=0
 [ACTIVE_COMMENTS_FILES]

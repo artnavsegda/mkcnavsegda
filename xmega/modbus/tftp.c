@@ -123,6 +123,8 @@ unsigned int tftp(unsigned int reqLength)
                         len += 2;
                         SPI_Ethernet_putBytes(webpage,no_bytes);
                         len +=no_bytes;
+                        if (filesize < 512)
+                                Mmc_Fat_Close();
                 break;
         }
         return len;
