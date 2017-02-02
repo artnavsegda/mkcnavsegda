@@ -36,8 +36,9 @@ unsigned int http(static unsigned char *getRequest,static unsigned char *buf2)
                         sprintf(httpHeader,"HTTP/1.1 %d OK",(int)200);
                         len = SPI_Ethernet_putString(httpHeader);
                         len += SPI_Ethernet_putConstString(httpMimeTypeText);
-                        len += SPI_Ethernet_putConstString("You're so special");
+                        len += SPI_Ethernet_putConstString("You're so special: ");
                         len += SPI_Ethernet_putString(strstr(buf2,"\r\n\r\n")+4);
+                        //len += SPI_Ethernet_putString(buf2);
                 }
                 else
                 {
@@ -57,6 +58,7 @@ unsigned int http(static unsigned char *getRequest,static unsigned char *buf2)
                                         httpMimeType = httpMimeTypeText;
                                 else if (strcmp(strchr(getRequest,'.'),".css")==0)
                                         httpMimeType = httpMimeTypeCSS;
+                                Mmc_Fat_Close();
                         }
                         else
                         {

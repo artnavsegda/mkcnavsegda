@@ -23,7 +23,8 @@ unsigned int SPI_Ethernet_UserTCP(unsigned char *remoteHost, unsigned int remote
                         getRequest[reqLength] = 0;
 			method = strtok(getRequest," ");
 			page = strtok(0," ");
-			buf2 = strtok(0,"");
+			//buf2 = strtok(0,0);
+			buf2 = page+strlen(page)+1;//ugly but well fuck
                         //if(HTTP_getRequest(getRequest, &reqLength, HTTP_REQUEST_SIZE) == 0)
                         //        return 0;
                         flags->canCloseTCP = 1;
