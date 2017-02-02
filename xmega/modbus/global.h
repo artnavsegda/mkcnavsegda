@@ -9,3 +9,5 @@ extern int celllevelavg;
 extern int celltempavg;
 extern int tick;
 extern char sd_init;
+extern char webpage[1000];
+extern unsigned int len;
