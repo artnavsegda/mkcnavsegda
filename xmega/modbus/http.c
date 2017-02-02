@@ -1,5 +1,6 @@
 #include "http.h"
 #include "global.h"
+#include "settings.h"
 
 unsigned char httpHeader[100] = "HTTP/1.1 200 OK" ;  // HTTP header
 const char * httpMimeType;
@@ -40,6 +41,21 @@ unsigned int http(static unsigned char *getRequest,static unsigned char *buf2)
                         len += SPI_Ethernet_putString(strstr(buf2,"\r\n\r\n")+4);
                         //len += SPI_Ethernet_putString(buf2);
                 }
+                else if (strcmp("/getopt",getRequest)==0)
+                {
+                        sprintf(httpHeader,"HTTP/1.1 %d OK",(int)200);
+                        len = SPI_Ethernet_putString(httpHeader);
+                        len += SPI_Ethernet_putConstString(httpMimeTypeText);
+                        len += SPI_Ethernet_putString(getopt(settings,strstr(buf2,"\r\n\r\n")+4));
+                }
+                /*else if (strcmp("/getopt",getRequest)==0)
+                {
+                        sprintf(httpHeader,"HTTP/1.1 %d OK",(int)200);
+                        len = SPI_Ethernet_putString(httpHeader);
+                        len += SPI_Ethernet_putConstString(httpMimeTypeText);
+                        setopt(strstr(buf2,"\r\n\r\n")+4);
+                        len += SPI_Ethernet_putConstString("Settings written: ");
+                }*/
                 else
                 {
                         if (Mmc_Fat_Assign(&getRequest[1],0) == 1)

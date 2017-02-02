@@ -87,7 +87,8 @@ void main()
                 {
                         Mmc_Fat_Reset(&filesize);
                         no_bytes = Mmc_Fat_ReadN(settings, filesize);
-                        settings[no_bytes] = 0; //magic
+                        settings[no_bytes] = 0; //this is important every time
+                        Mmc_Fat_Close();
                 }
         }
         SPI_Ethernet_Init(getmac(settings,"mac"), getip(settings,"ip"), 1);
