@@ -27,15 +27,15 @@ void setsingleopt(char *equation)
 
 void setmultiopt(char *multistring)
 {
-	char *dispatch[100];
-	int amount;
-	int i = 0;
-	dispatch[i] = strtok(multistring,"&");
-	while(dispatch[i] != 0)
-	        dispatch[++i] = strtok(0, "&");
-	amount = i;
-	for (i=0;i<amount;i++)
-	        setsingleopt(dispatch[i]);
+        char *dispatch[100];
+        int amount;
+        int i = 0;
+        dispatch[i] = strtok(multistring,"&");
+        while(dispatch[i] != 0)
+                dispatch[++i] = strtok(0, "&");
+        amount = i;
+        for (i=0;i<amount;i++)
+                setsingleopt(dispatch[i]);
 }
 
 unsigned int http(static unsigned char *getRequest,static unsigned char *buf2)
@@ -87,7 +87,7 @@ unsigned int http(static unsigned char *getRequest,static unsigned char *buf2)
                                 if (filesize > 1400)
                                         filesize = 1400;
                                 no_bytes = Mmc_Fat_ReadN(webpage, filesize);
-                                webpage[no_bytes] = 0;
+                                webpage[no_bytes] = '\0';
                                 if (strcmp(strchr(getRequest,'.'),".htm")==0)
                                         httpMimeType = httpMimeTypeHTML;
                                 else if (strcmp(strchr(getRequest,'.'),".js")==0)

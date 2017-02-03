@@ -22,9 +22,9 @@ int optisize;
 void makeopt(void)
 {
         int i = 0;
-        options[i] = strtok(settings," \n");
+        options[i] = strtok(settings," \r\n");
         while (options[i]!=0)
-                options[++i] = strtok(0," \n");
+                options[++i] = strtok(0," \r\n");
         optisize = i;
         for (i=0;i<optisize;i++)
         {

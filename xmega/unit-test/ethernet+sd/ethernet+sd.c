@@ -1,45 +1,51 @@
 #include  <__EthEnc28j60.h>
 
-sfr sbit SPI_Ethernet_Rst at PORTC_OUT.B1;
+sfr sbit SPI_Ethernet_Rst at PORTA_OUT.B0;
 sfr sbit SPI_Ethernet_CS  at PORTC_OUT.B0;
-sfr sbit SPI_Ethernet_Rst_Direction at PORTC_DIR.B1;
+sfr sbit SPI_Ethernet_Rst_Direction at PORTA_DIR.B0;
 sfr sbit SPI_Ethernet_CS_Direction  at PORTC_DIR.B0;
-sfr sbit Mmc_Chip_Select at PORTC_OUT.B4;
-sfr sbit Mmc_Chip_Select_Direction at PORTC_DIR.B4;
+sfr sbit Mmc_Chip_Select at PORTE_OUT.B2;
+sfr sbit Mmc_Chip_Select_Direction at PORTE_DIR.B2;
 
-char settings[100] = "ip=192.168.1.151 mac=de:ad:be:ef:fe:ed";
+char settings[1000] = "ip=192.168.1.151 mac=de:ad:be:ef:fe:ed";
+char *options[100];
+char *values[100];
+int optisize;
 
-char * getopt(char *config2, char *token)
+char * getmyopt(char *parameter)
 {
-        static char config[100];
-        char * pch;
-        if (strstr(config2,token)==0)
-                return "0";
-        strcpy(config,config2);
-        pch = strtok(strstr(config,token),"=");
-        pch = strtok(0," \n");
-        return pch;
+        int i = 0;
+        for (i=0;i<optisize;i++)
+                if (strcmp(options[i],parameter)==0)
+                        return values[i];
+        return 0;
 }
 
-char * getip(char *config2, char *token)
+char * getmyip(char *token)
 {
         static char ip[4];
-        ip[0] = atoi(strtok(getopt(config2,token),"."));
+        char *temp = Malloc(strlen(token));
+        strcpy(temp,token);
+        ip[0] = atoi(strtok(temp,"."));
         ip[1] = atoi(strtok(0,"."));
         ip[2] = atoi(strtok(0,"."));
         ip[3] = atoi(strtok(0,"."));
+        Free(temp,sizeof(temp));
         return ip;
 }
 
-char * getmac(char *config2, char *token)
+char * getmymac(char *token)
 {
         static char mac[6];
-        mac[0] = xtoi(strtok(getopt(config2,token),":"));
+        char *temp = Malloc(strlen(token));
+        strcpy(temp,token);
+        mac[0] = xtoi(strtok(temp,":"));
         mac[1] = xtoi(strtok(0,":"));
         mac[2] = xtoi(strtok(0,":"));
         mac[3] = xtoi(strtok(0,":"));
         mac[4] = xtoi(strtok(0,":"));
         mac[5] = xtoi(strtok(0,":"));
+        Free(temp,sizeof(temp));
         return mac;
 }
 
@@ -53,11 +59,26 @@ unsigned int SPI_Ethernet_UserUDP(unsigned char *remoteHost, unsigned int remote
         return 0;
 }
 
+void makeopt(void)
+{
+        int i = 0;
+        options[i] = strtok(settings," \r\n");
+        while (options[i]!=0)
+                options[++i] = strtok(0," \r\n");
+        optisize = i;
+        for (i=0;i<optisize;i++)
+        {
+                strtok(options[i],"=");
+                values[i] = strtok(0,"=");
+        }
+}
+
 void main()
 {
         char sd_assign, sd_format;
-        unsigned long filesize;
+        unsigned long filesize, no_bytes;
         //char settings[512];
+        MM_Init();
         UARTC0_Init(115200);//init uart
         Delay_ms(10);//wait for uart to start
         UARTC0_Write_Text("MCU-Started\r\n");
@@ -70,7 +91,10 @@ void main()
                         if (Mmc_Fat_Assign("SETTINGS.TXT",0) == 1)
                         {
                                 Mmc_Fat_Reset(&filesize);
-                                Mmc_Fat_ReadN(settings, filesize);
+                                no_bytes = Mmc_Fat_ReadN(settings, filesize);
+                                Mmc_Fat_Close();
+                                settings[no_bytes] = '\0';
+                                makeopt();
                         }
                 break;
                 case 1:
@@ -85,7 +109,14 @@ void main()
         //Mmc_Fat_Reset(&filesize);
         //Mmc_Fat_ReadN(&settings, filesize);
         //Mmc_Fat_Close();
-        SPI_Ethernet_Init(getmac(settings,"mac"), getip(settings,"ip"), 0x01);
+        
+        UARTC0_Write_Text("expecting ip: ");
+        UARTC0_Write_Text(getmyopt("ip"));
+        UARTC0_Write_Text("\r\nexpecting mac: ");
+        UARTC0_Write_Text(getmyopt("mac"));
+        UARTC0_Write_Text(getmyip(getmyopt("ip")));
+        
+        SPI_Ethernet_Init(getmymac(getmyopt("mac")), getmyip(getmyopt("ip")), 1);
         SPI_Ethernet_confNetwork("\xFF\xFF\xFF\x00", "\xC0\xA8\x01\x01", "\xC0\xA8\x01\x01");
         while (1)
                 SPI_Ethernet_doPacket();

@@ -69,6 +69,7 @@ void main()
 {
         unsigned long filesize, no_bytes;
         int i;
+        MM_Init();
         Sysclk_Init();
         Ports_Init();
         UARTC0_Init(115200);
@@ -87,7 +88,7 @@ void main()
                 {
                         Mmc_Fat_Reset(&filesize);
                         no_bytes = Mmc_Fat_ReadN(settings, filesize);
-                        settings[no_bytes] = 0; //this is important every time
+                        settings[no_bytes] = '\0'; //this is important every time
                         Mmc_Fat_Close();
                 }
         }
