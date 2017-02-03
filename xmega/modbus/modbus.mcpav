@@ -39,8 +39,7 @@ Count=0
 Count=0
 ActiveImageIndex=-1
 [OPENED_FILES]
-Count=1
-File0=http.c
+Count=0
 [EEPROM]
 Count=0
 [ACTIVE_COMMENTS_FILES]
@@ -75,7 +74,7 @@ File12=tftp.h
 [PLDS]
 Count=0
 [Useses]
-Count=15
+Count=16
 File0=UART
 File1=SPI_Ethernet
 File2=C_String
@@ -91,6 +90,7 @@ File11=Mmc
 File12=Conversions
 File13=C_Stdlib
 File14=Sprintf
+File15=MemManager
 [EXPANDED_NODES]
 Node0=Sources
 Node1=Header Files

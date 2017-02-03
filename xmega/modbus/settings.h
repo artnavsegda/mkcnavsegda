@@ -1,5 +1,7 @@
-char * getopt(char *config2, char *token);
-char * getip(char *config2, char *token);
-char * getmac(char *config2, char *token);
+extern char settings [100];
 
-extern char settings[];
+void makeopt(void);
+char * getmyopt(char *parameter);
+char * getmyip(char *token);
+char * getmymac(char *token);
+void setmyopt(char *parameter, char *newset);

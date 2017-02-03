@@ -16,6 +16,15 @@ void WebHandler(char c)
         len++;
 }
 
+void setsingleopt(char *equation)
+{
+	char *parname;
+	char *parvalue;
+	parname = strtok(equation,"=");
+	parvalue = strtok(0,"=");
+	setmyopt(parname,parvalue);
+}
+
 unsigned int http(static unsigned char *getRequest,static unsigned char *buf2)
 {
         unsigned long filesize, no_bytes;
@@ -46,16 +55,16 @@ unsigned int http(static unsigned char *getRequest,static unsigned char *buf2)
                         sprintf(httpHeader,"HTTP/1.1 %d OK",(int)200);
                         len = SPI_Ethernet_putString(httpHeader);
                         len += SPI_Ethernet_putConstString(httpMimeTypeText);
-                        len += SPI_Ethernet_putString(getopt(settings,strstr(buf2,"\r\n\r\n")+4));
+                        len += SPI_Ethernet_putString(getmyopt(strstr(buf2,"\r\n\r\n")+4));
                 }
-                /*else if (strcmp("/getopt",getRequest)==0)
+                else if (strcmp("/setopt",getRequest)==0)
                 {
                         sprintf(httpHeader,"HTTP/1.1 %d OK",(int)200);
                         len = SPI_Ethernet_putString(httpHeader);
                         len += SPI_Ethernet_putConstString(httpMimeTypeText);
-                        setopt(strstr(buf2,"\r\n\r\n")+4);
+                        setsingleopt(strstr(buf2,"\r\n\r\n")+4);
                         len += SPI_Ethernet_putConstString("Settings written: ");
-                }*/
+                }
                 else
                 {
                         if (Mmc_Fat_Assign(&getRequest[1],0) == 1)

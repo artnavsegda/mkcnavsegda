@@ -91,7 +91,8 @@ void main()
                         Mmc_Fat_Close();
                 }
         }
-        SPI_Ethernet_Init(getmac(settings,"mac"), getip(settings,"ip"), 1);
+        makeopt();
+        SPI_Ethernet_Init(getmymac(getmyopt("mac")), getmyip(getmyopt("ip")), 1);
         SPI_Ethernet_confNetwork("\xFF\xFF\xFF\x00", "\xC0\xA8\x01\x01", "\xC0\xA8\x01\x01");
         Timer_Init(&TCC0, 1000000);
         Timer_Interrupt_Enable(&TCC0);

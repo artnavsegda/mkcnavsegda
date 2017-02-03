@@ -2,37 +2,85 @@ char settings [100] = "\
 ip=192.168.1.150\n\
 mac=00:14:a5:76:19:3f\n\
 ";
+char *options[100];
+char *values[100];
+int optisize;
 
-char * getopt(char *config2, char *token)
+void makeopt(void)
 {
-        static char config[100];
-        char * pch;
-        if (strstr(config2,token)==0)
-                return "0";
-        strcpy(config,config2);
-        pch = strtok(strstr(config,token),"=");
-        pch = strtok(0," \n");
-        return pch;
+	int i = 0;
+	options[i] = strtok(settings," \n");
+	while (options[i]!=0)
+	        options[++i] = strtok(0," \n");
+        optisize = i;
+        for (i=0;i<optisize;i++)
+        {
+                strtok(options[i],"=");
+                values[i] = strtok(0,"=");
+        }
 }
 
-char * getip(char *config2, char *token)
+char * getmyopt(char *parameter)
 {
-        static char ip[4];
-        ip[0] = atoi(strtok(getopt(config2,token),"."));
-        ip[1] = atoi(strtok(0,"."));
-        ip[2] = atoi(strtok(0,"."));
-        ip[3] = atoi(strtok(0,"."));
-        return ip;
+	int i = 0;
+	for (i=0;i<optisize;i++)
+		if (strcmp(options[i],parameter)==0)
+			return values[i];
+	return 0;
 }
 
-char * getmac(char *config2, char *token)
+char * getmyip(char *token)
+{
+	static char ip[4];
+	char *temp = Malloc(strlen(token));
+	strcpy(temp,token);
+	ip[0] = atoi(strtok(temp,"."));
+	ip[1] = atoi(strtok(0,"."));
+	ip[2] = atoi(strtok(0,"."));
+	ip[3] = atoi(strtok(0,"."));
+	Free(temp,sizeof(temp));
+	return ip;
+}
+
+char * getmymac(char *token)
 {
         static char mac[6];
-        mac[0] = xtoi(strtok(getopt(config2,token),":"));
+        char *temp = Malloc(strlen(token));
+        strcpy(temp,token);
+        mac[0] = xtoi(strtok(temp,":"));
         mac[1] = xtoi(strtok(0,":"));
         mac[2] = xtoi(strtok(0,":"));
         mac[3] = xtoi(strtok(0,":"));
         mac[4] = xtoi(strtok(0,":"));
         mac[5] = xtoi(strtok(0,":"));
+        Free(temp,sizeof(temp));
         return mac;
 }
+
+void setmyopt(char *parameter, char *newset)
+{
+	int i = 0;
+	int found = 0;
+	for (i=0;i<optisize;i++)
+	{
+		if (strcmp(options[i],parameter)==0)
+		{
+			if (strlen(newset)>strlen(values[i]))
+			{
+				found = 1;
+				//values[i] = newset; //just change the pointer
+				values[i] = Malloc(strlen(newset)); //or to allocate new memory ?
+				strcpy(values[i],newset);
+			}
+			else
+				strcpy(values[i],newset);
+		}
+	}
+	if (found == 0)
+	{
+		options[optisize] = parameter;
+		values[optisize] = newset;
+		optisize++;
+	}
+}
+
