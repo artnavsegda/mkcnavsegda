@@ -21,10 +21,10 @@ unsigned int SPI_Ethernet_UserTCP(unsigned char *remoteHost, unsigned int remote
                 {
                         SPI_Ethernet_getBytes(getRequest, 0xFFFF, reqLength);
                         getRequest[reqLength] = 0;
-			method = strtok(getRequest," ");
-			page = strtok(0," ");
-			//buf2 = strtok(0,0);
-			buf2 = page+strlen(page)+1;//ugly but well fuck
+                        method = strtok(getRequest," ");
+                        page = strtok(0," ");
+                        //buf2 = strtok(0,0);
+                        buf2 = page+strlen(page)+1;//ugly but well fuck
                         //if(HTTP_getRequest(getRequest, &reqLength, HTTP_REQUEST_SIZE) == 0)
                         //        return 0;
                         flags->canCloseTCP = 1;
@@ -34,6 +34,8 @@ unsigned int SPI_Ethernet_UserTCP(unsigned char *remoteHost, unsigned int remote
                 break;
                 case 502:
                 {
+                        if (reqLength > sizeof(askframe))
+                                reqLength = sizeof(askframe);
                         SPI_Ethernet_getBytes((unsigned char *)&askframe, 0xFFFF, reqLength);
                         flags->canCloseTCP = 0;
                         len = modbus(&askframe);

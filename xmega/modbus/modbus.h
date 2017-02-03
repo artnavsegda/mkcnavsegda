@@ -10,7 +10,7 @@ struct reqreadcoilsstruct {
 
 struct reqreadwordstruct {
         unsigned char bytestofollow;
-        unsigned int registers[127];
+        unsigned int registers[128];
 };
 
 struct writeregstruct {
@@ -29,7 +29,7 @@ struct writemultiregstruct {
         unsigned int firstreg;
         unsigned int regnumber;
         unsigned char bytestofollow;
-        unsigned int registers[127];
+        unsigned int registers[128];
 };
 
 union pdudataunion {
