@@ -1,0 +1,27 @@
+body {
+    font-family: Georgia, "Times New Roman", Times, serif;
+    background-color: whitesmoke;
+}
+
+h1 {
+    text-align: center;
+}
+
+p {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 1em;
+  text-indent: 1em;
+}
+
+.example {
+  color: blue;
+}
+
+table {
+	border: 1px solid black;
+	border-collapse: collapse;
+}
+
+tr:nth-child(odd) {
+    background: #f3ecdd;
+}

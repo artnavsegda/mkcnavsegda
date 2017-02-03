@@ -18,11 +18,24 @@ void WebHandler(char c)
 
 void setsingleopt(char *equation)
 {
-	char *parname;
-	char *parvalue;
-	parname = strtok(equation,"=");
-	parvalue = strtok(0,"=");
-	setmyopt(parname,parvalue);
+        char *parname;
+        char *parvalue;
+        parname = strtok(equation,"=");
+        parvalue = strtok(0,"=");
+        setmyopt(parname,parvalue);
+}
+
+void setmultiopt(char *multistring)
+{
+	char *dispatch[100];
+	int amount;
+	int i = 0;
+	dispatch[i] = strtok(multistring,"&");
+	while(dispatch[i] != 0)
+	        dispatch[++i] = strtok(0, "&");
+	amount = i;
+	for (i=0;i<amount;i++)
+	        setsingleopt(dispatch[i]);
 }
 
 unsigned int http(static unsigned char *getRequest,static unsigned char *buf2)
@@ -62,8 +75,8 @@ unsigned int http(static unsigned char *getRequest,static unsigned char *buf2)
                         sprintf(httpHeader,"HTTP/1.1 %d OK",(int)200);
                         len = SPI_Ethernet_putString(httpHeader);
                         len += SPI_Ethernet_putConstString(httpMimeTypeText);
-                        setsingleopt(strstr(buf2,"\r\n\r\n")+4);
-                        len += SPI_Ethernet_putConstString("Settings written: ");
+                        len += SPI_Ethernet_putString(buf2);
+                        setmultiopt(strstr(buf2,"\r\n\r\n")+4);
                 }
                 else
                 {

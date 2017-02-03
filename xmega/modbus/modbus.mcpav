@@ -39,7 +39,8 @@ Count=0
 Count=0
 ActiveImageIndex=-1
 [OPENED_FILES]
-Count=0
+Count=1
+File0=http.c
 [EEPROM]
 Count=0
 [ACTIVE_COMMENTS_FILES]
@@ -93,5 +94,4 @@ File14=Sprintf
 File15=MemManager
 [EXPANDED_NODES]
 Node0=Sources
-Node1=Header Files
-Count=2
+Count=1

@@ -1,0 +1,15 @@
+ip=192.168.1.150
+mac=00:14:a5:76:19:3f
+sll=10
+cdl=10
+cel=10
+zdl=10
+ztl=10
+prg=10
+tdl=10
+tml=100
+edl=10
+eml=10
+rcl=10
+cal=10
+pcl=10

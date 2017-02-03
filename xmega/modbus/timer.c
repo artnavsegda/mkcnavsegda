@@ -2,6 +2,7 @@
 #include "i2c.h"
 #include "average.h"
 #include "modbus.h"
+#include "settings.h"
 
 unsigned int timetoexitmode = 0;
 enum modelist currentmode = STARTLEVEL;
@@ -18,19 +19,19 @@ unsigned int Modeseconds(enum modelist modeneed)
 {
         switch (modeneed)
         {
-                case STARTLEVEL: return 10;
-                case CELLDELAY: return 10;
-                case CELLLEVEL:        return 10;
-                case ZERODELAY: return 10;
-                case ZEROTEST: return 10;
-                case PURGE: return 10;
-                case TOTALMERCURYDELAY: return 10;
-                case TOTALMERCURY: return 100;
-                case ELEMENTALMERCURYDELAY: return 10;
-                case ELEMENTALMERCURY: return 10;
-                case PRECALIBRATIONDELAY: return 10;
-                case CALIBRATION: return 10;
-                case POSTCALIBRATIONDELAY: return 10;
+                case STARTLEVEL: return atoi(getmyopt("sll"));
+                case CELLDELAY: return atoi(getmyopt("cdl"));
+                case CELLLEVEL:        return atoi(getmyopt("cel"));
+                case ZERODELAY: return atoi(getmyopt("zdl"));
+                case ZEROTEST: return atoi(getmyopt("ztl"));
+                case PURGE: return atoi(getmyopt("prg"));
+                case TOTALMERCURYDELAY: return atoi(getmyopt("tdl"));
+                case TOTALMERCURY: return atoi(getmyopt("tml"));
+                case ELEMENTALMERCURYDELAY: return atoi(getmyopt("edl"));
+                case ELEMENTALMERCURY: return atoi(getmyopt("eml"));
+                case PRECALIBRATIONDELAY: return atoi(getmyopt("rcl"));
+                case CALIBRATION: return atoi(getmyopt("cal"));
+                case POSTCALIBRATIONDELAY: return atoi(getmyopt("pcl"));
         }
         return 0;
 }
