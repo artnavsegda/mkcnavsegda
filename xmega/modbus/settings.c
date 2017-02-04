@@ -78,9 +78,9 @@ void setmyopt(char *parameter, char *newset)
         {
                 if (strcmp(options[i],parameter)==0)
                 {
+                        found = 1;
                         if (strlen(newset)>strlen(values[i]))
                         {
-                                found = 1;
                                 //values[i] = newset; //just change the pointer
                                 values[i] = Malloc(strlen(newset)); //or to allocate new memory ?
                                 strcpy(values[i],newset);
