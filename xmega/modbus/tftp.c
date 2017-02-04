@@ -85,6 +85,8 @@ unsigned int tftp(unsigned int reqLength)
                                 }
                                 else
                                 {
+                                        Mmc_Fat_Delete();
+                                        Mmc_Fat_Assign(webpage,0x80);
                                         Mmc_Fat_Rewrite();
                                         opcode = BSWAP_16(4);
                                         SPI_Ethernet_putBytes((unsigned char *)&opcode,2);

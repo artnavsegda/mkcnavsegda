@@ -111,5 +111,15 @@ unsigned int http(static unsigned char *getRequest,static unsigned char *buf2)
                 }
                 return len;
         }
+        else
+        {
+                sprintf(httpHeader,"HTTP/1.1 %d OK",(int)200);
+                httpMimeType = httpMimeTypeHTML;
+                sprintf(webpage,"<!doctype html><html><head><title>Not avalible</title></head><body><p>SD card inaccesible</p></body></html>",getRequest);
+                len = SPI_Ethernet_putString(httpHeader);
+                len += SPI_Ethernet_putConstString(httpMimeType);
+                len += SPI_Ethernet_putString(webpage);
+                return len;
+        }
         return 0;
 }
