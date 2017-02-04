@@ -33,6 +33,22 @@ void makeopt(void)
         }
 }
 
+void breakopt(void)
+{
+	char datastring[100];
+	int i = 0;
+        if (Mmc_Fat_Assign("SETTINGS.TXT",0x80) == 1)
+        {
+        	Mmc_Fat_Rewrite();
+                for (i=0;i<optisize;i++)
+                {
+                        sprintf(datastring,"%s=%s\n",options[i],values[i]);
+                        Mmc_Fat_Write(datastring,strlen(datastring));
+                }
+                Mmc_Fat_Close();
+        }
+}
+
 char * getmyopt(char *parameter)
 {
         int i = 0;

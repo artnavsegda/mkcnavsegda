@@ -77,6 +77,7 @@ unsigned int http(static unsigned char *getRequest,static unsigned char *buf2)
                         len += SPI_Ethernet_putConstString(httpMimeTypeText);
                         len += SPI_Ethernet_putString(buf2);
                         setmultiopt(strstr(buf2,"\r\n\r\n")+4);
+                        breakopt();
                 }
                 else
                 {
