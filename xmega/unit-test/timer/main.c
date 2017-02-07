@@ -270,7 +270,7 @@ void Print_Info(void)
         PrintOut(PrintHandler, "======= DIGITAL =======\r\n");
         PrintOut(PrintHandler, "DIGITAL: %5f\r\n", (((float)(zerostage-zerolevelavg)/(float)(celllevelavg-zerolevelavg))*(1297.17*exp(0.0082*(TMP_Celsius(ADC_Voltage(celltempavg))-25)))));
         PrintOut(PrintHandler, "STATUS: %5d\r\n", (lowlight<<1)|(lowflow<<2)|(PORTU3_IN.B6<<3)|(PORTU2_IN.B7<<4)|(PORTU1_IN.B1<<5)|(PORTU2_IN.B3<<6)|(PORTU2_IN.B4<<7));
-        PrintOut(PrintHandler, "CFN:: %5f\r\n", (1297.17*exp(0.0082*(TMP_Celsius(ADC_Voltage(celltempavg))-25)))/(float)(celllevelavg-zerolevelavg));
+        PrintOut(PrintHandler, "CFN: %5f\r\n", (1297.17*exp(0.082*(TMP_Celsius(ADC_Voltage(celltempavg))-25)))/(float)(celllevelavg-zerolevelavg));
         PrintOut(PrintHandler, "======= end frame =======\r\n");
 }
 
