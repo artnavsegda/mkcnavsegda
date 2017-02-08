@@ -1,0 +1,12 @@
+0	1	mikrocAVR.exe -MSF -DBG -pATXMEGA128A1 -Y -DL -SSA -O11111114 -fo2 -N"E:\Slavisa\ceves\Support\Testiranje - evidencija\Hardware\2010-09-02\XMEGA-Ready HW REV 1.01\Prilozi\Primeri_za_testiranje\LED Blinking\Interni OSC 2MHz\LED\led.mcpav" -SP"C:\Documents and Settings\All Users\Application Data\Mikroelektronika\mikroC PRO for AVR\defs\" -SP"C:\Documents and Settings\All Users\Application Data\Mikroelektronika\mikroC PRO for AVR\Uses\GT64KW\" -SP"E:\Slavisa\ceves\Support\Testiranje - evidencija\Hardware\2010-09-02\XMEGA-Ready HW REV 1.01\Prilozi\Primeri_za_testiranje\LED Blinking\Interni OSC 2MHz\LED\" "led.c" "__Lib_Math.mcl" "__Lib_MathDouble.mcl" "__Lib_System.mcl" "__Lib_Delays.mcl"	 
+diagnostics: 0	126	All files Preprocessed in 15 ms	 
+diagnostics: 0	122	Compilation Started	led.c
+diagnostics: 39	123	Compiled Successfully	led.c
+diagnostics: 0	127	All files Compiled in 63 ms	 
+hint: 0	1144	Used RX (bytes): 8 (25%)   Free RX (bytes): 24 (75%)	Used RX (bytes): 8 (25%)   Free RX (bytes): 24 (75%)
+hint: 0	1144	Static RAM (bytes): 0   Dynamic RAM (bytes): 8192	Static RAM (bytes): 0   Dynamic RAM (bytes): 8192
+hint: 0	1144	Used ROM (bytes): 718 (1%)  Free ROM (bytes): 138546 (99%)	Used ROM (bytes): 718 (1%)  Free ROM (bytes): 138546 (99%)
+diagnostics: 0	125	Project Linked Successfully	led.mcpav
+diagnostics: 0	128	Linked in 578 ms	 
+diagnostics: 0	129	Project 'led.mcpav' completed: 1016 ms	 
+diagnostics: 0	103	Finished successfully: 02 Sep 2010, 14:54:57	led.mcpav

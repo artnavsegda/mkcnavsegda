@@ -1,0 +1,8 @@
+main
+	UARTC0_Write_Text
+		UARTC0_Write
+	UARTC0_Data_Ready
+	UARTC0_Read
+	UARTC0_Write
+	__CC2DW
+	UARTC0_Init
