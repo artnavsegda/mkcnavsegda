@@ -1,0 +1,48 @@
+_main:
+  begin   (midx: 0)
+//Uart.c,25 :: 		void main() {
+_main:
+  begin   (midx: 0)
+//Uart.c,27 :: 		UARTC0_Init(19200);              // Initialize UART module at 19200 bps
+	R2 <1> <- PUSH(R2)   (midx: 0)
+	R3 <1> <- PUSH(R3)   (midx: 0)
+   (midx: 0)
+	USARTC0_CTRLB+0.b2 <0> <- 1   (midx: 18)
+	USARTC0_BAUDCTRLA <1> <- 12   (midx: 0)
+	USARTC0_BAUDCTRLB <1> <- 0   (midx: 0)
+	CALL _UARTC0_Init   (midx: 0)
+//Uart.c,28 :: 		Delay_ms(1000);                  // Wait for UART module to stabilize
+	asm: -1   (midx: 1)
+	asm: -1   (midx: 1)
+	asm: -1   (midx: 1)
+	asm: -1   (midx: 2)
+	asm: -1   (midx: 1)
+	asm: -1   (midx: 1)
+	asm: -1   (midx: 1)
+	asm: -1   (midx: 1)
+	asm: -1   (midx: 1)
+	asm: -1   (midx: 1)
+	asm: -1   (midx: 1)
+	asm: -1   (midx: 1)
+//Uart.c,30 :: 		UARTC0_Write_Text("Start");
+	?lstr1_Uart <-initialize(0)   (midx: 0)
+	R16 <2> <- addr(?lstr1_Uart)   (midx: 0)
+	R2 <2> <- R16   (midx: 0)
+	CALL _UARTC0_Write_Text   (midx: 0)
+//Uart.c,32 :: 		while (1) {                      // Endless loop
+1:   (midx: 0)
+//Uart.c,33 :: 		if (UARTC0_Data_Ready()) {      // If data is received,
+	CALL _UARTC0_Data_Ready   (midx: 0)
+	if (!R16) then goto 3   (midx: 0)
+//Uart.c,34 :: 		uart_rd = UARTC0_Read();      // read the received data,
+	CALL _UARTC0_Read   (midx: 0)
+	_uart_rd <1> <- R16   (midx: 0)
+//Uart.c,35 :: 		UARTC0_Write(uart_rd);        // and send data via UART
+	R2 <1> <- R16   (midx: 0)
+	CALL _UARTC0_Write   (midx: 0)
+//Uart.c,36 :: 		}
+3:   (midx: 0)
+//Uart.c,37 :: 		}
+	goto	1   (midx: 0)
+  end
+   (midx: 0)

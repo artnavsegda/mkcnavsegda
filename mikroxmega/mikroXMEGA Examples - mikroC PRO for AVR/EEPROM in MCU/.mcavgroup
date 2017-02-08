@@ -1,0 +1,8 @@
+[PROJECTS]
+Count=4
+Project0=EEPROM in MCU\Eeprom.mcpav
+Project1=Flash in MCU\Flash_test.mcpav
+Project2=Timer0 Interrupt\Timer0_Interrupt.mcpav
+Project3=Timer1 Interrupt\Timer1_Interrupt.mcpav
+[ActiveProject]
+Index=0
