@@ -6,19 +6,19 @@ Value=0
 [BUILD_TYPE]
 Value=0
 [ACTIVE_TAB]
-Value=main.c
+Value=ethernet.c
 [USE_EEPROM]
 Value=0
 [USE_HEAP]
 Value=1
 [HEAP_SIZE]
-Value=1024
+Value=4096
 [EEPROM_DEFINITION]
 Value=
 [BOOT_TYPE]
 Value=0
 [FILES]
-Count=14
+Count=13
 File0=main.c
 File1=ad7705.c
 File2=ports.c
@@ -30,21 +30,21 @@ File7=timer.c
 File8=adc.c
 File9=global.c
 File10=settings.c
-File11=httpUtils.c
-File12=http.c
-File13=tftp.c
+File11=http.c
+File12=tftp.c
 [BINARIES]
 Count=0
 [IMAGES]
 Count=0
 ActiveImageIndex=-1
 [OPENED_FILES]
-Count=5
+Count=6
 File0=tftp.c
 File1=modbus.c
 File2=http.c
 File3=main.c
 File4=settings.c
+File5=ethernet.c
 [EEPROM]
 Count=0
 [ACTIVE_COMMENTS_FILES]
@@ -52,15 +52,15 @@ Count=0
 [OTHER_FILES]
 Count=0
 [SEARCH_PATH]
-Count=5
+Count=4
 Path0=C:\Program Files\Mikroelektronika\mikroC PRO for AVR\Defs\
 Path1=C:\Program Files\Mikroelektronika\mikroC PRO for AVR\Uses\
 Path2=Y:\GitHub\mkcnavsegda\xmega\modbus\
-Path4=C:\Program Files\Mikroelektronika\mikroC PRO for AVR\Uses\GT64KW\
+Path3=C:\Program Files\Mikroelektronika\mikroC PRO for AVR\Uses\GT64KW\
 [HEADER_PATH]
-Count=3
+Count=2
 Path0=C:\Program Files\Mikroelektronika\mikroC PRO for AVR\Uses\GT64KW\
-Path2=Y:\GitHub\mkcnavsegda\xmega\modbus\
+Path1=Y:\GitHub\mkcnavsegda\xmega\modbus\
 [HEADERS]
 Count=13
 File0=ad7705.h
