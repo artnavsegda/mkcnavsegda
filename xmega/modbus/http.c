@@ -1,6 +1,8 @@
 #include "http.h"
 #include "global.h"
 #include "settings.h"
+#include "bswap.h"
+#include "average.h"
 
 unsigned char httpHeader[100] = "HTTP/1.1 200 OK" ;  // HTTP header
 const char * httpMimeType;
@@ -62,6 +64,15 @@ unsigned int http(static unsigned char *getRequest,static unsigned char *buf2)
                         len += SPI_Ethernet_putConstString("You're so special: ");
                         len += SPI_Ethernet_putString(strstr(buf2,"\r\n\r\n")+4);
                         //len += SPI_Ethernet_putString(buf2);
+                }
+                else if (strcmp("/getdata",getRequest)==0)
+                {
+                        sprintf(httpHeader,"HTTP/1.1 %d OK",(int)200);
+                        len += SPI_Ethernet_putConstString(httpMimeTypeText);
+                        if (strcmp("raw",strstr(buf2,"\r\n\r\n")+4)==0)
+                                PrintOut(WebHandler, "%d", BSWAP_16(result));
+			else if (strcmp("x16",strstr(buf2,"\r\n\r\n")+4)==0)
+				PrintOut(WebHandler, "%d", oversample(&firststage,64)/64);
                 }
                 else if (strcmp("/getopt",getRequest)==0)
                 {
