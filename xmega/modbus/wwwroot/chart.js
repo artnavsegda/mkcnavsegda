@@ -4,15 +4,15 @@ var line2 = new TimeSeries();
 
 function dropdata()
 {
-        xhttp.open("LOL", "getdata", false);
-        xhttp.send("x16");
+        xhttp.open("GET", "getx16", false);
+        xhttp.send();
         line1.append(new Date().getTime(), xhttp.responseText);
 }
 
 function dropdata2()
 {
-        xhttp.open("LOL", "getdata", false);
-        xhttp.send("raw");
+        xhttp.open("GET", "getraw", false);
+        xhttp.send();
         line2.append(new Date().getTime(), xhttp.responseText);
 }
 

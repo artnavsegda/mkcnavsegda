@@ -6,10 +6,10 @@
 
 unsigned char httpHeader[100] = "HTTP/1.1 200 OK" ;  // HTTP header
 const char * httpMimeType;
-const char httpMimeTypeHTML[] = "\nContent-type: text/html\n\n" ;              // HTML MIME type
-const char httpMimeTypeScript[] = "\nContent-type: application/javascript\n\n" ;           // JS MIME type
-const char httpMimeTypeText[] = "\nContent-type: text/plain\n\n" ;           // TEXT MIME type
-const char httpMimeTypeCSS[] = "\nContent-type: text/CSS\n\n" ;           // CSS MIME type
+const char httpMimeTypeHTML[] = "\r\nContent-type: text/html\r\n\r\n" ;              // HTML MIME type
+const char httpMimeTypeScript[] = "\r\nContent-type: application/javascript\r\n\r\n" ;           // JS MIME type
+const char httpMimeTypeText[] = "\r\nContent-type: text/plain\r\n\r\n" ;           // TEXT MIME type
+const char httpMimeTypeCSS[] = "\r\nContent-type: text/CSS\r\n\r\n" ;           // CSS MIME type
 char indexpage[] = "/index.htm";
 
 void WebHandler(char c)
@@ -62,8 +62,8 @@ unsigned int http(static unsigned char *getRequest,static unsigned char *buf2)
                         len = SPI_Ethernet_putString(httpHeader);
                         len += SPI_Ethernet_putConstString(httpMimeTypeText);
                         len += SPI_Ethernet_putConstString("You're so special: ");
-                        len += SPI_Ethernet_putString(strstr(buf2,"\r\n\r\n")+4);
-                        //len += SPI_Ethernet_putString(buf2);
+                        //len += SPI_Ethernet_putString(strstr(buf2,"\r\n\r\n")+4);
+                        len += SPI_Ethernet_putString(buf2);
                 }
                 else if (strcmp("/getdata",getRequest)==0)
                 {
@@ -72,8 +72,24 @@ unsigned int http(static unsigned char *getRequest,static unsigned char *buf2)
                         len += SPI_Ethernet_putConstString(httpMimeTypeText);
                         if (strcmp("raw",strstr(buf2,"\r\n\r\n")+4)==0)
                                 PrintOut(WebHandler, "%d", BSWAP_16(result));
-			else if (strcmp("x16",strstr(buf2,"\r\n\r\n")+4)==0)
-				PrintOut(WebHandler, "%d", oversample(&firststage,64)/64);
+                        else if (strcmp("x16",strstr(buf2,"\r\n\r\n")+4)==0)
+                                PrintOut(WebHandler, "%d", oversample(&firststage,64)/64);
+                }
+                else if (strcmp("/getraw",getRequest)==0)
+                {
+                        sprintf(httpHeader,"HTTP/1.1 %d OK",(int)200);
+                        len = SPI_Ethernet_putString(httpHeader);
+                        len += SPI_Ethernet_putConstString("\r\nCache-Control: no-cache");
+                        len += SPI_Ethernet_putConstString(httpMimeTypeText);
+                        PrintOut(WebHandler, "%d", BSWAP_16(result));
+                }
+                else if (strcmp("/getx16",getRequest)==0)
+                {
+                        sprintf(httpHeader,"HTTP/1.1 %d OK",(int)200);
+                        len = SPI_Ethernet_putString(httpHeader);
+                        len += SPI_Ethernet_putConstString("\r\nCache-Control: no-cache");
+                        len += SPI_Ethernet_putConstString(httpMimeTypeText);
+                        PrintOut(WebHandler, "%d", oversample(&firststage,64)/64);
                 }
                 else if (strcmp("/getopt",getRequest)==0)
                 {

@@ -1,10 +1,8 @@
 var xhttp = new XMLHttpRequest();
 
-setInterval(dropdata, 1000);
-
 function dropdata()
 {
-        xhttp.open("GET", "getx16", false);
-        xhttp.send();
+        xhttp.open("GET", "special", false);
+        xhttp.send("special");
         document.getElementById("demo").innerHTML = xhttp.responseText;
 }
