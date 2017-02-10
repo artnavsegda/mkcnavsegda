@@ -68,6 +68,7 @@ unsigned int http(static unsigned char *getRequest,static unsigned char *buf2)
                 else if (strcmp("/getdata",getRequest)==0)
                 {
                         sprintf(httpHeader,"HTTP/1.1 %d OK",(int)200);
+                        len = SPI_Ethernet_putString(httpHeader);
                         len += SPI_Ethernet_putConstString(httpMimeTypeText);
                         if (strcmp("raw",strstr(buf2,"\r\n\r\n")+4)==0)
                                 PrintOut(WebHandler, "%d", BSWAP_16(result));
