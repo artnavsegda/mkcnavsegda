@@ -7,7 +7,7 @@
 unsigned int SPI_Ethernet_UserTCP(unsigned char *remoteHost, unsigned int remotePort, unsigned int localPort, unsigned int reqLength, TEthPktFlags *flags)
 {
         static struct mbframestruct askframe;
-        unsigned char *getRequest;
+        static unsigned char getRequest[1500];
         unsigned char *method;
         unsigned char *page;
         unsigned char *buf2;
@@ -16,7 +16,8 @@ unsigned int SPI_Ethernet_UserTCP(unsigned char *remoteHost, unsigned int remote
         {
                 case 80:
                 {
-                        getRequest = Malloc(reqLength+1);
+                        if (reqLength > sizeof(getRequest))
+                                reqLength = sizeof(getRequest);
                         SPI_Ethernet_getBytes(getRequest, 0xFFFF, reqLength);
                         getRequest[reqLength] = 0;
                         method = strtok(getRequest," ");
@@ -24,7 +25,6 @@ unsigned int SPI_Ethernet_UserTCP(unsigned char *remoteHost, unsigned int remote
                         buf2 = page+strlen(page)+1;//ugly but well fuck
                         flags->canCloseTCP = 1;
                         len = http(page,buf2);
-                        Free(getRequest,reqLength+1);
                         return len;
                 }
                 break;
