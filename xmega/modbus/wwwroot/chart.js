@@ -22,6 +22,6 @@ function createTimeline()
         smoothie.addTimeSeries(line2,{strokeStyle:'rgb(200,0,0)'});
         smoothie.addTimeSeries(line1,{lineWidth:2});
         smoothie.streamTo(document.getElementById("mycanvas"));
-        setInterval(dropdata, 500);
-        setInterval(dropdata2, 100);
+        setInterval(dropdata, 501);
+        setInterval(dropdata2, 99);
 }
