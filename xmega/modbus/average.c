@@ -15,6 +15,21 @@ long average(unsigned int *selekta,int amount, int startpos, int sizeofmassive) 
         return x;
 }
 
+unsigned int leverage(unsigned int *selekta,int i, int startpos, int sizeofmassive)
+{
+	int x = 0;
+	if (startpos-i>0)
+ 		x=selekta[startpos-i-1];
+	else
+		x=selekta[sizeofmassive+(startpos-i)-1];
+	return x;
+}
+
+unsigned int wayback(struct massive *working, unsigned int backstep)
+{
+        return leverage(working->massive,backstep,working->position,sizeof(working->massive)/2);
+}
+
 long oversample(struct massive *working, unsigned int amount)
 {
         return average(working->massive,amount,working->position,sizeof(working->massive)/2);

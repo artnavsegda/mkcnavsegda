@@ -42,6 +42,7 @@ void setmultiopt(char *multistring)
 
 unsigned int http(static unsigned char *getRequest,static unsigned char *buf2)
 {
+        int i;
         unsigned long filesize, no_bytes;
         if (strcmp(getRequest,"/")==0)
                  getRequest = indexpage;
@@ -81,7 +82,7 @@ unsigned int http(static unsigned char *getRequest,static unsigned char *buf2)
                         len = SPI_Ethernet_putString(httpHeader);
                         len += SPI_Ethernet_putConstString("\r\nCache-Control: no-cache");
                         len += SPI_Ethernet_putConstString(httpMimeTypeText);
-                        PrintOut(WebHandler, "%d", BSWAP_16(result));
+                        PrintOut(WebHandler, "%u", BSWAP_16(result));
                 }
                 else if (strcmp("/getx16",getRequest)==0)
                 {
@@ -89,7 +90,18 @@ unsigned int http(static unsigned char *getRequest,static unsigned char *buf2)
                         len = SPI_Ethernet_putString(httpHeader);
                         len += SPI_Ethernet_putConstString("\r\nCache-Control: no-cache");
                         len += SPI_Ethernet_putConstString(httpMimeTypeText);
-                        PrintOut(WebHandler, "%d", oversample(&firststage,64)/64);
+                        PrintOut(WebHandler, "%u", oversample(&firststage,64)/64);
+                }
+                else if (strcmp("/getrun",getRequest)==0)
+                {
+                        sprintf(httpHeader,"HTTP/1.1 %d OK",(int)200);
+                        len = SPI_Ethernet_putString(httpHeader);
+                        len += SPI_Ethernet_putConstString("\r\nCache-Control: no-cache");
+                        len += SPI_Ethernet_putConstString(httpMimeTypeText);
+                        len += SPI_Ethernet_putConstString("[ ");
+                        for (i=1; i<100; i++)
+                                PrintOut(WebHandler, "%u, ", wayback(&secondstage,i));
+                        PrintOut(WebHandler, "%u ]", wayback(&secondstage,100));
                 }
                 else if (strcmp("/getopt",getRequest)==0)
                 {
