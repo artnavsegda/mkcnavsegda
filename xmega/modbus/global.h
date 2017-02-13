@@ -1,3 +1,4 @@
+extern struct massive burnstage;
 extern struct massive firststage;
 extern struct massive secondstage;
 extern struct massive temperature_averaging_massive;

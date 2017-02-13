@@ -22,6 +22,11 @@ void Timer0Overflow_ISR() org IVT_ADDR_TCC0_OVF
         asm wdr;
 }
 
+void Timer1Overflow_ISR() org IVT_ADDR_TCC1_OVF
+{
+	increment(&burnstage,BSWAP_16(result));
+}
+
 void Ports_Init(void)
 {
         LED0_Direction = 1;
@@ -97,6 +102,8 @@ void main()
         SPI_Ethernet_confNetwork("\xFF\xFF\xFF\x00", "\xC0\xA8\x01\x01", "\xC0\xA8\x01\x01");
         Timer_Init(&TCC0, 1000000);
         Timer_Interrupt_Enable(&TCC0);
+        Timer_Init(&TCC1, 100000);
+        Timer_Interrupt_Enable(&TCC1);
         PMIC_CTRL = 4;
         CPU_SREG.B7 = 1;
         Entermode(STARTLEVEL);

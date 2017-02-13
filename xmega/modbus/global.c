@@ -2,6 +2,7 @@
 #include "ad7705.h"
 #include "average.h"
 
+struct massive burnstage;
 struct massive firststage;
 struct massive secondstage;
 struct massive temperature_averaging_massive;

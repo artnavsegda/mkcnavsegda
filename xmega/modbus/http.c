@@ -84,6 +84,17 @@ unsigned int http(static unsigned char *getRequest,static unsigned char *buf2)
                         len += SPI_Ethernet_putConstString(httpMimeTypeText);
                         PrintOut(WebHandler, "%u", BSWAP_16(result));
                 }
+                else if (strcmp("/getrawrun",getRequest)==0)
+                {
+                        sprintf(httpHeader,"HTTP/1.1 %d OK",(int)200);
+                        len = SPI_Ethernet_putString(httpHeader);
+                        len += SPI_Ethernet_putConstString("\r\nCache-Control: no-cache");
+                        len += SPI_Ethernet_putConstString(httpMimeTypeText);
+                        len += SPI_Ethernet_putConstString("[ ");
+                        for (i=1; i<100; i++)
+                                PrintOut(WebHandler, "%u, ", wayback(&burnstage,i));
+                        PrintOut(WebHandler, "%u ]", wayback(&burnstage,100));
+                }
                 else if (strcmp("/getx16",getRequest)==0)
                 {
                         sprintf(httpHeader,"HTTP/1.1 %d OK",(int)200);
