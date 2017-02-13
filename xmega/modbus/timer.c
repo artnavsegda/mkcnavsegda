@@ -100,7 +100,7 @@ enum modelist Sequence(enum modelist modetosequence)
                 case ELEMENTALMERCURY: return TOTALMERCURYDELAY;
                 case PRECALIBRATIONDELAY: return CALIBRATION;
                 case CALIBRATION: return POSTCALIBRATIONDELAY;
-                case POSTCALIBRATIONDELAY: return PRECALIBRATIONDELAY;
+                case POSTCALIBRATIONDELAY: return TOTALMERCURYDELAY;
         }
         return modetosequence;
 }
