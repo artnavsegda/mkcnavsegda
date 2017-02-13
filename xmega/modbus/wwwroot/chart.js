@@ -14,7 +14,7 @@ function dropdata2()
         xhttp.open("GET", "getrawrun", false);
         xhttp.send();
         var arava = JSON.parse(xhttp.responseText);
-        for (i = 0; i < 100; i++)
+        for (i = 0; i < 10; i++)
         {
                 line2.append(new Date().getTime()-(i*100), arava[i]);
         }
