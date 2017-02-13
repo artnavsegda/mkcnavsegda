@@ -91,9 +91,9 @@ unsigned int http(static unsigned char *getRequest,static unsigned char *buf2)
                         len += SPI_Ethernet_putConstString("\r\nCache-Control: no-cache");
                         len += SPI_Ethernet_putConstString(httpMimeTypeText);
                         len += SPI_Ethernet_putConstString("[ ");
-                        for (i=1; i<100; i++)
+                        for (i=1; i<10; i++)
                                 PrintOut(WebHandler, "%u, ", wayback(&burnstage,i));
-                        PrintOut(WebHandler, "%u ]", wayback(&burnstage,100));
+                        PrintOut(WebHandler, "%u ]", wayback(&burnstage,10));
                 }
                 else if (strcmp("/getx16",getRequest)==0)
                 {
