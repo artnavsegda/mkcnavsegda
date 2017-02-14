@@ -1,26 +1,3 @@
-/*
- * Project name:
-     UART (Simple usage of UART module library functions)
- * Copyright:
-     (c) Mikroelektronika, 2010.
- * Revision History:
-     20080930:
-       - initial release;
- * Description:
-     This code demonstrates how to use UART library routines. Upon receiving
-     data via RS232, MCU immediately sends it back to the sender.
- * Test configuration:
-     MCU:             ATxmega128A1
-                      http://www.atmel.com/dyn/resources/prod_documents/doc8067.pdf
-     Dev.Board:       -
-     Oscillator:      Internal Clock 2.0000 MHz
-     Ext. Modules:    -
-     SW:              mikroC PRO for AVR
-                      http://www.mikroe.com/eng/products/view/228/mikroc-pro-for-avr/
- * NOTES:
-     -
- */
-
 // TFT display connections
 char TFT_16bit_DataPort_Lo at PORTJ_OUT;
 char TFT_16bit_DataPort_Hi at PORTK_OUT;
@@ -65,14 +42,15 @@ TFT_Init_ILI9341_16bit(240, 320);
 
 TFT_16bit_Fill_Screen(CL_LIME_16bit);
 
+TFT_16bit_Write_Text("TFT 16-bit Library DEMO, WELCOME !", 0, 0);
 
-  while (1) {                      // Endless loop
-  TFT_16bit_Fill_Screen(CL_TEAL_16bit);
-  TFT_16bit_Fill_Screen(CL_MAROON_16bit);
-   if (UARTC0_Data_Ready()) {      // If data is received,
-     uart_rd = UARTC0_Read();      // read the received data,
-     UARTC0_Write(uart_rd);        // and send data via UART
-    }
-  }
+//  while (1) {                      // Endless loop
+//  TFT_16bit_Fill_Screen(CL_TEAL_16bit);
+//  TFT_16bit_Fill_Screen(CL_MAROON_16bit);
+//   if (UARTC0_Data_Ready()) {      // If data is received,
+//     uart_rd = UARTC0_Read();      // read the received data,
+//     UARTC0_Write(uart_rd);        // and send data via UART
+//    }
+//  }
 
 }
