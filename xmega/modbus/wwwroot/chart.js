@@ -36,7 +36,7 @@ function createTimeline()
         var smoothie = new SmoothieChart({millisPerPixel:100,maxValue:7000,minValue:6000,grid:{millisPerLine:5000,verticalSections:10,strokeStyle:'#202020',sharpLines:true},interpolation:'linear'});
         smoothie.addTimeSeries(line2,{strokeStyle:'rgb(200,0,0)'});
         smoothie.addTimeSeries(line1,{lineWidth:2});
-        smoothie.streamTo(document.getElementById("mycanvas"));
+        smoothie.streamTo(document.getElementById("mycanvas"),1000);
         dropdata3();
         setInterval(dropdata, 501);
         setInterval(dropdata2, 1000);
