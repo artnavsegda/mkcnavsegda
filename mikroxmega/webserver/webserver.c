@@ -1,8 +1,8 @@
 #include  <__EthEnc28j60.h>
 
-sfr sbit SPI_Ethernet_Rst at PORTC_OUT.B3;
+sfr sbit SPI_Ethernet_Rst at PORTC_OUT.B0;
 sfr sbit SPI_Ethernet_CS  at PORTC_OUT.B4;
-sfr sbit SPI_Ethernet_Rst_Direction at PORTC_DIR.B3;
+sfr sbit SPI_Ethernet_Rst_Direction at PORTC_DIR.B0;
 sfr sbit SPI_Ethernet_CS_Direction  at PORTC_DIR.B4;
 
 sfr sbit Mmc_Chip_Select at PORTD_OUT.B4;
