@@ -31,20 +31,24 @@ void SysClk_Init() {
 }
 
 void main() {
-	char mmc_error;
+        char mmc_error;
         SysClk_Init();
         UARTC0_Init(19200);
         SPIC_Init();
+        SPID_Init();
+        SPI_Set_Active(&SPIC_Read, &SPIC_Write);
         //PORTC_OUT.B4 = 1; //important to disable SPIC SS prior to configure ethernet
         SPI_Ethernet_Init("\x00\x14\xA5\x76\x19\x3f", "\xC0\xA8\x01\x96", 0x01);
         SPI_Ethernet_confNetwork("\xFF\xFF\xFF\x00", "\xC0\xA8\x01\x01", "\xC0\xA8\x01\x01");
-        SPID_Init_Advanced(_SPI_MASTER, _SPI_FCY_DIV2, _SPI_CLK_LO_LEADING);
+        //SPID_Init_Advanced(_SPI_MASTER, _SPI_FCY_DIV2, _SPI_CLK_LO_LEADING);
         
-	mmc_error = Mmc_Init();
-	if(mmc_error == 0)
-		UARTC0_Write_Text("MMC Init-OK");       // If MMC present report
-	else
-		UARTC0_Write_Text("MMC Init-error");    // If error report
+        SPI_Set_Active(&SPID_Read, &SPID_Write);
+        mmc_error = Mmc_Init();
+        //if(mmc_error == 0)
+        //        UARTC0_Write_Text("MMC Init-OK");       // If MMC present report
+        //else
+        //        UARTC0_Write_Text("MMC Init-error");    // If error report
+        SPI_Set_Active(&SPIC_Read, &SPIC_Write);
 
         while(1)
                 SPI_Ethernet_doPacket();
