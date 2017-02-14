@@ -44,10 +44,10 @@ void main() {
         
         SPI_Set_Active(&SPID_Read, &SPID_Write);
         mmc_error = Mmc_Init();
-        //if(mmc_error == 0)
-        //        UARTC0_Write_Text("MMC Init-OK");       // If MMC present report
-        //else
-        //        UARTC0_Write_Text("MMC Init-error");    // If error report
+        if(mmc_error == 0)
+                UARTC0_Write_Text("MMC Init-OK");       // If MMC present report
+        else
+                UARTC0_Write_Text("MMC Init-error");    // If error report
         SPI_Set_Active(&SPIC_Read, &SPIC_Write);
 
         while(1)

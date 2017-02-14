@@ -36,13 +36,13 @@ Count=0
 Count=0
 [SEARCH_PATH]
 Count=8
-Path0=C:\Users\Public\Documents\Mikroelektronika\mikroC PRO for AVR\Defs\
-Path1=C:\Users\Public\Documents\Mikroelektronika\mikroC PRO for AVR\Uses\GT64KW\
-Path2=C:\Users\Art Navsegda\Documents\GitHub\mkcnavsegda\mikroxmega\webserver\
-Path3=C:\Users\Public\Documents\Mikroelektronika\mikroC PRO for AVR\Uses\
+Path0=C:\Program Files\Mikroelektronika\mikroC PRO for AVR\Defs\
+Path1=C:\Program Files\Mikroelektronika\mikroC PRO for AVR\Uses\GT64KW\
+Path2=Z:\GitHub\mkcnavsegda\mikroxmega\webserver\
+Path3=C:\Program Files\Mikroelektronika\mikroC PRO for AVR\Uses\
 [HEADER_PATH]
 Count=2
-Path1=C:\Users\Public\Documents\Mikroelektronika\mikroC PRO for AVR\Uses\GT64KW\
+Path1=C:\Program Files\Mikroelektronika\mikroC PRO for AVR\Uses\GT64KW\
 [HEADERS]
 Count=0
 [PLDS]
