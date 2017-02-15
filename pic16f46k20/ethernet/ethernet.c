@@ -31,7 +31,7 @@ const unsigned char httpMimeTypeScript[] = "text/plain\n\n" ;           // TEXT 
 /*const   char    *HTMLfooter = "\
 </BODY></HTML>\n\n" ;*/
 
-unsigned char   myMacAddr[6] = {0x00, 0x14, 0xA5, 0x76, 0x19, 0x3f} ;   // my MAC address
+unsigned char   myMacAddr[6] = {0x00, 0x14, 0xA5, 0x77, 0x18, 0x3f} ;   // my MAC address
 unsigned char   myIpAddr[4]  = {192, 168, 1, 150} ;                     // my IP address
 unsigned int    len = 0;            // my reply length
 
