@@ -24,7 +24,7 @@ void Timer0Overflow_ISR() org IVT_ADDR_TCC0_OVF
 
 void Timer1Overflow_ISR() org IVT_ADDR_TCC1_OVF
 {
-	increment(&burnstage,BSWAP_16(result));
+        increment(&burnstage,BSWAP_16(result));
 }
 
 void Ports_Init(void)
@@ -37,6 +37,7 @@ void Ports_Init(void)
         Calibration_Valve_Direction = 0;
         Zero_Valve_Direction = 0;
         Expander_Set_DirectionPort(PORTU1,PORTU1_DIR);
+        Expander_Init(PORTU2);
         Expander_Init(PORTU3);
         IgnitionDirection = 0;
         Expander_Set_DirectionPort(PORTU3,PORTU3_DIR);
