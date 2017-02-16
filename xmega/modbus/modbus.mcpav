@@ -54,15 +54,15 @@ Count=0
 [OTHER_FILES]
 Count=0
 [SEARCH_PATH]
-Count=5
+Count=4
 Path0=C:\Program Files\Mikroelektronika\mikroC PRO for AVR\Defs\
 Path1=C:\Program Files\Mikroelektronika\mikroC PRO for AVR\Uses\
 Path2=Y:\GitHub\mkcnavsegda\xmega\modbus\
-Path4=C:\Program Files\Mikroelektronika\mikroC PRO for AVR\Uses\GT64KW\
+Path3=C:\Program Files\Mikroelektronika\mikroC PRO for AVR\Uses\GT64KW\
 [HEADER_PATH]
-Count=3
+Count=2
 Path0=C:\Program Files\Mikroelektronika\mikroC PRO for AVR\Uses\GT64KW\
-Path2=Y:\GitHub\mkcnavsegda\xmega\modbus\
+Path1=Y:\GitHub\mkcnavsegda\xmega\modbus\
 [HEADERS]
 Count=12
 File0=ad7705.h
