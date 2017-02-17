@@ -1,6 +1,8 @@
 char settings [1000] = "\
 ip=192.168.1.150\n\
 mac=00:14:a5:76:19:3f\n\
+lowlight=2000\n\
+lowflow=1000\n\
 sll=10\n\
 cdl=10\n\
 cel=10\n\
@@ -39,8 +41,8 @@ void breakopt(void)
         int i = 0;
         if (Mmc_Fat_Assign("SETTINGS.TXT",0x80) == 1)
         {
-		Mmc_Fat_Delete();
-		Mmc_Fat_Assign("SETTINGS.TXT",0x80);
+                Mmc_Fat_Delete();
+                Mmc_Fat_Assign("SETTINGS.TXT",0x80);
                 Mmc_Fat_Rewrite();
                 for (i=0;i<optisize;i++)
                 {

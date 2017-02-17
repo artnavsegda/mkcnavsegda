@@ -6,7 +6,7 @@ Value=0
 [BUILD_TYPE]
 Value=0
 [ACTIVE_TAB]
-Value=main.c
+Value=settings.c
 [USE_EEPROM]
 Value=0
 [USE_HEAP]
@@ -38,7 +38,7 @@ Count=0
 Count=0
 ActiveImageIndex=-1
 [OPENED_FILES]
-Count=8
+Count=9
 File0=http.c
 File1=average.c
 File2=average.h
@@ -47,6 +47,7 @@ File4=modbus.c
 File5=timer.c
 File6=global.c
 File7=global.h
+File8=settings.c
 [EEPROM]
 Count=0
 [ACTIVE_COMMENTS_FILES]

@@ -45,8 +45,8 @@ void Ports_Init(void)
 
 void Fill_Table(void)
 {
-        char lowlight = ADC_Voltage(ADCB_Get_Sample(ADCB_PMT_Voltage)) < 1.0;
-        char lowflow = ADC_Voltage(ADCB_Get_Sample(ADCB_Flow)) < 1.0;
+        char lowlight = ADCB_Get_Sample(ADCB_PMT_Current) < atoi(getmyopt("lowlight"));
+        char lowflow = ADCB_Get_Sample(ADCB_Flow) < atoi(getmyopt("lowflow"));
         bctable[0] = !(lowlight | lowflow);
         bctable[1] = !(PORTU3_IN.B6 | PORTU2_IN.B7 | PORTU1_IN.B1 | PORTU2_IN.B3 | PORTU2_IN.B4);
         splitfloat(&table[8],&table[9], (float)currentmode);
