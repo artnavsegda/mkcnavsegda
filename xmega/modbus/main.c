@@ -51,9 +51,9 @@ void Fill_Table(void)
         bctable[1] = !(PORTU3_IN.B6 | PORTU2_IN.B7 | PORTU1_IN.B1 | PORTU2_IN.B3 | PORTU2_IN.B4);
         splitfloat(&table[8],&table[9], (float)currentmode);
         if (currentmode == TOTALMERCURY)
-                splitfloat(&table[10],&table[11], (((float)(zerostage-zerolevelavg)/(float)(celllevelavg-zerolevelavg))*(1297.17*exp(0.082*(TMP_Celsius(ADC_Voltage(celltempavg))-25)))));
+                splitfloat(&table[10],&table[11], (((float)(oversample(&firststage,64)/64.0-zerolevelavg)/(float)(celllevelavg-zerolevelavg))*(1297.17*exp(0.082*(TMP_Celsius(ADC_Voltage(celltempavg))-25)))));
         else
-                splitfloat(&table[12],&table[13], (((float)(zerostage-zerolevelavg)/(float)(celllevelavg-zerolevelavg))*(1297.17*exp(0.082*(TMP_Celsius(ADC_Voltage(celltempavg))-25)))));
+                splitfloat(&table[12],&table[13], (((float)(oversample(&firststage,64)/64.0-zerolevelavg)/(float)(celllevelavg-zerolevelavg))*(1297.17*exp(0.082*(TMP_Celsius(ADC_Voltage(celltempavg))-25)))));
         splitfloat(&table[14],&table[15], ADC_Voltage(ADCB_Get_Sample(ADCB_Flow)));
         splitfloat(&table[16],&table[17], ADC_Voltage(ADCA_Get_Sample(ADCA_Vacuum)));
         splitfloat(&table[18],&table[19], ADC_Voltage(ADCA_Get_Sample(ADCA_Dilution)));
@@ -90,13 +90,23 @@ void main()
         sd_init = Mmc_Fat_Init();
         if (sd_init == 0)
         {
-                if (Mmc_Fat_Assign("SETTINGS.TXT",0) == 1)
+                if (Mmc_Fat_Assign("SETTINGS.TXT",0x80) == 1)
                 {
                         Mmc_Fat_Reset(&filesize);
                         no_bytes = Mmc_Fat_ReadN(settings, filesize);
                         settings[no_bytes] = '\0'; //this is important every time
-                        Mmc_Fat_Close();
                 }
+                else
+                	Mmc_Fat_Write(settings,strlen(settings));
+                Mmc_Fat_Close();
+        }
+        else if (sd_init == 1)
+        {
+                Mmc_Fat_QuickFormat("DIGITAL");
+                Mmc_Fat_Assign("SETTINGS.TXT",0x80);
+                Mmc_Fat_Write(settings,strlen(settings));
+                Mmc_Fat_Close();
+                sd_init = 0;
         }
         makeopt();
         SPI_Ethernet_Init(getmymac(getmyopt("mac")), getmyip(getmyopt("ip")), 1);

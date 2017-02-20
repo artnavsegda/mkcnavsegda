@@ -38,14 +38,14 @@ Count=0
 [OTHER_FILES]
 Count=0
 [SEARCH_PATH]
-Count=4
+Count=5
 Path0=C:\Program Files\Mikroelektronika\mikroC PRO for AVR\Defs\
 Path1=C:\Program Files\Mikroelektronika\mikroC PRO for AVR\Uses\
-Path2=Y:\GitHub\mkcnavsegda\xmega\unit-test\ad7705\
-Path3=C:\Program Files\Mikroelektronika\mikroC PRO for AVR\Uses\GT64KW\
+Path2=Z:\GitHub\mkcnavsegda\xmega\unit-test\ad7705\
+Path4=C:\Program Files\Mikroelektronika\mikroC PRO for AVR\Uses\GT64KW\
 [HEADER_PATH]
-Count=1
-Path0=Y:\GitHub\mkcnavsegda\xmega\unit-test\ad7705\
+Count=2
+Path1=Z:\GitHub\mkcnavsegda\xmega\unit-test\ad7705\
 [HEADERS]
 Count=1
 File0=average.h

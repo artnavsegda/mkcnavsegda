@@ -38,7 +38,7 @@ Count=0
 Count=4
 Path0=C:\Program Files\Mikroelektronika\mikroC PRO for AVR\Defs\
 Path1=C:\Program Files\Mikroelektronika\mikroC PRO for AVR\Uses\
-Path2=Y:\GitHub\mkcnavsegda\xmega\unit-test\sd\
+Path2=Z:\GitHub\mkcnavsegda\xmega\unit-test\sd\
 Path3=C:\Program Files\Mikroelektronika\mikroC PRO for AVR\Uses\GT64KW\
 [HEADER_PATH]
 Count=0

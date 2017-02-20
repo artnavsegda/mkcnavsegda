@@ -114,6 +114,17 @@ unsigned int http(static unsigned char *getRequest,static unsigned char *buf2)
                                 PrintOut(WebHandler, "%u, ", wayback(&secondstage,i));
                         PrintOut(WebHandler, "%u ]", wayback(&secondstage,100));
                 }
+                else if (strcmp("/getsample",getRequest)==0)
+                {
+                        sprintf(httpHeader,"HTTP/1.1 %d OK",(int)200);
+                        len = SPI_Ethernet_putString(httpHeader);
+                        len += SPI_Ethernet_putConstString("\r\nCache-Control: no-cache");
+                        len += SPI_Ethernet_putConstString(httpMimeTypeText);
+                        len += SPI_Ethernet_putConstString("[ ");
+                        for (i=1; i<100; i++)
+                                PrintOut(WebHandler, "%u, ", wayback(&firststage,i));
+                        PrintOut(WebHandler, "%u ]", wayback(&firststage,100));
+                }
                 else if (strcmp("/getopt",getRequest)==0)
                 {
                         sprintf(httpHeader,"HTTP/1.1 %d OK",(int)200);

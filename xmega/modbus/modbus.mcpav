@@ -6,7 +6,7 @@ Value=0
 [BUILD_TYPE]
 Value=0
 [ACTIVE_TAB]
-Value=settings.c
+Value=http.c
 [USE_EEPROM]
 Value=0
 [USE_HEAP]
@@ -38,16 +38,11 @@ Count=0
 Count=0
 ActiveImageIndex=-1
 [OPENED_FILES]
-Count=9
-File0=http.c
-File1=average.c
-File2=average.h
-File3=main.c
-File4=modbus.c
-File5=timer.c
-File6=global.c
-File7=global.h
-File8=settings.c
+Count=4
+File0=main.c
+File1=http.c
+File2=settings.c
+File3=modbus.c
 [EEPROM]
 Count=0
 [ACTIVE_COMMENTS_FILES]
@@ -55,15 +50,15 @@ Count=0
 [OTHER_FILES]
 Count=0
 [SEARCH_PATH]
-Count=4
+Count=5
 Path0=C:\Program Files\Mikroelektronika\mikroC PRO for AVR\Defs\
 Path1=C:\Program Files\Mikroelektronika\mikroC PRO for AVR\Uses\
 Path2=Y:\GitHub\mkcnavsegda\xmega\modbus\
-Path3=C:\Program Files\Mikroelektronika\mikroC PRO for AVR\Uses\GT64KW\
+Path4=C:\Program Files\Mikroelektronika\mikroC PRO for AVR\Uses\GT64KW\
 [HEADER_PATH]
-Count=2
+Count=3
 Path0=C:\Program Files\Mikroelektronika\mikroC PRO for AVR\Uses\GT64KW\
-Path1=Y:\GitHub\mkcnavsegda\xmega\modbus\
+Path2=Y:\GitHub\mkcnavsegda\xmega\modbus\
 [HEADERS]
 Count=12
 File0=ad7705.h

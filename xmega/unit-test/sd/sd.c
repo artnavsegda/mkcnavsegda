@@ -42,7 +42,7 @@ char * getmac(char *config2, char *token)
 
 void main() {
         int one, two;
-        char sd_init, sd_format, sd_exists, sd_assign;
+        char sd_init = 17, sd_format = 17, sd_exists = 17, sd_assign = 17;
         unsigned long filesize;
         char settings[512] = "one=2\ntwo=1\n";
         unsigned int no_bytes;

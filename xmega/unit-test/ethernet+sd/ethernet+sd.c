@@ -83,7 +83,7 @@ void main()
         Delay_ms(10);//wait for uart to start
         UARTC0_Write_Text("MCU-Started\r\n");
         SPIC_Init_Advanced(_SPI_MASTER, _SPI_FCY_DIV2, _SPI_CLK_LO_LEADING);//init spi
-        //PORTC_OUT.B4 = 1;
+        PORTC_OUT.B4 = 1;
         switch(Mmc_Fat_Init())
         {
                 case 0:
