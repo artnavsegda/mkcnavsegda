@@ -70,6 +70,7 @@ unsigned int http(static unsigned char *getRequest,static unsigned char *buf2)
                 {
                         sprintf(httpHeader,"HTTP/1.1 %d OK",(int)200);
                         len = SPI_Ethernet_putString(httpHeader);
+                        len += SPI_Ethernet_putConstString("\r\nCache-Control: no-cache\r\nAccess-Control-Allow-Origin: *");
                         len += SPI_Ethernet_putConstString(httpMimeTypeText);
                         if (strcmp("raw",strstr(buf2,"\r\n\r\n")+4)==0)
                                 PrintOut(WebHandler, "%d", BSWAP_16(result));
@@ -80,7 +81,7 @@ unsigned int http(static unsigned char *getRequest,static unsigned char *buf2)
                 {
                         sprintf(httpHeader,"HTTP/1.1 %d OK",(int)200);
                         len = SPI_Ethernet_putString(httpHeader);
-                        len += SPI_Ethernet_putConstString("\r\nCache-Control: no-cache");
+                        len += SPI_Ethernet_putConstString("\r\nCache-Control: no-cache\r\nAccess-Control-Allow-Origin: *");
                         len += SPI_Ethernet_putConstString(httpMimeTypeText);
                         PrintOut(WebHandler, "%u", BSWAP_16(result));
                 }
@@ -88,7 +89,7 @@ unsigned int http(static unsigned char *getRequest,static unsigned char *buf2)
                 {
                         sprintf(httpHeader,"HTTP/1.1 %d OK",(int)200);
                         len = SPI_Ethernet_putString(httpHeader);
-                        len += SPI_Ethernet_putConstString("\r\nCache-Control: no-cache");
+                        len += SPI_Ethernet_putConstString("\r\nCache-Control: no-cache\r\nAccess-Control-Allow-Origin: *");
                         len += SPI_Ethernet_putConstString(httpMimeTypeText);
                         len += SPI_Ethernet_putConstString("[ ");
                         for (i=1; i<10; i++)
@@ -99,7 +100,7 @@ unsigned int http(static unsigned char *getRequest,static unsigned char *buf2)
                 {
                         sprintf(httpHeader,"HTTP/1.1 %d OK",(int)200);
                         len = SPI_Ethernet_putString(httpHeader);
-                        len += SPI_Ethernet_putConstString("\r\nCache-Control: no-cache");
+                        len += SPI_Ethernet_putConstString("\r\nCache-Control: no-cache\r\nAccess-Control-Allow-Origin: *");
                         len += SPI_Ethernet_putConstString(httpMimeTypeText);
                         PrintOut(WebHandler, "%u", oversample(&firststage,64)/64);
                 }
@@ -107,7 +108,7 @@ unsigned int http(static unsigned char *getRequest,static unsigned char *buf2)
                 {
                         sprintf(httpHeader,"HTTP/1.1 %d OK",(int)200);
                         len = SPI_Ethernet_putString(httpHeader);
-                        len += SPI_Ethernet_putConstString("\r\nCache-Control: no-cache");
+                        len += SPI_Ethernet_putConstString("\r\nCache-Control: no-cache\r\nAccess-Control-Allow-Origin: *");
                         len += SPI_Ethernet_putConstString(httpMimeTypeText);
                         len += SPI_Ethernet_putConstString("[ ");
                         for (i=1; i<100; i++)
@@ -118,7 +119,7 @@ unsigned int http(static unsigned char *getRequest,static unsigned char *buf2)
                 {
                         sprintf(httpHeader,"HTTP/1.1 %d OK",(int)200);
                         len = SPI_Ethernet_putString(httpHeader);
-                        len += SPI_Ethernet_putConstString("\r\nCache-Control: no-cache");
+                        len += SPI_Ethernet_putConstString("\r\nCache-Control: no-cache\r\nAccess-Control-Allow-Origin: *");
                         len += SPI_Ethernet_putConstString(httpMimeTypeText);
                         len += SPI_Ethernet_putConstString("[ ");
                         for (i=1; i<100; i++)
