@@ -1,5 +1,5 @@
-#define ADCB_PMT_Voltage 0
-#define ADCB_PMT_Current 1
+#define ADCB_PMT_Current 0
+#define ADCB_PMT_Voltage 1
 #define ADCB_Flow 2
 #define ADCB_Cell 3
 #define ADCA_Bypass 6

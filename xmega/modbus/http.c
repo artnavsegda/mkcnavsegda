@@ -99,6 +99,12 @@ unsigned int http(static unsigned char *getRequest,static unsigned char *buf2)
                                         PrintOut(WebHandler, "%d", ADCB_Get_Sample(ADCB_PMT_Current));
                                 else if (strcmp("pmtv",reqstring)==0)
                                         PrintOut(WebHandler, "%d", ADCB_Get_Sample(ADCB_PMT_Voltage));
+                                else if (strcmp("zerolevelavg",reqstring)==0)
+                                        PrintOut(WebHandler, "%d", zerolevelavg);
+                                else if (strcmp("celllevelavg",reqstring)==0)
+                                        PrintOut(WebHandler, "%d", celllevelavg);
+                                else if (strcmp("celltempavg",reqstring)==0)
+                                        PrintOut(WebHandler, "%d", celltempavg);
                         }
                 }
                 else if (strcmp("/getraw",getRequest)==0)
