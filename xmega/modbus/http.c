@@ -3,6 +3,7 @@
 #include "settings.h"
 #include "bswap.h"
 #include "average.h"
+#include "adc.h"
 
 unsigned char httpHeader[100] = "HTTP/1.1 200 OK" ;  // HTTP header
 const char * httpMimeType;
@@ -42,7 +43,7 @@ void setmultiopt(char *multistring)
 
 unsigned int http(static unsigned char *getRequest,static unsigned char *buf2)
 {
-	char *reqstring = 0;
+        char *reqstring = 0;
         int i;
         unsigned long filesize, no_bytes;
         if (strchr(getRequest,'?') != 0)
@@ -79,10 +80,26 @@ unsigned int http(static unsigned char *getRequest,static unsigned char *buf2)
                         len = SPI_Ethernet_putString(httpHeader);
                         len += SPI_Ethernet_putConstString("\r\nCache-Control: no-cache\r\nAccess-Control-Allow-Origin: *");
                         len += SPI_Ethernet_putConstString(httpMimeTypeText);
-                        if (strcmp("raw",strstr(buf2,"\r\n\r\n")+4)==0)
-                                PrintOut(WebHandler, "%d", BSWAP_16(result));
-                        else if (strcmp("x16",strstr(buf2,"\r\n\r\n")+4)==0)
-                                PrintOut(WebHandler, "%d", oversample(&firststage,64)/64);
+                        if (reqstring == 0)
+                        {
+                                if (strcmp("raw",strstr(buf2,"\r\n\r\n")+4)==0)
+                                        PrintOut(WebHandler, "%d", BSWAP_16(result));
+                                else if (strcmp("x16",strstr(buf2,"\r\n\r\n")+4)==0)
+                                        PrintOut(WebHandler, "%d", oversample(&firststage,64)/64);
+                        }
+                        else
+                        {
+                                if (strcmp("raw",reqstring)==0)
+                                        PrintOut(WebHandler, "%d", BSWAP_16(result));
+                                else if (strcmp("x16",reqstring)==0)
+                                        PrintOut(WebHandler, "%d", oversample(&firststage,64)/64);
+                                else if (strcmp("temp",reqstring)==0)
+                                        PrintOut(WebHandler, "%d", ADCB_Get_Sample(ADCB_Cell));
+                                else if (strcmp("pmtc",reqstring)==0)
+                                        PrintOut(WebHandler, "%d", ADCB_Get_Sample(ADCB_PMT_Current));
+                                else if (strcmp("pmtv",reqstring)==0)
+                                        PrintOut(WebHandler, "%d", ADCB_Get_Sample(ADCB_PMT_Voltage));
+                        }
                 }
                 else if (strcmp("/getraw",getRequest)==0)
                 {
@@ -139,9 +156,9 @@ unsigned int http(static unsigned char *getRequest,static unsigned char *buf2)
                         len = SPI_Ethernet_putString(httpHeader);
                         len += SPI_Ethernet_putConstString(httpMimeTypeText);
                         if (reqstring == 0)
-                        	len += SPI_Ethernet_putString(getmyopt(strstr(buf2,"\r\n\r\n")+4));
-			else
-			        len += SPI_Ethernet_putString(getmyopt(reqstring));
+                                len += SPI_Ethernet_putString(getmyopt(strstr(buf2,"\r\n\r\n")+4));
+                        else
+                                len += SPI_Ethernet_putString(getmyopt(reqstring));
                 }
                 else if (strcmp("/setopt",getRequest)==0)
                 {
@@ -150,14 +167,14 @@ unsigned int http(static unsigned char *getRequest,static unsigned char *buf2)
                         len += SPI_Ethernet_putConstString(httpMimeTypeText);
                         if (reqstring == 0)
                         {
-                        	len += SPI_Ethernet_putString(strstr(buf2,"\r\n\r\n")+4);
-                        	setmultiopt(strstr(buf2,"\r\n\r\n")+4);
-                       	}
-                       	else
-                       	{
-                       		len += SPI_Ethernet_putString(reqstring);
-                        	setmultiopt(reqstring);
-                       	}
+                                len += SPI_Ethernet_putString(strstr(buf2,"\r\n\r\n")+4);
+                                setmultiopt(strstr(buf2,"\r\n\r\n")+4);
+                        }
+                        else
+                        {
+                                len += SPI_Ethernet_putString(reqstring);
+                                setmultiopt(reqstring);
+                        }
                         breakopt();
                 }
                 else
