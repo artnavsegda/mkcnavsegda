@@ -22,10 +22,10 @@ function createTimeline()
         var tempc = new SmoothieChart({millisPerPixel:100,maxValue:1900,minValue:1500,grid:g});
         tempc.addTimeSeries(temp,{strokeStyle:'rgb(200,0,0)',lineWidth:2});
         tempc.streamTo(document.getElementById("temp"),1000);
-        var pmtcc = new SmoothieChart({millisPerPixel:100,maxValue:3800,minValue:3500,grid:g});
+        var pmtcc = new SmoothieChart({millisPerPixel:100,maxValue:2700,minValue:2500,grid:g});
         pmtcc.addTimeSeries(pmtc,{strokeStyle:'rgb(0,200,0)',lineWidth:2});
         pmtcc.streamTo(document.getElementById("pmtc"),1000);
-        var pmtvc = new SmoothieChart({millisPerPixel:100,maxValue:2700,minValue:2500,grid:g});
+        var pmtvc = new SmoothieChart({millisPerPixel:100,maxValue:3800,minValue:3200,grid:g});
         pmtvc.addTimeSeries(pmtv,{strokeStyle:'rgb(0,0,200)',lineWidth:2});
         pmtvc.streamTo(document.getElementById("pmtv"),1000);
         setInterval(dropdata, 1000);
