@@ -42,8 +42,15 @@ void setmultiopt(char *multistring)
 
 unsigned int http(static unsigned char *getRequest,static unsigned char *buf2)
 {
+	char *reqstring = 0;
         int i;
         unsigned long filesize, no_bytes;
+        if (strchr(getRequest,'?') != 0)
+        {
+                strtok(getRequest,"?");
+                reqstring = strtok(0,"\r\n");
+                //buf2 = reqstring+strlen(reqstring)+2;//maybe not today but who knows
+        }
         if (strcmp(getRequest,"/")==0)
                  getRequest = indexpage;
         if (sd_init == 0)
