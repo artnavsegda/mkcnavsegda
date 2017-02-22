@@ -46,11 +46,20 @@ void PrintHandler(char c)
         UARTC0_Write(c);
 }
 
+void Sysclk_Init(void)
+{
+        OSC_CTRL = 0x02;
+        while(RC32MRDY_bit == 0);
+        CPU_CCP = 0xD8;
+        CLK_CTRL = 1;
+}
+
 void main() {
         unsigned int result;
         LED0_Direction = 1;//led0
+        Sysclk_Init();
         UARTC0_Init(115200);
-        SPIC_Init();
+        SPIC_Init_Advanced(_SPI_MASTER, _SPI_FCY_DIV8, _SPI_CLK_LO_LEADING);
         SPI_Set_Active(&SPIC_Read, &SPIC_Write);
         SPI_Write_Bytes("\xFF\xFF\xFF\xFF\xFF", 5);
         delay_ms(100);
