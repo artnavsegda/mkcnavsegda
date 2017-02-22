@@ -25,7 +25,7 @@ function createTimeline()
         var pmtcc = new SmoothieChart({millisPerPixel:100,maxValue:2700,minValue:2500,grid:g});
         pmtcc.addTimeSeries(pmtc,{strokeStyle:'rgb(0,200,0)',lineWidth:2});
         pmtcc.streamTo(document.getElementById("pmtc"),1000);
-        var pmtvc = new SmoothieChart({millisPerPixel:100,maxValue:3800,minValue:3200,grid:g});
+        var pmtvc = new SmoothieChart({millisPerPixel:100,maxValue:3700,minValue:3000,grid:g});
         pmtvc.addTimeSeries(pmtv,{strokeStyle:'rgb(0,0,200)',lineWidth:2});
         pmtvc.streamTo(document.getElementById("pmtv"),1000);
         setInterval(dropdata, 1000);
