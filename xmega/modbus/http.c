@@ -138,15 +138,26 @@ unsigned int http(static unsigned char *getRequest,static unsigned char *buf2)
                         sprintf(httpHeader,"HTTP/1.1 %d OK",(int)200);
                         len = SPI_Ethernet_putString(httpHeader);
                         len += SPI_Ethernet_putConstString(httpMimeTypeText);
-                        len += SPI_Ethernet_putString(getmyopt(strstr(buf2,"\r\n\r\n")+4));
+                        if (reqstring == 0)
+                        	len += SPI_Ethernet_putString(getmyopt(strstr(buf2,"\r\n\r\n")+4));
+			else
+			        len += SPI_Ethernet_putString(getmyopt(reqstring));
                 }
                 else if (strcmp("/setopt",getRequest)==0)
                 {
                         sprintf(httpHeader,"HTTP/1.1 %d OK",(int)200);
                         len = SPI_Ethernet_putString(httpHeader);
                         len += SPI_Ethernet_putConstString(httpMimeTypeText);
-                        len += SPI_Ethernet_putString(buf2);
-                        setmultiopt(strstr(buf2,"\r\n\r\n")+4);
+                        if (reqstring == 0)
+                        {
+                        	len += SPI_Ethernet_putString(strstr(buf2,"\r\n\r\n")+4);
+                        	setmultiopt(strstr(buf2,"\r\n\r\n")+4);
+                       	}
+                       	else
+                       	{
+                       		len += SPI_Ethernet_putString(reqstring);
+                        	setmultiopt(reqstring);
+                       	}
                         breakopt();
                 }
                 else
