@@ -3,7 +3,9 @@
 #include "average.h"
 #include "modbus.h"
 #include "settings.h"
+#include "adc.h"
 
+float rolidol = 0;
 unsigned int timetoexitmode = 0;
 enum modelist currentmode = STARTLEVEL;
 
@@ -117,6 +119,7 @@ void Exitmode(enum modelist modetoexit)
                 case CELLLEVEL:
                         celllevelavg = oversample(&secondstage,Modeseconds(CELLLEVEL))/Modeseconds(CELLLEVEL);
                         celltempavg = oversample(&temperature_averaging_massive,Modeseconds(CELLLEVEL))/Modeseconds(CELLLEVEL);
+                        rolidol = 1297.17*exp(0.082*(TMP_Celsius(ADC_Voltage(celltempavg))-25));
                         CELL_LeftOut = 1;
                         CELL_RightOut = 0;
                 break;

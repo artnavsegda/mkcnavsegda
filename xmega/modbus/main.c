@@ -11,6 +11,8 @@
 #include "global.h"
 #include "settings.h"
 
+extern float rolidol;
+
 void PrintHandler(char c)
 {
         UART_Write(c);
@@ -51,16 +53,16 @@ void Fill_Table(void)
         bctable[1] = !(PORTU3_IN.B6 | PORTU2_IN.B7 | PORTU1_IN.B1 | PORTU2_IN.B3 | PORTU2_IN.B4);
         splitfloat(&table[8],&table[9], (float)currentmode);
         if (currentmode == TOTALMERCURY)
-                splitfloat(&table[10],&table[11], (((float)(oversample(&firststage,64)/64.0-zerolevelavg)/(float)(celllevelavg-zerolevelavg))*(1297.17*exp(0.082*(TMP_Celsius(ADC_Voltage(celltempavg))-25)))));
+                splitfloat(&table[10],&table[11], (((float)(oversample(&firststage,64)/64.0-zerolevelavg)/(float)(celllevelavg-zerolevelavg))*rolidol));
         else
-                splitfloat(&table[12],&table[13], (((float)(oversample(&firststage,64)/64.0-zerolevelavg)/(float)(celllevelavg-zerolevelavg))*(1297.17*exp(0.082*(TMP_Celsius(ADC_Voltage(celltempavg))-25)))));
+                splitfloat(&table[12],&table[13], (((float)(oversample(&firststage,64)/64.0-zerolevelavg)/(float)(celllevelavg-zerolevelavg))*rolidol));
         splitfloat(&table[14],&table[15], ADC_Voltage(ADCB_Get_Sample(ADCB_Flow)));
         splitfloat(&table[16],&table[17], ADC_Voltage(ADCA_Get_Sample(ADCA_Vacuum)));
         splitfloat(&table[18],&table[19], ADC_Voltage(ADCA_Get_Sample(ADCA_Dilution)));
         splitfloat(&table[20],&table[21], ADC_Voltage(ADCA_Get_Sample(ADCA_Bypass)));
         splitfloat(&table[22],&table[23], TMP_Celsius(ADC_Voltage(ADCB_Get_Sample(ADCB_Cell))));
         splitfloat(&table[28],&table[29], (float)((lowlight<<1)|(lowflow<<2)|(PORTU3_IN.B6<<3)|(PORTU2_IN.B7<<4)|(PORTU1_IN.B1<<5)|(PORTU2_IN.B3<<6)|(PORTU2_IN.B4<<7)));
-        splitfloat(&table[30],&table[31], (1297.17*exp(0.082*(TMP_Celsius(ADC_Voltage(celltempavg))-25)))/(float)(celllevelavg-zerolevelavg));
+        splitfloat(&table[30],&table[31], rolidol/(float)(celllevelavg-zerolevelavg));
 }
 
 void Sysclk_Init(void)
@@ -97,7 +99,7 @@ void main()
                         settings[no_bytes] = '\0'; //this is important every time
                 }
                 else
-                	Mmc_Fat_Write(settings,strlen(settings));
+                        Mmc_Fat_Write(settings,strlen(settings));
                 Mmc_Fat_Close();
         }
         else if (sd_init == 1)
