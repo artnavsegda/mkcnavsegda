@@ -26,9 +26,8 @@ Count=0
 Count=0
 ActiveImageIndex=-1
 [OPENED_FILES]
-Count=2
-File0=C:\Program Files\Mikroelektronika\mikroC PRO for AVR\Defs\ATXMEGA256A3BU.c
-File1=rtc.c
+Count=1
+File0=..\vbat\vbat.c
 [EEPROM]
 Count=0
 [ACTIVE_COMMENTS_FILES]
