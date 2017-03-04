@@ -26,7 +26,8 @@ Count=0
 Count=0
 ActiveImageIndex=-1
 [OPENED_FILES]
-Count=0
+Count=1
+File0=..\spi\spi.c
 [EEPROM]
 Count=0
 [ACTIVE_COMMENTS_FILES]
@@ -34,11 +35,11 @@ Count=0
 [OTHER_FILES]
 Count=0
 [SEARCH_PATH]
-Count=4
+Count=5
 Path0=C:\Program Files\Mikroelektronika\mikroC PRO for AVR\Defs\
-Path1=C:\Program Files\Mikroelektronika\mikroC PRO for AVR\Uses\LTE64KW\
-Path2=C:\Program Files\Mikroelektronika\mikroC PRO for AVR\Uses\
-Path3=Y:\GitHub\mkcnavsegda\atmega328\serial\
+Path1=C:\Program Files\Mikroelektronika\mikroC PRO for AVR\Uses\
+Path2=Z:\GitHub\mkcnavsegda\atmega328\serial\
+Path3=C:\Program Files\Mikroelektronika\mikroC PRO for AVR\Uses\LTE64KW\
 [HEADER_PATH]
 Count=0
 [HEADERS]
@@ -46,8 +47,11 @@ Count=0
 [PLDS]
 Count=0
 [Useses]
-Count=1
+Count=4
 File0=UART
+File1=C_Type
+File2=PrintOut
+File3=SPI
 [EXPANDED_NODES]
 Node0=Sources
 Count=1

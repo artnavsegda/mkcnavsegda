@@ -15,5 +15,5 @@ void rtc_set_time(unsigned long time)
 
 void main()
 {
-
+        PR_PRGEN &= ~RTC;
 }
