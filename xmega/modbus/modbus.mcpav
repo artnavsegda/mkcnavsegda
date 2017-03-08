@@ -6,7 +6,7 @@ Value=0
 [BUILD_TYPE]
 Value=0
 [ACTIVE_TAB]
-Value=main.c
+Value=i2c.c
 [USE_EEPROM]
 Value=0
 [USE_HEAP]
@@ -38,9 +38,12 @@ Count=0
 Count=0
 ActiveImageIndex=-1
 [OPENED_FILES]
-Count=2
+Count=5
 File0=main.c
 File1=timer.c
+File2=modbus.c
+File3=i2c.c
+File4=i2c.h
 [EEPROM]
 Count=0
 [ACTIVE_COMMENTS_FILES]

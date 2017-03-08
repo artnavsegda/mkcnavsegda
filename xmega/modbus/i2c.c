@@ -11,11 +11,15 @@ sfr sbit CELL_RightOut_Direction at PORTU1_DIR.B6;
 sfr sbit Ignition at PORTU3_OUT.B1;
 sfr sbit IgnitionDirection at PORTU3_DIR.B1;
 
-sfr sbit Calibration_Valve at PORTU1_OUT.B3;
-sfr sbit Zero_Valve at PORTU1_OUT.B2;
+sfr sbit Calibration_Valve at PORTU3_OUT.B3;
+sfr sbit Zero_Valve at PORTU3_OUT.B2;
+sfr sbit Elemental_Valve at PORTU3_OUT.B4;
+sfr sbit Purge_Valve at PORTU3_OUT.B5;
 
-sfr sbit Calibration_Valve_Direction at PORTU1_DIR.B3;
-sfr sbit Zero_Valve_Direction at PORTU1_DIR.B2;
+sfr sbit Calibration_Valve_Direction at PORTU3_DIR.B3;
+sfr sbit Zero_Valve_Direction at PORTU3_DIR.B2;
+sfr sbit Elemental_Valve_Direction at PORTU3_DIR.B3;
+sfr sbit Purge_Valve_Direction at PORTU3_DIR.B2;
 
 sfr sbit SERVO_4_RIGHT_IN at PORTU3_IN.B6;
 sfr sbit SERVO_2_RIGHT_IN at PORTU2_IN.B7;
@@ -68,14 +72,14 @@ void Expander_Init(char ModuleAddress)
 
 void Expander_Read_All(void)
 {
-	PORTU1_IN = Expander_Read_Port(PORTU1);
-	PORTU2_IN = Expander_Read_Port(PORTU2);
-	PORTU3_IN = Expander_Read_Port(PORTU3);
+        PORTU1_IN = Expander_Read_Port(PORTU1);
+        PORTU2_IN = Expander_Read_Port(PORTU2);
+        PORTU3_IN = Expander_Read_Port(PORTU3);
 }
 
 void Expander_Write_All(void)
 {
-	Expander_Write_Port(PORTU1,PORTU1_OUT);
-	Expander_Write_Port(PORTU2,PORTU2_OUT);
-	Expander_Write_Port(PORTU3,PORTU3_OUT);
+        Expander_Write_Port(PORTU1,PORTU1_OUT);
+        Expander_Write_Port(PORTU2,PORTU2_OUT);
+        Expander_Write_Port(PORTU3,PORTU3_OUT);
 }

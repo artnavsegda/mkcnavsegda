@@ -38,6 +38,8 @@ void Ports_Init(void)
         CELL_RightOut_Direction = 0;
         Calibration_Valve_Direction = 0;
         Zero_Valve_Direction = 0;
+        Calibration_Valve_Direction = 0;
+        Purge_Valve_Direction = 0;
         Expander_Set_DirectionPort(PORTU1,PORTU1_DIR);
         Expander_Init(PORTU2);
         Expander_Init(PORTU3);
