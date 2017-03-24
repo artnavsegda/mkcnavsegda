@@ -162,27 +162,27 @@ void Operatemode(void)
         {
                 if (bctable[99] == 1)
                 {
-                        bctable[99] == 0;
+                        bctable[99] = 0;
                         Entermode(PRECALIBRATIONDELAY);
                 }
                 if (bctable[100] == 1)
                 {
-                        bctable[100] == 0;
+                        bctable[100] = 0;
                         Entermode(ZERODELAY);
                 }
                 if (bctable[101] == 1)
                 {
-                        bctable[101] == 0;
+                        bctable[101] = 0;
                         Entermode(ELEMENTALMERCURYDELAY);
                 }
                 if (bctable[102] == 1)
                 {
-                        bctable[102] == 0;
+                        bctable[102] = 0;
                         Entermode(PURGE);
                 }
                 if (bctable[103] == 1)
                 {
-                        bctable[103] == 0;
+                        bctable[103] = 0;
                         Exitmode(PURGE);
                 }
         }
