@@ -1,63 +1,63 @@
-struct askreadregstruct {
+typedef struct  {
         unsigned int firstreg;
         unsigned int regnumber;
-};
+}askreadregstruct;
 
-struct reqreadcoilsstruct {
+typedef struct  {
         unsigned char bytestofollow;
         unsigned char coils[256];
-};
+}reqreadcoilsstruct;
 
-struct reqreadwordstruct {
+typedef struct  {
         unsigned char bytestofollow;
         unsigned int registers[128];
-};
+}reqreadwordstruct;
 
-struct writeregstruct {
+typedef struct  {
         unsigned int regaddress;
         unsigned int regvalue;
-};
+}writeregstruct;
 
-struct writemulticoilstruct {
+typedef struct  {
         unsigned int firstreg;
         unsigned int regnumber;
         unsigned char bytestofollow;
         unsigned char coils[256];
-};
+}writemulticoilstruct;
 
-struct writemultiregstruct {
+typedef struct  {
         unsigned int firstreg;
         unsigned int regnumber;
         unsigned char bytestofollow;
         unsigned int registers[128];
-};
+}writemultiregstruct;
 
-union pdudataunion {
-        struct askreadregstruct askreadregs;
-        struct reqreadcoilsstruct reqreadcoils;
-        struct reqreadwordstruct reqreadholdings;
-        struct writeregstruct writereg;
-        struct writemulticoilstruct writemulticoil;
-        struct writemultiregstruct writemultireg;
+typedef union  {
+        askreadregstruct askreadregs;
+        reqreadcoilsstruct reqreadcoils;
+        reqreadwordstruct reqreadholdings;
+        writeregstruct writereg;
+        writemulticoilstruct writemulticoil;
+        writemultiregstruct writemultireg;
         unsigned int words[128];
         unsigned char bytes[256];
-};
+}pdudataunion;
 
-struct pduframestruct {
+typedef struct  {
         unsigned char unitid;
         unsigned char fncode;
-        union pdudataunion values;
-};
+        pdudataunion values;
+}pduframestruct;
 
-struct mbframestruct {
+typedef struct  {
         unsigned int tsid;
         unsigned int protoid;
         unsigned int length;
-        struct pduframestruct pdu;
-};
+        pduframestruct pdu;
+}mbframestruct;
 
 extern unsigned int table[100];
 extern unsigned char bctable[100];
 
-unsigned int modbus(struct mbframestruct *askframe);
+unsigned int modbus(mbframestruct *askframe);
 void splitfloat(unsigned int *wordlow, unsigned int *wordhigh, float value);

@@ -10,7 +10,7 @@ void splitfloat(unsigned int *wordlow, unsigned int *wordhigh, float value)
         *wordhigh = ((int *)&value)[1];
 }
 
-unsigned int modbus(struct mbframestruct *askframe)
+unsigned int modbus(mbframestruct *askframe)
 {
         int amount = 200;
         int i;

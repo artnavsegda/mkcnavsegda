@@ -46,6 +46,8 @@ main
 			memset
 			SPI_Ethernet_clearBitReg
 				____DoIFC
+	SPI_Ethernet_writeReg
+		____DoIFC
 	SPI_Ethernet_doPacket
 		SPI_Ethernet_setBitReg
 			____DoIFC

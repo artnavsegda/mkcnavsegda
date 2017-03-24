@@ -90,11 +90,11 @@ enum modelist Sequence(enum modelist modetosequence)
 {
         switch(modetosequence)
         {
-                case STARTLEVEL: return ZERODELAY;
+                case STARTLEVEL: return CELLDELAY;
                 case CELLDELAY: return CELLLEVEL;
-                case CELLLEVEL:        return TOTALMERCURYDELAY;
+                case CELLLEVEL:        return ZERODELAY;
                 case ZERODELAY:        return ZEROTEST;
-                case ZEROTEST: return CELLDELAY;
+                case ZEROTEST: return TOTALMERCURYDELAY;
                 case PURGE:        return PURGE;
                 case TOTALMERCURYDELAY:        return TOTALMERCURY;
                 case TOTALMERCURY: return ZERODELAY;

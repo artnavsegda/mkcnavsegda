@@ -6,7 +6,7 @@
 
 unsigned int SPI_Ethernet_UserTCP(unsigned char *remoteHost, unsigned int remotePort, unsigned int localPort, unsigned int reqLength, TEthPktFlags *flags)
 {
-        static struct mbframestruct askframe;
+        static mbframestruct askframe;
         static unsigned char getRequest[1500];
         unsigned char *method;
         unsigned char *page;

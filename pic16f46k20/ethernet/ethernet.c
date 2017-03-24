@@ -87,9 +87,11 @@ void main()
 {
         SPI1_Init();
         SPI_Ethernet_Init(myMacAddr, myIpAddr, 0x01);
+        SPI_Ethernet_writeReg(EIE, 0xDB);
         
         while(1)
         {
                 SPI_Ethernet_doPacket();
+                SPI_Ethernet_writeReg(EIR, 0x00);
         }
 }
