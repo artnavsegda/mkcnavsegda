@@ -6,7 +6,7 @@ Value=0
 [BUILD_TYPE]
 Value=0
 [ACTIVE_TAB]
-Value=main.c
+Value=ethernet.c
 [USE_EEPROM]
 Value=0
 [USE_HEAP]
@@ -39,7 +39,7 @@ Count=0
 ActiveImageIndex=-1
 [OPENED_FILES]
 Count=1
-File0=main.c
+File0=ethernet.c
 [EEPROM]
 Count=0
 [ACTIVE_COMMENTS_FILES]
@@ -57,7 +57,7 @@ Count=2
 Path0=C:\Program Files\Mikroelektronika\mikroC PRO for AVR\Uses\GT64KW\
 Path1=Z:\GitHub\mkcnavsegda\xmega\modbus\
 [HEADERS]
-Count=12
+Count=13
 File0=ad7705.h
 File1=ports.h
 File2=modbus.h
@@ -70,6 +70,7 @@ File8=global.h
 File9=settings.h
 File10=http.h
 File11=tftp.h
+File12=ethernet.h
 [PLDS]
 Count=0
 [Useses]
