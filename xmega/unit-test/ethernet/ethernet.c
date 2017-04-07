@@ -26,6 +26,8 @@ unsigned long   longTmr = 0;
 unsigned char   macAddr[6] = {0x00, 0x14, 0xA5, 0x76, 0x19, 0x3f};   // my MAC address
 unsigned char   ipAddr[4] = {192, 168, 1, 150};                      // my IP address
 
+unsigned char   ntpserver[4] = {128,138,140,44};                      // ntp server IP address
+
 /*
  * ARP resolution
  * this function returns the MAC address of an IP address
@@ -280,8 +282,10 @@ void main() {
         Sysclk_Init();
         SPIC_Init();
         PORTC_OUT.B4 = 1; //important to disable SPIC SS prior to configure ethernet
-        SPI_Ethernet_Init("\x00\x14\xA5\x76\x19\x3f", "\xC0\xA8\x01\x96", 0x01);
+        SPI_Ethernet_Init(macAddr, ipAddr, 0x01);
         SPI_Ethernet_confNetwork("\xFF\xFF\xFF\x00", "\xC0\xA8\x01\x01", "\xC0\xA8\x01\x01");
+        
+        sendUDP(ntpserver,123,123,
         
         while(1)
                 SPI_Ethernet_doPacket();
