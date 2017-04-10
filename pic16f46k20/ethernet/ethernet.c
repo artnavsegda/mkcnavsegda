@@ -1,5 +1,4 @@
 #include  <__EthEnc28j60.h>
-#include "httpUtils.h"
 
 #define HTTP_REQUEST_SIZE       128
 

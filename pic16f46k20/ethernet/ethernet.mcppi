@@ -16,9 +16,8 @@ Value=0
 [EEPROM_DEFINITION]
 Value=
 [FILES]
-Count=2
+Count=1
 File0=ethernet.c
-File1=httpUtils.c
 [BINARIES]
 Count=0
 [IMAGES]
@@ -43,8 +42,7 @@ Count=2
 Path0=C:\Program Files\Mikroelektronika\mikroC PRO for PIC\uses\P18\
 Path1=Z:\GitHub\mkcnavsegda\pic16f46k20\ethernet\
 [HEADERS]
-Count=1
-File0=httpUtils.h
+Count=0
 [PLDS]
 Count=0
 [Useses]
@@ -56,5 +54,4 @@ File3=PrintOut
 File4=C_Type
 [EXPANDED_NODES]
 Node0=Sources
-Node1=Header Files
-Count=2
+Count=1
