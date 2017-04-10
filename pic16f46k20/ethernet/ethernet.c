@@ -84,13 +84,18 @@ unsigned int  SPI_Ethernet_UserUDP(unsigned char *remoteHost, unsigned int remot
 
 void main()
 {
+        UART1_Init(9600);
+        Delay_ms(10);
+        UART1_Write_Text("MCU-Started\r\n");
         SPI1_Init();
+        UART1_Write_Text("SPI init\r\n");
         SPI_Ethernet_Init(myMacAddr, myIpAddr, 0x01);
-        SPI_Ethernet_writeReg(EIE, 0xDB);
+        UART1_Write_Text("Ethernet started\r\n");
+        SPI_Ethernet_writeReg(EIE, 0xDB);//enable interrupt flag
         
         while(1)
         {
                 SPI_Ethernet_doPacket();
-                SPI_Ethernet_writeReg(EIR, 0x00);
+                SPI_Ethernet_writeReg(EIR, 0x00);//clear interrupt flag
         }
 }

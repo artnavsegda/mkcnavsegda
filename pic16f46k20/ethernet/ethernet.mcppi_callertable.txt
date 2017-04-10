@@ -1,5 +1,8 @@
 main
 	__CC2DW
+	UART1_Init
+	UART1_Write_Text
+		UART1_Write
 	SPI1_Init
 	SPI_Ethernet_Init
 		SPI_Ethernet_delay
