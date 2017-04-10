@@ -26,9 +26,8 @@ Count=0
 Count=0
 ActiveImageIndex=-1
 [OPENED_FILES]
-Count=2
+Count=1
 File0=rtc.c
-File1=C:\Program Files\Mikroelektronika\mikroC PRO for AVR\Defs\ATXMEGA256A3BU.c
 [EEPROM]
 Count=0
 [ACTIVE_COMMENTS_FILES]
@@ -48,8 +47,11 @@ Count=0
 [PLDS]
 Count=0
 [Useses]
-Count=1
+Count=4
 File0=Time
+File1=UART
+File2=PrintOut
+File3=C_Type
 [EXPANDED_NODES]
 Node0=Sources
 Count=1
