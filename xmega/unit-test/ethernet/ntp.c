@@ -1,4 +1,5 @@
 #include "ntp.h"
+#include "timelib.h"
 
 void PrintHandler(char c)
 {
@@ -7,6 +8,7 @@ void PrintHandler(char c)
 
 void ntp_recieve(struct ntpframestruct *myframe)
 {
+        TimeStruct      ts2;
         PrintOut(PrintHandler, "NTP lvm: 0x%X\r\n",myframe->leapvermode);
         PrintOut(PrintHandler, "NTP stratum: 0x%X\r\n",myframe->stratumlevel);
         PrintOut(PrintHandler, "NTP poll: 0x%X\r\n",myframe->poll);
@@ -22,15 +24,21 @@ void ntp_recieve(struct ntpframestruct *myframe)
         PrintOut(PrintHandler, "NTP receive fraction: %u\r\n",myframe->receive->timefraction);
         PrintOut(PrintHandler, "NTP transmit time: %lu\r\n",myframe->reference->timeseconds-NTP_TIME_OFFSET);
         PrintOut(PrintHandler, "NTP transmit fraction: %u\r\n",myframe->transmit->timefraction);
+        Time_epochToDate((myframe->reference->timeseconds)-NTP_TIME_OFFSET, &ts2);
+        PrintOut(PrintHandler, "Time is: %u:%u:%u\r\n",(unsigned int)ts2.hh, (unsigned int)ts2.mn, (unsigned int)ts2.ss);
         return;
 }
 
 void ntp_send(void)
 {
         int result = 3;
-        unsigned char IpAddr[4]  = {132, 163,   4,  103 };  // remote IP address
+        //unsigned char IpAddr[4]  = {132, 163,   4,  103 };  // remote IP address
+        unsigned char IpAddr[4]  = {192, 168,   1,  113 };  // remote IP address
         struct ntpframestruct myframe;
-        myframe.leapvermode = 0x1b;
+        myframe.leapvermode = 0xE3;
+        myframe.poll = 6;
+        myframe.stratumlevel = 0;
+        myframe.precision = 0xEC;
         SPI_Ethernet_arpResolve(IpAddr, 5);
         result = SPI_Ethernet_sendUDP(IpAddr, 123, 123, (unsigned char *)&myframe, 48);
         PrintOut(PrintHandler, "result: %d\r\n",result);
