@@ -21,6 +21,17 @@ void init_vbat(void)
         }
 }
 
+void vbat_init(void)
+{
+        VBAT_CTRL.ACCEN = 1;
+        CPU_CCP = 0xD8;
+        RESET__VBAT_CTRL_bit = 1;
+        XOSCFDEN_VBAT_CTRL_bit = 1;
+        delay_ms(2);
+        XOSCEN_VBAT_CTRL_bit = 1;
+        while (XOSCRDY_VBAT_STATUS_bit == 0);
+}
+
 void main()
 {
         UARTC0_Init(9600);
