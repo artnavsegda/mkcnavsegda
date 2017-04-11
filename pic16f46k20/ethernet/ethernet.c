@@ -1,4 +1,5 @@
-#include  <__EthEnc28j60.h>
+#include <__EthEnc28j60.h>
+#include "ntp.h"
 
 sfr sbit SPI_Ethernet_Rst at RD2_bit;
 sfr sbit SPI_Ethernet_CS  at RD3_bit;
@@ -13,9 +14,24 @@ unsigned int  SPI_Ethernet_UserTCP(unsigned char *remoteHost, unsigned int remot
         return 0;
 }
 
-unsigned int  SPI_Ethernet_UserUDP(unsigned char *remoteHost, unsigned int remotePort, unsigned int destPort, unsigned int reqLength, TEthPktFlags *flags)
+unsigned int SPI_Ethernet_UserUDP(unsigned char *remoteHost, unsigned int remotePort, unsigned int destPort, unsigned int reqLength, TEthPktFlags *flags)
 {
-        return 0;
+        struct ntpframestruct ntpframe;
+        unsigned int len = 0;
+        switch (destPort)
+        {
+                case 123:
+                {
+                        if (reqLength > sizeof(ntpframe))
+                                reqLength = sizeof(ntpframe);
+                        SPI_Ethernet_getBytes((unsigned char *)&ntpframe, 0xFFFF, reqLength);
+                        ntp_recieve(&ntpframe);
+                }
+                break;
+                default:
+                break;
+        }
+        return len;
 }
 
 void main()

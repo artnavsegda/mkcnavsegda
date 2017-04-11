@@ -365,6 +365,67 @@ main
 						mkSubnetBroadcast
 							memcpy
 				SPI_Ethernet_UserUDP
+					SPI_Ethernet_getBytes
+						SPI_Ethernet_writeAddr
+							____DoIFC
+						____DoIFC
+					ntp_recieve
+						PrintOut
+							_doprntout
+								____DoIFC
+								isdigit
+								Mul_16X16_U
+								Compare_Double
+								Equals_Double
+								Div_16x16_S
+									Div_16x16_S_L
+								scale
+									Div_8X8_S
+									Mul_32x32_FP
+										RES032
+										SETFOV32
+										SETFUN32
+								Mul_32x32_FP
+									RES032
+									SETFOV32
+									SETFUN32
+								Div_32x32_FP
+									SETFDZ32
+									RES032
+									SETFOV32
+									SETFUN32
+								double2longword
+									SETIOV3224
+								longword2double
+									NRM4032
+										SETFUN32
+										FIXSIGN32
+										SETFOV32
+										RES032
+								Sub_32x32_FP
+									Add_32x32_FP
+										NRM4032
+											SETFUN32
+											FIXSIGN32
+											SETFOV32
+											RES032
+										SETFOV32
+								Add_32x32_FP
+									NRM4032
+										SETFUN32
+										FIXSIGN32
+										SETFOV32
+										RES032
+									SETFOV32
+								Div_32x32_U
+								fround
+									Div_8X8_U
+									Mul_32x32_FP
+										RES032
+										SETFOV32
+										SETFUN32
+								double2longint
+									SETIOV3224
 				SPI_Ethernet_sendUDP2
 					SPI_Ethernet_memcpy
 						SPI_Ethernet_writeAddr

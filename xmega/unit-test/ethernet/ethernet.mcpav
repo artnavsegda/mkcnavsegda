@@ -6,7 +6,7 @@ Value=0
 [BUILD_TYPE]
 Value=0
 [ACTIVE_TAB]
-Value=ntp.c
+Value=ethernet.c
 [USE_EEPROM]
 Value=0
 [USE_HEAP]
@@ -29,12 +29,8 @@ Count=0
 Count=0
 ActiveImageIndex=-1
 [OPENED_FILES]
-Count=5
-File0=ntp.c
-File1=ethernet.c
-File2=ntp.h
-File3=modbus.h
-File4=modbus.c
+Count=1
+File0=ethernet.c
 [EEPROM]
 Count=0
 [ACTIVE_COMMENTS_FILES]
