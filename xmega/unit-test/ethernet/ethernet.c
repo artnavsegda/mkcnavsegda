@@ -31,6 +31,7 @@ unsigned int SPI_Ethernet_UserTCP(unsigned char *remoteHost, unsigned int remote
 unsigned int SPI_Ethernet_UserUDP(unsigned char *remoteHost, unsigned int remotePort, unsigned int destPort, unsigned int reqLength, TEthPktFlags *flags)
 {
         struct ntpframestruct ntpframe;
+        UARTC0_Write_Text("UDP package recieved\r\n");
         len = 0;
         switch (destPort)
         {
@@ -56,16 +57,32 @@ void Sysclk_Init(void)
         CLK_CTRL = 1;
 }
 
+unsigned char IpAddr[4]  = {192, 168,   1,  113 };  // remote IP address
+
+void Timer0Overflow_ISR() org IVT_ADDR_TCC0_OVF
+{
+        SPI_Ethernet_userTimerSec++;
+}
+
 void main() {
         Sysclk_Init();
         UARTC0_Init(9600);
         Delay_ms(10);
         UARTC0_Write_Text("MCU-Started\r\n");
         SPIC_Init();
-        PORTC_OUT.B4 = 1; //important to disable SPIC SS prior to configure ethernet
+        //PORTC_OUT.B4 = 1; //important to disable SPIC SS prior to configure ethernet
         SPI_Ethernet_Init("\x00\x14\xA5\x76\x19\x3f", "\xC0\xA8\x01\x96", 0x01);
-        SPI_Ethernet_confNetwork("\xFF\xFF\xFF\x00", "\xC0\xA8\x01\x01", "\xC0\xA8\x01\x01");
+        //SPI_Ethernet_confNetwork("\xFF\xFF\xFF\x00", "\xC0\xA8\x01\x01", "\xC0\xA8\x01\x01");
         UARTC0_Write_Text("Ethernet started\r\n");
+        Timer_Init(&TCC0, 1000000);
+        Timer_Interrupt_Enable(&TCC0);
+        PMIC_CTRL.HILVLEN = 1;
+        CPU_SREG.I = 1;
+        UARTC0_Write_Text("Timer started\r\n");
+        //SPI_Ethernet_arpResolve(IpAddr, 5);
+        //UARTC0_Write_Text("ARP resolved\r\n");
+        //SPI_Ethernet_sendUDP(IpAddr, 10001, 10001, "Hello", 5);
+        //UARTC0_Write_Text("UDP package sent\r\n");
         ntp_send();
         UARTC0_Write_Text("NTP package sent\r\n");
         
