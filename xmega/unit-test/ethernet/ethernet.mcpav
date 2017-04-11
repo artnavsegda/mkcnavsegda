@@ -29,11 +29,8 @@ Count=0
 Count=0
 ActiveImageIndex=-1
 [OPENED_FILES]
-Count=4
-File0=ethernet.c
-File1=ntp.c
-File2=ntp.h
-File3=timelib.h
+Count=1
+File0=ntp.c
 [EEPROM]
 Count=0
 [ACTIVE_COMMENTS_FILES]
