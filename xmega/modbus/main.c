@@ -10,6 +10,8 @@
 #include "ad7705.h"
 #include "global.h"
 #include "settings.h"
+#include "rtc.h"
+#include "ntp.h"
 
 extern float rolidol;
 
@@ -22,6 +24,7 @@ void Timer0Overflow_ISR() org IVT_ADDR_TCC0_OVF
 {
         tick = 1;
         asm wdr;
+        SPI_Ethernet_userTimerSec++;
 }
 
 void Timer1Overflow_ISR() org IVT_ADDR_TCD0_OVF
@@ -120,8 +123,10 @@ void main()
         Timer_Interrupt_Enable(&TCC0);
         Timer_Init(&TCD0, 100000);
         Timer_Interrupt_Enable(&TCD0);
-        PMIC_CTRL = 4;
-        CPU_SREG.B7 = 1;
+        PMIC_CTRL.HILVLEN = 1;
+        I_bit = 1;
+        status_vbat();
+        ntp_send();
         Entermode(STARTLEVEL);
 
         while (1)

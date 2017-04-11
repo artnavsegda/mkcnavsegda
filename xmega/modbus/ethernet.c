@@ -4,6 +4,7 @@
 #include "global.h"
 #include "http.h"
 #include "tftp.h"
+#include "ntp.h"
 
 unsigned int SPI_Ethernet_UserTCP(unsigned char *remoteHost, unsigned int remotePort, unsigned int localPort, unsigned int reqLength, TEthPktFlags *flags)
 {
@@ -48,6 +49,7 @@ unsigned int SPI_Ethernet_UserTCP(unsigned char *remoteHost, unsigned int remote
 
 unsigned int SPI_Ethernet_UserUDP(unsigned char *remoteHost, unsigned int remotePort, unsigned int destPort, unsigned int reqLength, TEthPktFlags *flags)
 {
+        static struct ntpframestruct ntpframe;
         switch (destPort)
         {
                 case 69:
@@ -55,8 +57,10 @@ unsigned int SPI_Ethernet_UserUDP(unsigned char *remoteHost, unsigned int remote
                         len = tftp(reqLength);
                 break;
                 case 123:
-                        len = 0;
-                        ntp_recieve(reqLength);
+                        if (reqLength > sizeof(ntpframe))
+                                reqLength = sizeof(ntpframe);
+                        SPI_Ethernet_getBytes((unsigned char *)&ntpframe, 0xFFFF, reqLength);
+                        ntp_recieve(&ntpframe);
                 break;
                 default:
                         len = 0;
