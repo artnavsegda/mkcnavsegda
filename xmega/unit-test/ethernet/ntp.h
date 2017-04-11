@@ -19,4 +19,4 @@ struct ntpframestruct {
         struct ntptime transmit;
 };
 
-void ntp_recieve(struct ntpframestruct ntpframe);
+void ntp_recieve(struct ntpframestruct *myframe);

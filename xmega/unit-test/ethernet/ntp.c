@@ -1,21 +1,34 @@
 #include "ntp.h"
 
-void ntp_recieve(struct ntpframestruct myframe);
+void PrintHandler(char c)
 {
-	printf("NTP lvm: 0x%X\n",myframe->leapvermode);
-	printf("NTP stratum: 0x%X\n",myframe->stratumlevel);
-	printf("NTP poll: 0x%X\n",myframe->poll);
-	printf("NTP precision: 0x%X\n",myframe->precision);
-	printf("NTP root delay: %u\n",ntohl(myframe->rootdelay));
-	printf("NTP drift rate: %u\n",ntohl(myframe->driftrate));
-	printf("NTP reference id: 0x%X\n",myframe->referenceid);
-	printf("NTP reference time: %lu\n",ntohl(myframe->reference->timeseconds)-NTP_TIME_OFFSET);
-	printf("NTP reference fraction: %u\n",ntohl(myframe->reference->timefraction));
-	printf("NTP origin time: %lu\n",ntohl(myframe->reference->timeseconds)-NTP_TIME_OFFSET);
-	printf("NTP origin fraction: %u\n",ntohl(myframe->origin->timefraction));
-	printf("NTP receive time: %lu\n",ntohl(myframe->reference->timeseconds)-NTP_TIME_OFFSET);
-	printf("NTP receive fraction: %u\n",ntohl(myframe->receive->timefraction));
-	printf("NTP transmit time: %lu\n",ntohl(myframe->reference->timeseconds)-NTP_TIME_OFFSET);
-	printf("NTP transmit fraction: %u\n",ntohl(myframe->transmit->timefraction));
+        UARTC0_Write(c);
+}
+
+void ntp_recieve(struct ntpframestruct *myframe)
+{
+        PrintOut(PrintHandler, "NTP lvm: 0x%X\n",myframe->leapvermode);
+        PrintOut(PrintHandler, "NTP stratum: 0x%X\n",myframe->stratumlevel);
+        PrintOut(PrintHandler, "NTP poll: 0x%X\n",myframe->poll);
+        PrintOut(PrintHandler, "NTP precision: 0x%X\n",myframe->precision);
+        PrintOut(PrintHandler, "NTP root delay: %u\n",myframe->rootdelay);
+        PrintOut(PrintHandler, "NTP drift rate: %u\n",myframe->driftrate);
+        PrintOut(PrintHandler, "NTP reference id: 0x%X\n",myframe->referenceid);
+        PrintOut(PrintHandler, "NTP reference time: %lu\n",myframe->reference->timeseconds-NTP_TIME_OFFSET);
+        PrintOut(PrintHandler, "NTP reference fraction: %u\n",myframe->reference->timefraction);
+        PrintOut(PrintHandler, "NTP origin time: %lu\n",myframe->reference->timeseconds-NTP_TIME_OFFSET);
+        PrintOut(PrintHandler, "NTP origin fraction: %u\n",myframe->origin->timefraction);
+        PrintOut(PrintHandler, "NTP receive time: %lu\n",myframe->reference->timeseconds-NTP_TIME_OFFSET);
+        PrintOut(PrintHandler, "NTP receive fraction: %u\n",myframe->receive->timefraction);
+        PrintOut(PrintHandler, "NTP transmit time: %lu\n",myframe->reference->timeseconds-NTP_TIME_OFFSET);
+        PrintOut(PrintHandler, "NTP transmit fraction: %u\n",myframe->transmit->timefraction);
         return;
+}
+
+void ntp_send(void)
+{
+        unsigned char IpAddr[4]  = {192, 168,   1,  1 };  // remote IP address
+        struct ntpframestruct myframe;
+        myframe.leapvermode = 0x11;
+        SPI_Ethernet_sendUDP(IpAddr, 123, 123, (unsigned char *)&myframe, 28);
 }

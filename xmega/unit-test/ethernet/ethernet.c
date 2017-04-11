@@ -30,8 +30,8 @@ unsigned int SPI_Ethernet_UserTCP(unsigned char *remoteHost, unsigned int remote
 
 unsigned int SPI_Ethernet_UserUDP(unsigned char *remoteHost, unsigned int remotePort, unsigned int destPort, unsigned int reqLength, TEthPktFlags *flags)
 {
-	static struct ntpframestruct ntpframe;
-	len = 0;
+        struct ntpframestruct ntpframe;
+        len = 0;
         switch (destPort)
         {
                 case 123:
