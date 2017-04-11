@@ -4,6 +4,7 @@
 #include "bswap.h"
 #include "average.h"
 #include "adc.h"
+#include "rtc.h"
 
 unsigned char httpHeader[100] = "HTTP/1.1 200 OK" ;  // HTTP header
 const char * httpMimeType;
@@ -105,6 +106,8 @@ unsigned int http(static unsigned char *getRequest,static unsigned char *buf2)
                                         PrintOut(WebHandler, "%d", celllevelavg);
                                 else if (strcmp("celltempavg",reqstring)==0)
                                         PrintOut(WebHandler, "%d", celltempavg);
+                                else if (strcmp("unixtime",reqstring)==0)
+                                        PrintOut(WebHandler, "%u", rtc_get_time());
                         }
                 }
                 else if (strcmp("/getraw",getRequest)==0)
