@@ -1,4 +1,5 @@
-#include  <__EthEnc28j60.h>
+#include <__EthEnc28j60.h>
+#include "rtc.h"
 
 sfr sbit SPI_Ethernet_Rst at PORTC_OUT.B1;
 sfr sbit SPI_Ethernet_CS  at PORTC_OUT.B0;
@@ -33,6 +34,7 @@ void main() {
         SPI_Ethernet_Init("\x00\x14\xA5\x76\x19\x3f", "\xC0\xA8\x01\x96", 0x01);
         SPI_Ethernet_confNetwork("\xFF\xFF\xFF\x00", "\xC0\xA8\x01\x01", "\xC0\xA8\x01\x01");
         UARTC0_Write_Text("Ethernet started\r\n");
+        status_vbat();
 
         while(1)
                 SPI_Ethernet_doPacket();

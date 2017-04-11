@@ -18,8 +18,9 @@ Value=
 [BOOT_TYPE]
 Value=0
 [FILES]
-Count=1
+Count=2
 File0=ethernet+rtc.c
+File1=rtc.c
 [BINARIES]
 Count=0
 [IMAGES]
@@ -44,11 +45,12 @@ Path3=C:\Program Files\Mikroelektronika\mikroC PRO for AVR\Uses\GT64KW\
 Count=1
 Path0=C:\Program Files\Mikroelektronika\mikroC PRO for AVR\Uses\GT64KW\
 [HEADERS]
-Count=0
+Count=1
+File0=rtc.h
 [PLDS]
 Count=0
 [Useses]
-Count=7
+Count=8
 File0=Time
 File1=SPI_Ethernet
 File2=C_String
@@ -56,6 +58,7 @@ File3=SPI
 File4=UART
 File5=PrintOut
 File6=C_Type
+File7=
 [EXPANDED_NODES]
 Node0=Sources
 Count=1

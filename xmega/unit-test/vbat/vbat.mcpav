@@ -6,7 +6,7 @@ Value=0
 [BUILD_TYPE]
 Value=0
 [ACTIVE_TAB]
-Value=vbat.c
+Value=..\ethernet+rtc\ethernet+rtc.c
 [USE_EEPROM]
 Value=0
 [USE_HEAP]
@@ -27,7 +27,7 @@ Count=0
 ActiveImageIndex=-1
 [OPENED_FILES]
 Count=1
-File0=vbat.c
+File0=..\ethernet+rtc\ethernet+rtc.c
 [EEPROM]
 Count=0
 [ACTIVE_COMMENTS_FILES]
@@ -47,10 +47,14 @@ Count=0
 [PLDS]
 Count=0
 [Useses]
-Count=3
+Count=7
 File0=PrintOut
 File1=C_Type
 File2=UART
+File3=C_String
+File4=SPI
+File5=SPI_Ethernet
+File6=Time
 [EXPANDED_NODES]
 Node0=Sources
 Count=1
