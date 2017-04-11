@@ -57,7 +57,7 @@ void Sysclk_Init(void)
         CLK_CTRL = 1;
 }
 
-unsigned char IpAddr[4]  = {192, 168,   1,  1 };  // remote IP address
+unsigned char IpAddr[4]  = {192, 168,   1,  113 };  // remote IP address
 
 void Timer0Overflow_ISR() org IVT_ADDR_TCC0_OVF
 {
@@ -77,7 +77,7 @@ void main() {
         UARTC0_Write_Text("MCU-Started\r\n");
         SPIC_Init();
         //PORTC_OUT.B4 = 1; //important to disable SPIC SS prior to configure ethernet
-        SPI_Ethernet_Init("\x00\x14\xA5\x76\x19\x3f", "\xC0\xA8\x01\x96", 0x01);
+        SPI_Ethernet_Init("\x00\x14\xA5\x76\x19\x3f", "\xC0\xA8\x01\x96", 0x00);
         SPI_Ethernet_confNetwork("\xFF\xFF\xFF\x00", "\xC0\xA8\x01\x01", "\xC0\xA8\x01\x01");
         UARTC0_Write_Text("Ethernet started\r\n");
         Timer_Init(&TCC0, 1000000);
@@ -90,8 +90,8 @@ void main() {
         result = SPI_Ethernet_sendUDP(IpAddr, 100, 100, "Hello", 5);
         UARTC0_Write_Text("UDP package sent\r\n");
         PrintOut(PrintHandler2, "result: %d\r\n",result);
-        //ntp_send();
-        //UARTC0_Write_Text("NTP package sent\r\n");
+        ntp_send();
+        UARTC0_Write_Text("NTP package sent\r\n");
         
         while(1)
                 SPI_Ethernet_doPacket();

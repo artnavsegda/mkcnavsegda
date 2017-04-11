@@ -27,9 +27,11 @@ void ntp_recieve(struct ntpframestruct *myframe)
 
 void ntp_send(void)
 {
-        unsigned char IpAddr[4]  = {192, 168,   1,  113 };  // remote IP address
+        int result = 3;
+        unsigned char IpAddr[4]  = {132, 163,   4,  103 };  // remote IP address
         struct ntpframestruct myframe;
         myframe.leapvermode = 0x1b;
         SPI_Ethernet_arpResolve(IpAddr, 5);
-        SPI_Ethernet_sendUDP(IpAddr, 123, 123, (unsigned char *)&myframe, 48);
+        result = SPI_Ethernet_sendUDP(IpAddr, 123, 123, (unsigned char *)&myframe, 48);
+        PrintOut(PrintHandler, "result: %d\r\n",result);
 }
