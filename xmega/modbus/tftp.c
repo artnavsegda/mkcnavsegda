@@ -1,9 +1,12 @@
 #include "tftp.h"
 #include "global.h"
 #include "bswap.h"
+#include "timelib.h"
+#include "rtc.h"
 
 unsigned int tftp(unsigned int reqLength)
 {
+	static TimeStruct      ts2;
         int opcode = 0;
         static unsigned long filesize;
         unsigned int no_bytes;
@@ -87,6 +90,8 @@ unsigned int tftp(unsigned int reqLength)
                                 {
                                         Mmc_Fat_Delete();
                                         Mmc_Fat_Assign(webpage,0x80);
+                                        Time_epochToDate(rtc_get_time(), &ts2);
+                                        Mmc_Fat_Set_File_Date(ts2.yy,ts2.mo,ts2.md,ts2.hh,ts2.mn,ts2.ss);
                                         Mmc_Fat_Rewrite();
                                         opcode = BSWAP_16(4);
                                         SPI_Ethernet_putBytes((unsigned char *)&opcode,2);
