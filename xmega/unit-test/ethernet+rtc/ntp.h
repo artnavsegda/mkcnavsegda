@@ -21,3 +21,4 @@ struct ntpframestruct {
 
 void ntp_recieve(struct ntpframestruct *myframe);
 void ntp_send(void);
+void PrintHandler(char c);

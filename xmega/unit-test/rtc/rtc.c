@@ -28,6 +28,7 @@ void vbat_init(void)
         RESET__VBAT_CTRL_bit = 1;
         XOSCFDEN_VBAT_CTRL_bit = 1;
         delay_ms(2);
+        VBAT_CTRL.XOSCSEL = 0;
         XOSCEN_VBAT_CTRL_bit = 1;
         while (XOSCRDY_VBAT_STATUS_bit == 0);
 }
@@ -66,7 +67,7 @@ void status_vbat(void)
         {
                 PrintOut(PrintHandler, "VBAT OK\n\r");
                 VBAT_CTRL.ACCEN = 1;
-		return;
+                return;
         }
         rtc_init();
 }
@@ -76,6 +77,7 @@ void main()
         UARTC0_Init(9600);
         PrintOut(PrintHandler, "MCU started\r\n");
         status_vbat();
+        rtc_init();
         while(1)
         {
                 PrintOut(PrintHandler, "RTC time is %lu\r\n", rtc_get_time());

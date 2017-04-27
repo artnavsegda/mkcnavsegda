@@ -40,9 +40,12 @@ void Sysclk_Init(void)
         CLK_CTRL = 1;
 }
 
+int tick = 0;
+
 void Timer0Overflow_ISR() org IVT_ADDR_TCC0_OVF
 {
         SPI_Ethernet_userTimerSec++;
+        tick = 1;
 }
 
 void main() {
@@ -63,5 +66,12 @@ void main() {
         ntp_send();
 
         while(1)
+        {
+                if (tick == 1)
+                {
+                        PrintOut(PrintHandler, "RTC time is %lu\r\n", rtc_get_time());
+                        tick = 0;
+                }
                 SPI_Ethernet_doPacket();
+	}
 }

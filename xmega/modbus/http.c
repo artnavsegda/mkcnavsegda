@@ -107,7 +107,7 @@ unsigned int http(static unsigned char *getRequest,static unsigned char *buf2)
                                 else if (strcmp("celltempavg",reqstring)==0)
                                         PrintOut(WebHandler, "%d", celltempavg);
                                 else if (strcmp("unixtime",reqstring)==0)
-                                        PrintOut(WebHandler, "%u", rtc_get_time());
+                                        PrintOut(WebHandler, "%lu", rtc_get_time());
                         }
                 }
                 else if (strcmp("/getraw",getRequest)==0)

@@ -85,7 +85,7 @@ void main()
         MM_Init();
         Sysclk_Init();
         Ports_Init();
-        UARTC0_Init(115200);
+        UARTC0_Init(9600);
         UART_Set_Active(&UARTC0_Read, &UARTC0_Write, &UARTC0_Data_Ready, &UARTC0_Tx_Idle);
         AD7705_Init();
         ADCA_Init_Advanced(_ADC_12bit, _ADC_INTERNAL_REF_VCC);
@@ -152,6 +152,7 @@ void main()
                         Expander_Read_All();
                         Fill_Table();
                         Expander_Write_All();
+                        //PrintOut(PrintHandler, "RTC time is %lu\r\n", rtc_get_time());
                 }
         }
 }
