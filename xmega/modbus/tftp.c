@@ -34,7 +34,7 @@ unsigned int tftp(unsigned int reqLength)
                         else
                         {
                                 fhandle = Mmc_Fat_Open(webpage,FILE_READ,0x00);
-                                if (fhandle > 0)
+                                if (fhandle < 0)
                                 {
                                         opcode = BSWAP_16(5);
                                         SPI_Ethernet_putBytes((unsigned char *)&opcode,2);
@@ -78,7 +78,7 @@ unsigned int tftp(unsigned int reqLength)
                         else
                         {
                                 fhandle = Mmc_Fat_Open(webpage,FILE_WRITE,0x80);
-                                if (fhandle > 0)
+                                if (fhandle < 0)
                                 {
                                         opcode = BSWAP_16(5);
                                         SPI_Ethernet_putBytes((unsigned char *)&opcode,2);

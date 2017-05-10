@@ -6,6 +6,6 @@ function dropdata()
 {
         xhttp.open("GET", "getdata?unixtime", false);
         xhttp.send();
-        document.getElementById("unixtime").innerHTML = xhttp.responseText;
-        document.getElementById("localtime").innerHTML = Date.now()/1000;
+        document.getElementById("unixtime").innerHTML = new Date(xhttp.responseText*1000);
+        document.getElementById("localtime").innerHTML = Date();
 }
