@@ -5,6 +5,7 @@
 #include "average.h"
 #include "adc.h"
 #include "rtc.h"
+#include <__Lib_MmcFat16.h>
 
 unsigned char httpHeader[100] = "HTTP/1.1 200 OK" ;  // HTTP header
 const char * httpMimeType;

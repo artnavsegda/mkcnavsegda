@@ -77,7 +77,6 @@ void main()
         UARTC0_Init(9600);
         PrintOut(PrintHandler, "MCU started\r\n");
         status_vbat();
-        rtc_init();
         while(1)
         {
                 PrintOut(PrintHandler, "RTC time is %lu\r\n", rtc_get_time());

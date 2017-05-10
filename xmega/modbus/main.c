@@ -1,4 +1,5 @@
-#include  <__EthEnc28j60.h>
+#include <__EthEnc28j60.h>
+#include <__Lib_MmcFat16.h>
 #include "ad7705.h"
 #include "ports.h"
 #include "bswap.h"
@@ -12,6 +13,7 @@
 #include "settings.h"
 #include "rtc.h"
 #include "ntp.h"
+#include "log.h"
 
 extern float rolidol;
 
@@ -115,6 +117,7 @@ void main()
                 Mmc_Fat_Close();
                 sd_init = 0;
         }
+        Log_Init();
         makeopt();
         SPI_Ethernet_Init(getmymac(getmyopt("mac")), getmyip(getmyopt("ip")), 1);
         SPI_Ethernet_writeReg(EIE, 0xDB);

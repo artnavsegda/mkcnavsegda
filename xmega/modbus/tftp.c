@@ -3,10 +3,12 @@
 #include "bswap.h"
 #include "timelib.h"
 #include "rtc.h"
+#include <__Lib_MmcFat16.h>
 
 unsigned int tftp(unsigned int reqLength)
 {
-	static TimeStruct      ts2;
+        static TimeStruct      ts2;
+        static short fhandle;
         int opcode = 0;
         static unsigned long filesize;
         unsigned int no_bytes;
@@ -31,7 +33,8 @@ unsigned int tftp(unsigned int reqLength)
                         }
                         else
                         {
-                                if (Mmc_Fat_Assign(webpage,0) != 1)
+                                fhandle = Mmc_Fat_Open(webpage,FILE_READ,0x00);
+                                if (fhandle > 0)
                                 {
                                         opcode = BSWAP_16(5);
                                         SPI_Ethernet_putBytes((unsigned char *)&opcode,2);
@@ -74,7 +77,8 @@ unsigned int tftp(unsigned int reqLength)
                         }
                         else
                         {
-                                if (Mmc_Fat_Assign(webpage,0x80) != 1)
+                                fhandle = Mmc_Fat_Open(webpage,FILE_WRITE,0x80);
+                                if (fhandle > 0)
                                 {
                                         opcode = BSWAP_16(5);
                                         SPI_Ethernet_putBytes((unsigned char *)&opcode,2);
@@ -105,6 +109,7 @@ unsigned int tftp(unsigned int reqLength)
                 case 3:
                         SPI_Ethernet_getBytes((unsigned char *)&block,0xFFFF,2);
                         SPI_Ethernet_getBytes(webpage,0xFFFF,reqLength-4);
+                        Mmc_Fat_Activate(fhandle);
                         Mmc_Fat_Write(webpage,reqLength-4);
                         opcode = BSWAP_16(4);
                         SPI_Ethernet_putBytes((unsigned char *)&opcode,2);
@@ -117,6 +122,7 @@ unsigned int tftp(unsigned int reqLength)
                 break;
                 case 4:
                         SPI_Ethernet_getBytes((unsigned char *)&block,0xFFFF,2);
+                        Mmc_Fat_Activate(fhandle);
                         filesize = filesize - 512;
                         if (filesize < 512)
                                 no_bytes = Mmc_Fat_ReadN(webpage, filesize);
