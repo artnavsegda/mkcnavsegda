@@ -41,8 +41,10 @@ Count=0
 Count=0
 ActiveImageIndex=-1
 [OPENED_FILES]
-Count=1
-File0=http.c
+Count=3
+File0=ntp.c
+File1=modbus.c
+File2=main.c
 [EEPROM]
 Count=0
 [ACTIVE_COMMENTS_FILES]
