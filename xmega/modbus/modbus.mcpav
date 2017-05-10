@@ -6,7 +6,7 @@ Value=0
 [BUILD_TYPE]
 Value=0
 [ACTIVE_TAB]
-Value=tftp.c
+Value=rtc.c
 [USE_EEPROM]
 Value=0
 [USE_HEAP]
@@ -42,9 +42,9 @@ Count=0
 ActiveImageIndex=-1
 [OPENED_FILES]
 Count=3
-File0=main.c
-File1=settings.c
-File2=tftp.c
+File0=settings.c
+File1=rtc.c
+File2=log.c
 [EEPROM]
 Count=0
 [ACTIVE_COMMENTS_FILES]
@@ -104,5 +104,4 @@ File16=PrintOut
 File17=Time
 [EXPANDED_NODES]
 Node0=Sources
-Node1=Header Files
-Count=2
+Count=1

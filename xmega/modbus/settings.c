@@ -1,3 +1,5 @@
+#include "rtc.h"
+
 char settings [] = "\
 ip=192.168.1.160\n\
 mac=00:15:a6:72:13:4f\n\
@@ -111,8 +113,15 @@ void setmyopt(char *parameter, char *newset)
         }
         if (found == 0)
         {
-                options[optisize] = parameter;
-                values[optisize] = newset;
-                optisize++;
+                if (strcmp(parameter,"unixtime")==0)
+                {
+                        rtc_set_time(atol(newset));
+                }
+                else
+                {
+                        options[optisize] = parameter;
+                        values[optisize] = newset;
+                        optisize++;
+                }
         }
 }

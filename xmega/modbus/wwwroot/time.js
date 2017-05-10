@@ -9,3 +9,9 @@ function dropdata()
         document.getElementById("unixtime").innerHTML = new Date(xhttp.responseText*1000);
         document.getElementById("localtime").innerHTML = Date();
 }
+
+function myFunction()
+{
+        xhttp.open("GET", "setopt?unixtime=" + Math.floor(Date.now()/1000), false);
+        xhttp.send();
+}

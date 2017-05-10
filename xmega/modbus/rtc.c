@@ -1,3 +1,5 @@
+#include "log.h"
+
 unsigned long rtc_get_time(void)
 {
         RTC32_SYNCCTRL.SYNCCNT = 1;
@@ -42,16 +44,16 @@ void status_vbat(void)
 {
         PR_PRGEN.RTC = 0; //enable rtc(one?no?)
         if (VBAT_STATUS.BBPWR)
-                UARTC0_Write_Text("VBAT has no power\n\r");
+                Log_Write("VBAT has no power\n\r");
         else if (VBAT_STATUS.XOSCFAIL)
-                UARTC0_Write_Text("RTC crystal oscillator failed\n\r");
+                Log_Write("RTC crystal oscillator failed\n\r");
         else if (VBAT_STATUS.BBPORF)
-                UARTC0_Write_Text("VBAT had brownout while no power is present\n\r");
+                Log_Write("VBAT had brownout while no power is present\n\r");
         else if (VBAT_STATUS.BBPORF)
-                UARTC0_Write_Text("VBAT had power-on reset\n\r");
+                Log_Write("VBAT had power-on reset\n\r");
         else
         {
-                UARTC0_Write_Text("VBAT OK\n\r");
+                //UARTC0_Write_Text("VBAT OK\n\r");
                 VBAT_CTRL.ACCEN = 1;
                 return;
         }
