@@ -70,6 +70,8 @@ void Fill_Table(void)
         splitfloat(&table[22],&table[23], TMP_Celsius(ADC_Voltage(ADCB_Get_Sample(ADCB_Cell))));
         splitfloat(&table[28],&table[29], (float)((lowlight<<1)|(lowflow<<2)|(PORTU3_IN.B6<<3)|(PORTU2_IN.B7<<4)|(PORTU1_IN.B1<<5)|(PORTU2_IN.B3<<6)|(PORTU2_IN.B4<<7)));
         splitfloat(&table[30],&table[31], rolidol/(float)(celllevelavg-zerolevelavg));
+        splitfloat(&table[32],&table[33], (float)ADCB_Get_Sample(ADCB_PMT_Current));
+        splitfloat(&table[34],&table[35], (float)ADCB_Get_Sample(ADCB_PMT_Voltage));
 }
 
 void Sysclk_Init(void)
