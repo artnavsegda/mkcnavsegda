@@ -117,7 +117,6 @@ void main()
                 Mmc_Fat_Close();
                 sd_init = 0;
         }
-        Log_Init();
         makeopt();
         SPI_Ethernet_Init(getmymac(getmyopt("mac")), getmyip(getmyopt("ip")), 1);
         SPI_Ethernet_writeReg(EIE, 0xDB);
@@ -129,6 +128,7 @@ void main()
         PMIC_CTRL.HILVLEN = 1;
         I_bit = 1;
         status_vbat();
+        Log_Init();
         ntp_send();
         Entermode(STARTLEVEL);
 
