@@ -41,11 +41,9 @@ Count=0
 Count=0
 ActiveImageIndex=-1
 [OPENED_FILES]
-Count=4
-File0=main.c
-File1=log.c
-File2=log.h
-File3=tftp.c
+Count=2
+File0=log.c
+File1=main.c
 [EEPROM]
 Count=0
 [ACTIVE_COMMENTS_FILES]
