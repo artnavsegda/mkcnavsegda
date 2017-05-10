@@ -7,20 +7,24 @@ short logfile;
 
 void LogHandler(char c)
 {
-        Mmc_Fat_Write(&c, 1);
-        //UART_Write(c);
+        if (sd_init == 0)
+        {
+                Mmc_Fat_Write(&c, 1);
+                //UART_Write(c);
+        }
 }
 
 void Log_Write(char message[])
 {
-	static TimeStruct ts2;
-        Mmc_Fat_Activate(logfile);
-        Time_epochToDate(rtc_get_time(), &ts2);
-        PrintOut(LogHandler, "%4d.%02d.%02d %02d:%02d:%02d: ", ts2.yy,(int)ts2.mo,(int)ts2.md,(int)ts2.hh,(int)ts2.mn,(int)ts2.ss);
-        Mmc_Fat_Write(message, strlen(message));
-        //UART_Write_Text(message);
-        Mmc_Fat_Write("\r\n", 2);
-        //UART_Write_Text("\r\n");
+        static TimeStruct ts2;
+        if (sd_init == 0)
+        {
+                Mmc_Fat_Activate(logfile);
+                Time_epochToDate(rtc_get_time(), &ts2);
+                PrintOut(LogHandler, "\r\n%4d.%02d.%02d %02d:%02d:%02d: ", ts2.yy,(int)ts2.mo,(int)ts2.md,(int)ts2.hh,(int)ts2.mn,(int)ts2.ss);
+                Mmc_Fat_Write(message, strlen(message));
+                //UART_Write_Text(message);
+        }
 }
 
 void Log_Init(void)

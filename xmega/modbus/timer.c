@@ -4,6 +4,7 @@
 #include "modbus.h"
 #include "settings.h"
 #include "adc.h"
+#include "log.h"
 
 float rolidol = 0;
 unsigned int timetoexitmode = 0;
@@ -40,6 +41,8 @@ unsigned int Modeseconds(enum modelist modeneed)
 
 void Entermode(enum modelist modetoenter)
 {
+        //Log_Write("Entering mode ");
+        //PrintOut(LogHandler, "%d", (int)modetoenter);
         currentmode = modetoenter;
         timetoexitmode = Modeseconds(modetoenter);
         switch(modetoenter)
@@ -120,6 +123,8 @@ void Exitmode(enum modelist modetoexit)
                         celllevelavg = oversample(&secondstage,Modeseconds(CELLLEVEL))/Modeseconds(CELLLEVEL);
                         celltempavg = oversample(&temperature_averaging_massive,Modeseconds(CELLLEVEL))/Modeseconds(CELLLEVEL);
                         rolidol = 1297.17*exp(0.082*(TMP_Celsius(ADC_Voltage(celltempavg))-25));
+                        Log_Write("Cell level ");
+                        PrintOut(LogHandler, "%d, temp %f, coef %f", celllevelavg, TMP_Celsius(ADC_Voltage(celltempavg)), rolidol);
                         CELL_LeftOut = 1;
                         CELL_RightOut = 0;
                 break;
@@ -127,6 +132,8 @@ void Exitmode(enum modelist modetoexit)
                 break;
                 case ZEROTEST:
                         zerolevelavg = oversample(&secondstage,Modeseconds(ZEROTEST))/Modeseconds(ZEROTEST);
+                        Log_Write("Zero level ");
+                        PrintOut(LogHandler, "%d", zerolevelavg);
                         Zero_Valve = 0;
                         bctable[3] = 0;
                 break;
