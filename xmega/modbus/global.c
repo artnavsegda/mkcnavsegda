@@ -5,6 +5,7 @@
 struct massive burnstage;
 struct massive firststage;
 struct massive secondstage;
+struct massive thirdstage;
 struct massive temperature_averaging_massive;
 
 unsigned int result;

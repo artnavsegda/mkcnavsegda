@@ -1,6 +1,7 @@
 extern struct massive burnstage;
 extern struct massive firststage;
 extern struct massive secondstage;
+extern struct massive thirdstage;
 extern struct massive temperature_averaging_massive;
 extern unsigned int result;
 extern int zerostage;

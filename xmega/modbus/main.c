@@ -85,7 +85,7 @@ void Sysclk_Init(void)
 void main()
 {
         unsigned long filesize, no_bytes;
-        int i;
+        int i, j = 0;
         MM_Init();
         Sysclk_Init();
         Ports_Init();
@@ -149,6 +149,12 @@ void main()
                         LED2_Toggle = 1;
                         zerostage = oversample(&firststage,64)/64;
                         increment(&secondstage,zerostage);
+			j++;
+			if (j == 10)
+			{
+        			increment(&thirdstage,oversample(&zerostage,10)/10);
+        			j = 0;
+			}
                         increment(&temperature_averaging_massive,ADCB_Get_Sample(ADCB_Cell));
                         timetoexitmode--;
                         if (timetoexitmode == 0)

@@ -41,8 +41,11 @@ Count=0
 Count=0
 ActiveImageIndex=-1
 [OPENED_FILES]
-Count=1
+Count=4
 File0=main.c
+File1=http.c
+File2=global.c
+File3=global.h
 [EEPROM]
 Count=0
 [ACTIVE_COMMENTS_FILES]
@@ -102,4 +105,5 @@ File16=PrintOut
 File17=Time
 [EXPANDED_NODES]
 Node0=Sources
-Count=1
+Node1=Header Files
+Count=2
