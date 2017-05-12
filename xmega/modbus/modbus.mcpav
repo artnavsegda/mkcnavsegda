@@ -6,7 +6,7 @@ Value=0
 [BUILD_TYPE]
 Value=0
 [ACTIVE_TAB]
-Value=main.c
+Value=BootLoader.c
 [USE_EEPROM]
 Value=0
 [USE_HEAP]
@@ -18,7 +18,6 @@ Value=
 [BOOT_TYPE]
 Value=0
 [FILES]
-Count=16
 File0=main.c
 File1=ad7705.c
 File2=ports.c
@@ -35,17 +34,17 @@ File12=tftp.c
 File13=rtc.c
 File14=ntp.c
 File15=log.c
+File16=BootLoader.c
+Count=17
 [BINARIES]
 Count=0
 [IMAGES]
 Count=0
 ActiveImageIndex=-1
 [OPENED_FILES]
-Count=4
-File0=main.c
-File1=http.c
-File2=global.c
-File3=global.h
+File0=BootLoader.c
+File1=main.c
+Count=2
 [EEPROM]
 Count=0
 [ACTIVE_COMMENTS_FILES]
@@ -54,16 +53,9 @@ Count=0
 Count=0
 [SEARCH_PATH]
 Count=4
-Path0=C:\Program Files\Mikroelektronika\mikroC PRO for AVR\Defs\
-Path1=C:\Program Files\Mikroelektronika\mikroC PRO for AVR\Uses\
-Path2=Z:\GitHub\mkcnavsegda\xmega\modbus\
-Path3=C:\Program Files\Mikroelektronika\mikroC PRO for AVR\Uses\GT64KW\
 [HEADER_PATH]
 Count=2
-Path0=C:\Program Files\Mikroelektronika\mikroC PRO for AVR\Uses\GT64KW\
-Path1=Z:\GitHub\mkcnavsegda\xmega\modbus\
 [HEADERS]
-Count=17
 File0=ad7705.h
 File1=ports.h
 File2=modbus.h
@@ -81,10 +73,10 @@ File13=rtc.h
 File14=ntp.h
 File15=timelib.h
 File16=log.h
+Count=17
 [PLDS]
 Count=0
 [Useses]
-Count=18
 File0=UART
 File1=SPI_Ethernet
 File2=C_String
@@ -103,7 +95,8 @@ File14=Sprintf
 File15=MemManager
 File16=PrintOut
 File17=Time
+Count=18
 [EXPANDED_NODES]
-Node0=Sources
-Node1=Header Files
+0=modbus.mcpav
+1=Sources
 Count=2

@@ -47,4 +47,5 @@ File0=FLASH
 File1=UART
 Count=2
 [EXPANDED_NODES]
-Count=0
+0=BootLoader.mcpav
+Count=1
