@@ -5,18 +5,11 @@
 #include "settings.h"
 #include "adc.h"
 #include "log.h"
+#include "global.h"
 
 float rolidol = 0;
 unsigned int timetoexitmode = 0;
 enum modelist currentmode = STARTLEVEL;
-
-extern unsigned int coefficent;
-extern unsigned int zerolevelavg;
-extern unsigned int celllevelavg;
-extern unsigned int celltempavg;
-
-extern struct massive secondstage;
-extern struct massive temperature_averaging_massive;
 
 unsigned int Modeseconds(enum modelist modeneed)
 {
@@ -133,7 +126,7 @@ void Exitmode(enum modelist modetoexit)
                 case ZEROTEST:
                         zerolevelavg = oversample(&secondstage,Modeseconds(ZEROTEST))/Modeseconds(ZEROTEST);
                         Log_Write("Zero level ");
-                        PrintOut(LogHandler, "%d", zerolevelavg);
+                        PrintOut(LogHandler, "%d, temp %f", zerolevelavg, TMP_Celsius(ADC_Voltage(oversample(&temperature_averaging_massive,Modeseconds(ZEROTEST))/Modeseconds(ZEROTEST))));
                         Zero_Valve = 0;
                         bctable[3] = 0;
                 break;
@@ -142,6 +135,8 @@ void Exitmode(enum modelist modetoexit)
                 case TOTALMERCURYDELAY:
                 break;
                 case TOTALMERCURY:
+                        Log_Write("Total average ");
+                        PrintOut(LogHandler, "%d", oversample(&thirdstage,Modeseconds(TOTALMERCURY)/10)/(Modeseconds(TOTALMERCURY)/10));
                         bctable[2] = 0;
                 break;
                 case ELEMENTALMERCURYDELAY:
