@@ -117,7 +117,7 @@ void Exitmode(enum modelist modetoexit)
                         celltempavg = oversample(&temperature_averaging_massive,Modeseconds(CELLLEVEL))/Modeseconds(CELLLEVEL);
                         rolidol = 1297.17*exp(0.082*(TMP_Celsius(ADC_Voltage(celltempavg))-25));
                         Log_Write("Cell level ");
-                        PrintOut(LogHandler, "%d, temp %f, coef %f", celllevelavg, TMP_Celsius(ADC_Voltage(celltempavg)), rolidol);
+                        PrintOut(LogHandler, "%d, coef %f", celllevelavg, rolidol);
                         CELL_LeftOut = 1;
                         CELL_RightOut = 0;
                 break;
