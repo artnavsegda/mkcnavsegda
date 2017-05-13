@@ -152,7 +152,7 @@ void main()
                         j++;
                         if (j == 10)
                         {
-                                increment(&thirdstage,oversample(&zerostage,10)/10);
+                                increment(&thirdstage,oversample(&secondstage,10)/10);
                                 j = 0;
                         }
                         increment(&temperature_averaging_massive,ADCB_Get_Sample(ADCB_Cell));

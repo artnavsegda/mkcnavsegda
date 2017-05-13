@@ -4,7 +4,7 @@ extern struct massive secondstage;
 extern struct massive thirdstage;
 extern struct massive temperature_averaging_massive;
 extern unsigned int result;
-extern int zerostage;
+extern int zerostage, pseudostage;
 extern int coefficent;
 extern int zerolevelavg;
 extern int celllevelavg;

@@ -9,7 +9,7 @@ struct massive thirdstage;
 struct massive temperature_averaging_massive;
 
 unsigned int result;
-int zerostage;
+int zerostage, pseudostage;
 int coefficent = ADCZERO;
 int zerolevelavg = ADCZERO;
 int celllevelavg = 4000+ADCZERO;

@@ -97,9 +97,12 @@ void Start_Bootload() {
   }
 }
 
-void main() org BOOTLOADER_START_ADDRESS{
+void Sysclk_Init(void);
 
-  UARTC0_Init(115200);
+void main() org BOOTLOADER_START_ADDRESS
+{
+     Sysclk_Init();
+     UARTC0_Init(115200);
 
   if (UART_Write_Loop('g','r')) {   // Send 'g' for ~5 sec, if 'r'
     Start_Bootload();               //   received start bootload

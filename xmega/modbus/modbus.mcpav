@@ -6,7 +6,7 @@ Value=0
 [BUILD_TYPE]
 Value=0
 [ACTIVE_TAB]
-Value=BootLoader.c
+Value=main.c
 [USE_EEPROM]
 Value=0
 [USE_HEAP]
@@ -34,17 +34,15 @@ File12=tftp.c
 File13=rtc.c
 File14=ntp.c
 File15=log.c
-File16=BootLoader.c
-Count=17
+Count=16
 [BINARIES]
 Count=0
 [IMAGES]
 Count=0
 ActiveImageIndex=-1
 [OPENED_FILES]
-File0=BootLoader.c
-File1=main.c
-Count=2
+File0=main.c
+Count=1
 [EEPROM]
 Count=0
 [ACTIVE_COMMENTS_FILES]
@@ -52,9 +50,11 @@ Count=0
 [OTHER_FILES]
 Count=0
 [SEARCH_PATH]
-Count=4
+Path0=C:\Program Files\Mikroelektronika\mikroC PRO for AVR\Uses\gt64kw\
+Count=0
 [HEADER_PATH]
-Count=2
+Path0=C:\Program Files\Mikroelektronika\mikroC PRO for AVR\Uses\gt64kw\
+Count=0
 [HEADERS]
 File0=ad7705.h
 File1=ports.h
