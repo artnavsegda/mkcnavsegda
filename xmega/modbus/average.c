@@ -16,7 +16,7 @@ long average(unsigned int *selekta,int amount, int startpos, int sizeofmassive) 
         return x;
 }
 
-void minmax2(unsigned int *selekta,int amount, int startpos, int sizeofmassive) // ??????????
+int minmax2(unsigned int *selekta,int amount, int startpos, int sizeofmassive) // ??????????
 {
         int i, x;
         int xmin = 32000, xmax = 0;
@@ -27,11 +27,11 @@ void minmax2(unsigned int *selekta,int amount, int startpos, int sizeofmassive) 
                 else
                         x = selekta[sizeofmassive+(startpos-i)-1];
                 if (x < xmin)
-			xmin = x;
-		if (x > xmax)
-		        xmax = x;
+                        xmin = x;
+                if (x > xmax)
+                        xmax = x;
         }
-        PrintOut(LogHandler, " min %d, max %d", xmin, xmax);
+        return xmax-xmin;
 }
 
 unsigned int leverage(unsigned int *selekta,int i, int startpos, int sizeofmassive)
@@ -54,9 +54,9 @@ long oversample(struct massive *working, unsigned int amount)
         return average(working->massive,amount,working->position,sizeof(working->massive)/2);
 }
 
-void minmax1(struct massive *working, unsigned int amount)
+int minmax1(struct massive *working, unsigned int amount)
 {
-        minmax2(working->massive,amount,working->position,sizeof(working->massive)/2);
+        return minmax2(working->massive,amount,working->position,sizeof(working->massive)/2);
 }
 
 void increment(struct massive *working, unsigned int value)

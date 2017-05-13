@@ -135,9 +135,8 @@ void Exitmode(enum modelist modetoexit)
                 case TOTALMERCURYDELAY:
                 break;
                 case TOTALMERCURY:
-                        Log_Write("Total average ");
-                        PrintOut(LogHandler, "%d", oversample(&thirdstage,Modeseconds(TOTALMERCURY)/10)/(Modeseconds(TOTALMERCURY)/10));
-                        minmax1(&thirdstage, Modeseconds(TOTALMERCURY)/10);
+                        Log_Write("Total span ");
+                        PrintOut(LogHandler, "%d", minmax1(&thirdstage, Modeseconds(TOTALMERCURY)/10));
                         bctable[2] = 0;
                 break;
                 case ELEMENTALMERCURYDELAY:
