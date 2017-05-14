@@ -6,7 +6,7 @@ Value=0
 [BUILD_TYPE]
 Value=0
 [ACTIVE_TAB]
-Value=timer.c
+Value=http.c
 [USE_EEPROM]
 Value=0
 [USE_HEAP]
@@ -41,7 +41,7 @@ Count=0
 Count=0
 ActiveImageIndex=-1
 [OPENED_FILES]
-File0=timer.c
+File0=http.c
 Count=1
 [EEPROM]
 Count=0

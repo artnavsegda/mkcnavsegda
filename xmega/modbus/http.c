@@ -5,6 +5,7 @@
 #include "average.h"
 #include "adc.h"
 #include "rtc.h"
+#include "timer.h"
 #include <__Lib_MmcFat16.h>
 
 unsigned char httpHeader[100] = "HTTP/1.1 200 OK" ;  // HTTP header
@@ -109,6 +110,12 @@ unsigned int http(static unsigned char *getRequest,static unsigned char *buf2)
                                         PrintOut(WebHandler, "%d", celltempavg);
                                 else if (strcmp("unixtime",reqstring)==0)
                                         PrintOut(WebHandler, "%lu", rtc_get_time());
+                                else if (strcmp("currentmode",reqstring)==0)
+                                        PrintOut(WebHandler, "%d", (int)currentmode);
+                                else if (strcmp("timetoexitmode",reqstring)==0)
+                                        PrintOut(WebHandler, "%d", timetoexitmode);
+                                else if (strcmp("nextmode",reqstring)==0)
+                                        PrintOut(WebHandler, "%d", (int)Sequence(currentmode));
                         }
                 }
                 else if (strcmp("/getraw",getRequest)==0)
