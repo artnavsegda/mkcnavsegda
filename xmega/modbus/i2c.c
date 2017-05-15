@@ -66,7 +66,6 @@ char Expander_Read_Port(char ModuleAddress)
 
 void Expander_Init(char ModuleAddress)
 {
-        TWIE_Init(100000);
         Expander_Write_Byte(ModuleAddress,0x02,0x00);
 }
 
@@ -82,4 +81,18 @@ void Expander_Write_All(void)
         Expander_Write_Port(PORTU1,PORTU1_OUT);
         Expander_Write_Port(PORTU2,PORTU2_OUT);
         Expander_Write_Port(PORTU3,PORTU3_OUT);
+}
+
+void Expander_Direction_All(void)
+{
+        Expander_Set_DirectionPort(PORTU1,PORTU1_DIR);
+        Expander_Set_DirectionPort(PORTU2,PORTU2_DIR);
+        Expander_Set_DirectionPort(PORTU3,PORTU3_DIR);
+}
+
+void Expander_Init_All(void)
+{
+        Expander_Init(PORTU1);
+        Expander_Init(PORTU2);
+        Expander_Init(PORTU3);
 }

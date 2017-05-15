@@ -38,6 +38,7 @@ void Ports_Init(void)
 {
         LED0_Direction = 1;
         LED2_Direction = 1;
+        TWIE_Init(100000);
         Expander_Init(PORTU1);
         CELL_LeftOut_Direction = 0;
         CELL_RightOut_Direction = 0;
@@ -160,6 +161,8 @@ void main()
                         if (timetoexitmode == 0)
                                 Exitmode(currentmode);
                         Operatemode();
+                        Expander_Init_All();
+                        Expander_Direction_All();
                         Expander_Read_All();
                         Fill_Table();
                         Expander_Write_All();

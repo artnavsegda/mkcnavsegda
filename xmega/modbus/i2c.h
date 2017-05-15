@@ -37,3 +37,5 @@ char Expander_Read_Port(char ModuleAddress);
 void Expander_Init(char ModuleAddress);
 void Expander_Read_All(void);
 void Expander_Write_All(void);
+void Expander_Direction_All(void);
+void Expander_Init_All(void);
