@@ -18,19 +18,17 @@ Value=
 [BOOT_TYPE]
 Value=0
 [FILES]
-Count=2
 File0=ad7705.c
 File1=average.c
+Count=2
 [BINARIES]
 Count=0
 [IMAGES]
 Count=0
 ActiveImageIndex=-1
 [OPENED_FILES]
-Count=3
 File0=ad7705.c
-File1=average.c
-File2=average.h
+Count=1
 [EEPROM]
 Count=0
 [ACTIVE_COMMENTS_FILES]
@@ -38,26 +36,20 @@ Count=0
 [OTHER_FILES]
 Count=0
 [SEARCH_PATH]
-Count=5
-Path0=C:\Program Files\Mikroelektronika\mikroC PRO for AVR\Defs\
-Path1=C:\Program Files\Mikroelektronika\mikroC PRO for AVR\Uses\
-Path2=Z:\GitHub\mkcnavsegda\xmega\unit-test\ad7705\
-Path4=C:\Program Files\Mikroelektronika\mikroC PRO for AVR\Uses\GT64KW\
+Count=4
 [HEADER_PATH]
-Count=2
-Path1=Z:\GitHub\mkcnavsegda\xmega\unit-test\ad7705\
-[HEADERS]
 Count=1
+[HEADERS]
 File0=average.h
+Count=1
 [PLDS]
 Count=0
 [Useses]
-Count=4
 File0=SPI
 File1=PrintOut
 File2=C_Type
 File3=UART
+Count=4
 [EXPANDED_NODES]
-Node0=Sources
-Node1=Header Files
-Count=2
+0=ad7705.mcpav
+Count=1

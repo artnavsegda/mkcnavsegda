@@ -18,20 +18,20 @@ Value=
 [BOOT_TYPE]
 Value=0
 [FILES]
-Count=5
 File0=main.c
 File1=i2c.c
 File2=ad7705.c
 File3=average.c
 File4=adc.c
+Count=5
 [BINARIES]
 Count=0
 [IMAGES]
 Count=0
 ActiveImageIndex=-1
 [OPENED_FILES]
-Count=1
 File0=main.c
+Count=1
 [EEPROM]
 Count=0
 [ACTIVE_COMMENTS_FILES]
@@ -39,25 +39,19 @@ Count=0
 [OTHER_FILES]
 Count=0
 [SEARCH_PATH]
-Count=6
-Path0=C:\Program Files\Mikroelektronika\mikroC PRO for AVR\Defs\
-Path1=C:\Program Files\Mikroelektronika\mikroC PRO for AVR\Uses\
-Path2=Z:\GitHub\mkcnavsegda\xmega\unit-test\timer\
-Path4=C:\Program Files\Mikroelektronika\mikroC PRO for AVR\Uses\GT64KW\
+Count=4
 [HEADER_PATH]
-Count=2
-Path1=Z:\GitHub\mkcnavsegda\xmega\unit-test\timer\
+Count=1
 [HEADERS]
-Count=5
 File0=i2c.h
 File1=ad7705.h
 File2=timer.h
 File3=average.h
 File4=adc.h
+Count=5
 [PLDS]
 Count=0
 [Useses]
-Count=9
 File0=Timer
 File1=UART
 File2=TWI
@@ -67,7 +61,7 @@ File5=Mmc
 File6=PrintOut
 File7=C_Type
 File8=C_Math
+Count=9
 [EXPANDED_NODES]
-Node0=Sources
-Node1=Header Files
-Count=2
+0=timer.mcpav
+Count=1
