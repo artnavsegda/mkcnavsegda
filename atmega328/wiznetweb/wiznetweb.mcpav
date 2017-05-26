@@ -26,8 +26,7 @@ Count=0
 Count=0
 ActiveImageIndex=-1
 [OPENED_FILES]
-File0=wiznetweb.c
-Count=1
+Count=0
 [EEPROM]
 Count=0
 [ACTIVE_COMMENTS_FILES]
@@ -47,4 +46,5 @@ Count=0
 File0=C_String
 Count=1
 [EXPANDED_NODES]
-Count=0
+0=wiznetweb.mcpav
+Count=1
