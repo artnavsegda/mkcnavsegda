@@ -44,9 +44,11 @@ Count=0
 [PLDS]
 Count=0
 [Useses]
-Count=3
+Count=5
 File0=Peripheral_Pin_Select
 File1=UART
 File2=SPI
+File3=PrintOut
+File4=C_Type
 [EXPANDED_NODES]
 Count=0
