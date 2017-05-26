@@ -1,5 +1,7 @@
 void main() {
 
+  OSCCON = 0x70; // SCS FOSC; OSTS intosc; IRCF 16MHz_HFINTOSC; IDLEN disabled;
+
   TRISA = 0;           // set direction to be output
   TRISB = 0;           // set direction to be output
   TRISC = 0;           // set direction to be output
