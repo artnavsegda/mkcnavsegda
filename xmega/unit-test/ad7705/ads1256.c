@@ -31,7 +31,7 @@ void main() {
         SPI_Set_Active(&SPIC_Read, &SPIC_Write);
         SPI_Write(0xFE); //reset
         delay_ms(10);
-        SPI_Write_Bytes("\x53\x03",2);//write to data rate register sample rate 2.5sps
+        SPI_Write_Bytes("\x53\x00\x03",2);//write to data rate register sample rate 2.5sps
         delay_ms(10);
 
         while (1)
