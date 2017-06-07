@@ -1,17 +1,26 @@
+#include <stdint.h>
+
 #define BSWAP_16(x) ((((x) >> 8) & 0xff) | (((x) & 0xff) << 8))
+
+sfr sbit SPI_AD7705_CS  at PORTB2_bit;
+sfr sbit SPI_DRDY  at PINB1_bit;
 
 void SPI_Read_Bytes(char *buffer, unsigned NoBytes)
 {
         int i;
+        SPI_AD7705_CS = 0;
         for (i = 0; i < NoBytes; i++)
                 buffer[i] = SPI_Read(0xFF);
+        SPI_AD7705_CS = 1;
 }
 
 void SPI_Write_Bytes(char *buffer, unsigned NoBytes)
 {
         int i;
+        SPI_AD7705_CS = 0;
         for (i = 0; i < NoBytes; i++)
                 SPI_Write(buffer[i]);
+        SPI_AD7705_CS = 1;
 }
 
 void PrintHandler(char c)
@@ -20,7 +29,7 @@ void PrintHandler(char c)
 }
 
 void main() {
-        unsigned int result;
+        uint16_t result;
         UART1_Init(9600);
         delay_ms(100);
         UART1_Write_Text("MCU started\r\n");
@@ -37,11 +46,13 @@ void main() {
 
         while (1)
         {
-		if (PORTB1_bit == 0)
-		{
+                if (SPI_DRDY == 0)
+                {
+                	SPI_AD7705_CS = 0;
                         SPI_Write(0x38);
+                        SPI_AD7705_CS = 1;
                         SPI_Read_Bytes((unsigned char *)&result,2);
-                        PrintOut(PrintHandler, "hex: %5x\r\n", BSWAP_16(result));
+                        PrintOut(PrintHandler, "hex: %04x\r\n", BSWAP_16(result));
                 }
         }
 }
