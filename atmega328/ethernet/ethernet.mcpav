@@ -50,4 +50,6 @@ File1=C_String
 File2=SPI
 Count=3
 [EXPANDED_NODES]
-Count=0
+0=ethernet.mcpav
+1=Sources
+Count=2
