@@ -15,7 +15,7 @@ uint32_t shiftIn(void)
         for (i = 0;i < 24; ++i)
         {
                 PORTD4_bit = 1;
-                value |= PIND3_bit << (24-i);
+                value |= (uint32_t)PIND3_bit << (24-i);
                 PORTD4_bit = 0;
         }
         PORTD4_bit = 1;
