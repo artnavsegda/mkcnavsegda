@@ -26,11 +26,21 @@ void SPI_Read_Bytes(char *buffer, unsigned NoBytes)
                 buffer[i] = Soft_SPI_Read(0xFF);
 }
 
+void starttimer(void)
+{
+	DDD5_bit = 1; //clk
+        TCCR0A = 0x33;
+        TCCR0B = 0x09;
+        OCR0A = 0x06;
+        OCR0B = 0x03;
+}
+
 void main()
 {
         uint16_t result;
         char string[10];
         UART1_Init(9600);
+        starttimer();
         Delay_ms(100);
         UART1_Write_Text("Hello!\r\n");
         Soft_SPI_Init();
