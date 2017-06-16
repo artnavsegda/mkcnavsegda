@@ -129,7 +129,7 @@ void main()
         Timer_Init(&TCD0, 100000);
         Timer_Interrupt_Enable(&TCD0);
         PMIC_CTRL.HILVLEN = 1;
-        SREG_I_bit = 1;
+        asm sei;
         status_vbat();
         Log_Init();
         ntp_send();

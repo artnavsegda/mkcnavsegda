@@ -6,7 +6,7 @@ Value=0
 [BUILD_TYPE]
 Value=0
 [ACTIVE_TAB]
-Value=i2c.h
+Value=main.c
 [USE_EEPROM]
 Value=0
 [USE_HEAP]
@@ -41,11 +41,10 @@ Count=0
 Count=0
 ActiveImageIndex=-1
 [OPENED_FILES]
-File0=timer.c
-File1=main.c
-File2=i2c.c
-File3=i2c.h
-Count=4
+File0=main.c
+File1=ad7705.c
+File2=ports.c
+Count=3
 [EEPROM]
 Count=0
 [ACTIVE_COMMENTS_FILES]
@@ -53,10 +52,8 @@ Count=0
 [OTHER_FILES]
 Count=0
 [SEARCH_PATH]
-Path0=C:\Program Files\Mikroelektronika\mikroC PRO for AVR\Uses\gt64kw\
-Count=0
+Count=3
 [HEADER_PATH]
-Path0=C:\Program Files\Mikroelektronika\mikroC PRO for AVR\Uses\gt64kw\
 Count=0
 [HEADERS]
 File0=ad7705.h

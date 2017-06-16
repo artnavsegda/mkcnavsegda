@@ -6,7 +6,7 @@ Value=0
 [BUILD_TYPE]
 Value=0
 [ACTIVE_TAB]
-Value=ports.c
+Value=i2c.c
 [USE_EEPROM]
 Value=0
 [USE_HEAP]
@@ -19,8 +19,7 @@ Value=
 Value=0
 [FILES]
 File0=i2c.c
-File1=ports.c
-Count=2
+Count=1
 [BINARIES]
 Count=0
 [IMAGES]
@@ -28,8 +27,7 @@ Count=0
 ActiveImageIndex=-1
 [OPENED_FILES]
 File0=i2c.c
-File1=ports.c
-Count=2
+Count=1
 [EEPROM]
 Count=0
 [ACTIVE_COMMENTS_FILES]
@@ -38,21 +36,19 @@ Count=0
 Count=0
 [SEARCH_PATH]
 Path0=C:\Program Files\Mikroelektronika\mikroC PRO for AVR\Uses\lte64kw\
-Path1=C:\Program Files\Mikroelektronika\mikroC PRO for AVR\Packages\FAT32 Library\Uses\
-Path2=C:\Program Files\Mikroelektronika\mikroC PRO for AVR\Packages\FT800\Uses\
-Count=2
+Count=0
 [HEADER_PATH]
-Path0=C:\Program Files\Mikroelektronika\mikroC PRO for AVR\Packages\FAT32 Library\Uses\
-Path1=C:\Program Files\Mikroelektronika\mikroC PRO for AVR\Packages\FT800\Uses\
-Count=1
+Count=0
 [HEADERS]
-File0=ports.h
-Count=1
+Count=0
 [PLDS]
 Count=0
 [Useses]
 File0=TWI
-Count=1
+File1=UART
+File2=Conversions
+File3=C_String
+Count=4
 [EXPANDED_NODES]
 0=i2c.mcpav
 1=Sources
