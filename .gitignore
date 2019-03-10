@@ -46,3 +46,6 @@
 *.log
 *.dlt
 *.asm
+*.bin
+*.emcl
+*.mcpar_callertable.txt
