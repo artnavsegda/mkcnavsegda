@@ -1,6 +1,20 @@
 [DEVICE]
 Name=STM32F101VG
 Clock=8000000
+[MEMORY_MODEL]
+Value=0
+[BUILD_TYPE]
+Value=0
+[ACTIVE_TAB]
+Value=serial.c
+[USE_EEPROM]
+Value=0
+[USE_HEAP]
+Value=0
+[HEAP_SIZE]
+Value=0
+[EEPROM_DEFINITION]
+Value=
 [FILES]
 File0=serial.c
 Count=1
@@ -28,33 +42,23 @@ Count=0
 Count=0
 [Useses]
 File0=UART
-Count=1
-[MEMORY_MODEL]
-Value=0
-[BUILD_TYPE]
-Value=0
-[ACTIVE_TAB]
-Value=serial.c
-[USE_EEPROM]
-Value=0
-[USE_HEAP]
-Value=0
-[HEAP_SIZE]
-Value=0
-[EEPROM_DEFINITION]
-Value=
+File1=Sprintf
+File2=C_Type
+Count=3
 [EXPANDED_NODES]
 Count=0
 [LIB_EXPANDED_NODES]
 0=mikroE Libraries
 1=System Libraries
-Count=2
+1043=Additional Libraries
+2080=Third Party Libraries
+Count=4
 [PROGRAMMER_OPTIONS]
 Value=SWD
 [PROGRAMMER_TYPE]
 Value=mikroE mikroProg
 [DEBUGGER_TYPE]
-Value=
+Value=default
 [NECTO_OPTIONS]
 NECTO_RESET_TYPE=0
 NECTO_ERASE_TYPE=0

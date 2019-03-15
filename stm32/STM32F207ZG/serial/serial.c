@@ -3,7 +3,7 @@ void main() {
      Delay_ms(100);
      while(1)
      {
-      UART1_Write_Text("hello\r\n");
+      UART1_Write_Text("hello123\r\n");
       Delay_ms(100);
      }
 }
