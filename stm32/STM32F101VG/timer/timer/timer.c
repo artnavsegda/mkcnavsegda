@@ -9,8 +9,8 @@ void main() {
 
   RCC_APB1ENR.TIM2EN = 1;       // Enable clock gating for timer module 2
   TIM2_CR1.CEN = 0;             // Disable timer
-  TIM2_PSC = 1098;              // Set timer prescaler.
-  TIM2_ARR = 65514;
+  TIM2_PSC = 0;              // Set timer prescaler.
+  TIM2_ARR = 7999;
   NVIC_IntEnable(IVT_INT_TIM2); // Enable timer interrupt
   TIM2_DIER.UIE = 1;            // Update interrupt enable
   TIM2_CR1.CEN = 1;             // Enable timer
