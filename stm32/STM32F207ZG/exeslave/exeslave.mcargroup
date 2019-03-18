@@ -1,0 +1,6 @@
+[PROJECTS]
+Count=2
+Project0=..\..\STM32F101VG\seriallink\seriallink.mcpar
+Project1=exeslave.mcpar
+[ActiveProject]
+Index=1
