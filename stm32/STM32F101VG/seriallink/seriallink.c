@@ -20,7 +20,7 @@ void Uart3_interrupt() iv IVT_INT_USART3 ics ICS_AUTO {
      char string[10];
      if (UART3_Data_Ready())
      {
-      sprintf(string,"RX1 %X %lu\r\n",UART3_Read(),num);
+      sprintf(string,"RX3 %X %lu\r\n",UART3_Read(),num);
       UART4_Write_Text(string);
      }
 }
