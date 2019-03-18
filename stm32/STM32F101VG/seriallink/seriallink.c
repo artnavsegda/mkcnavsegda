@@ -24,6 +24,8 @@ void main() {
      UART3_Init(9600);//(TX+/-)
      UART4_Init(115200);//stdio
      Delay_ms(100);
+     UART4_Write_Text("starting\r\n");
+     Delay_ms(100);
      while(1)
      {
              if (UART1_Data_Ready())
