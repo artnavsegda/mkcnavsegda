@@ -24,5 +24,7 @@ void main() {
       Delay_ms(100);
       //UART4_Write(0x42);
       //Delay_ms(100);
+      UART1_Write_Text("test123\r\n");
+      Delay_ms(100);
      }
 }
