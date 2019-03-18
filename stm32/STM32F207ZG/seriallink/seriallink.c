@@ -18,9 +18,11 @@ void main() {
      UART1_Write_Text("hello123\r\n");
      while(1)
      {
-      UART5_Write(0x24);
+      UART5_Write(0x31);
       Delay_ms(100);
-      UART4_Write(0x42);
+      UART5_Write(0x32);
       Delay_ms(100);
+      //UART4_Write(0x42);
+      //Delay_ms(100);
      }
 }
