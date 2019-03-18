@@ -5,6 +5,26 @@ void Timer2_interrupt() iv IVT_INT_TIM2 {
      num++;
 }
 
+// Interrupt routine
+void Uart1_interrupt() iv IVT_INT_USART1 ics ICS_AUTO {
+     char string[10];
+     if (UART1_Data_Ready())
+     {
+      sprintf(string,"RX1 %X %lu\r\n",UART1_Read(),num);
+      UART4_Write_Text(string);
+     }
+}
+
+// Interrupt routine
+void Uart3_interrupt() iv IVT_INT_USART3 ics ICS_AUTO {
+     char string[10];
+     if (UART3_Data_Ready())
+     {
+      sprintf(string,"RX1 %X %lu\r\n",UART3_Read(),num);
+      UART4_Write_Text(string);
+     }
+}
+
 void main() {
      char exetx, exerx;
      char string[10];
@@ -21,24 +41,18 @@ void main() {
      
      
      UART1_Init(9600);//(RX+/-)
+     
+     USART1_CR1bits.RXNEIE = 1; // enable uart rx interrupt
+     NVIC_IntEnable(IVT_INT_USART1); // enable interrupt vector
+     
      UART3_Init(9600);//(TX+/-)
+     
+     USART3_CR1bits.RXNEIE = 1; // enable uart rx interrupt
+     NVIC_IntEnable(IVT_INT_USART3); // enable interrupt vector
+     
      UART4_Init(115200);//stdio
      Delay_ms(100);
      UART4_Write_Text("starting\r\n");
      Delay_ms(100);
-     while(1)
-     {
-             if (UART1_Data_Ready())
-             {
-                exerx = UART1_Read();
-                sprintf(string,"RX1 %X %lu\r\n",exerx,num);
-                UART4_Write_Text(string);
-             }
-             if (UART3_Data_Ready())
-             {
-                exetx = UART3_Read();
-                sprintf(string,"RX3 %X %lu\r\n",exetx,num);
-                UART4_Write_Text(string);
-             }
-     }
+     while(1);
 }
