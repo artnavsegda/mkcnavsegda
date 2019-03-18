@@ -47,8 +47,8 @@ Count=1
 0=seriallink.mcpar
 Count=1
 [LIB_EXPANDED_NODES]
-0=mikroE Libraries
-1=System Libraries
+0=
+1=
 Count=2
 [PROGRAMMER_OPTIONS]
 Value=SWD
