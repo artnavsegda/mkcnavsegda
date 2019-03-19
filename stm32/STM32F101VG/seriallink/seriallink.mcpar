@@ -41,9 +41,9 @@ Count=0
 [PLDS]
 Count=0
 [Useses]
-File0=Sprintf
-File1=C_Type
-File2=UART
+File0=C_Type
+File1=UART
+File2=PrintOut
 Count=3
 [EXPANDED_NODES]
 0=seriallink.mcpar
@@ -51,8 +51,9 @@ Count=1
 [LIB_EXPANDED_NODES]
 0=mikroE Libraries
 1=System Libraries
+1043=Additional Libraries
 2081=Memory manager dlmalloc
-Count=3
+Count=4
 [PROGRAMMER_OPTIONS]
 Value=SWD
 [PROGRAMMER_TYPE]

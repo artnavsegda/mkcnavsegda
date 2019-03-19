@@ -1,5 +1,9 @@
 long long num = 0;
 
+void PrintHandler(char c) {
+  UART4_Write(c);
+}
+
 void Timer2_interrupt() iv IVT_INT_TIM2 {
      TIM2_SR.UIF = 0;
      num++;
@@ -7,22 +11,14 @@ void Timer2_interrupt() iv IVT_INT_TIM2 {
 
 // Interrupt routine
 void Uart1_interrupt() iv IVT_INT_USART1 ics ICS_AUTO {
-     char string[10];
      if (UART1_Data_Ready())
-     {
-      sprintf(string,"RX1 %X %lu\r\n",UART1_Read(),num);
-      UART4_Write_Text(string);
-     }
+      PrintOut(PrintHandler,"RX1 %X %u\r\n",UART1_Read(),num);
 }
 
 // Interrupt routine
 void Uart3_interrupt() iv IVT_INT_USART3 ics ICS_AUTO {
-     char string[10];
      if (UART3_Data_Ready())
-     {
-      sprintf(string,"RX3 %X %lu\r\n",UART3_Read(),num);
-      UART4_Write_Text(string);
-     }
+      PrintOut(PrintHandler,"RX3 %X %lu\r\n",UART3_Read(),num);
 }
 
 void main() {
