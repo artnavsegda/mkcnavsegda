@@ -27,6 +27,14 @@ void Uart5_interrupt() iv IVT_INT_UART5 ics ICS_AUTO {
       PrintOut(PrintHandler,"RX5 %X %lu\r\n",UART5_Read(),num);
 }
 
+PCF_WrSingle(unsigned char wAddr, unsigned char wData)
+{
+     unsigned char buf[1];
+     buf[0] = wData;
+     I2C3_Start();
+     I2C3_Write(wAddr,buf,1,END_MODE_STOP);
+}
+
 void main() {
 
      RCC_APB1ENR.TIM2EN = 1;       // Enable clock gating for timer module 2
@@ -37,6 +45,7 @@ void main() {
      TIM2_DIER.UIE = 1;            // Update interrupt enable
      TIM2_CR1.CEN = 1;             // Enable timer
 
+     I2C3_Init_Advanced(100000, &_GPIO_MODULE_I2C3_PA8_C9);
 
      UART1_Init(115200);//(stdio/aux3)
 
