@@ -4,5 +4,5 @@
 //
 
 void main() {
-
+     I2C3_Init();
 }
