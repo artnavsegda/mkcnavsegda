@@ -6,7 +6,7 @@ Value=0
 [BUILD_TYPE]
 Value=0
 [ACTIVE_TAB]
-Value=seriallink.c
+Value=..\..\..\..\..\..\..\Public\Documents\Mikroelektronika\mikroC PRO for ARM\Uses\ST M3\__Lib_GPIO_32F10x_Defs.c
 [USE_EEPROM]
 Value=0
 [USE_HEAP]
@@ -53,7 +53,7 @@ Count=1
 1=System Libraries
 1043=Additional Libraries
 2081=Memory manager dlmalloc
-Count=4
+Count=5
 [PROGRAMMER_OPTIONS]
 Value=SWD
 [PROGRAMMER_TYPE]

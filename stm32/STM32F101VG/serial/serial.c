@@ -1,5 +1,9 @@
 unsigned long long num = 0;
 
+void PrintHandler(char c) {
+  UART4_Write(c);
+}
+
 void Timer2_interrupt() iv IVT_INT_TIM2 {
      TIM2_SR.UIF = 0;
      GPIOD_ODR = ~GPIOD_ODR;      // Toggle PORTE led's
@@ -8,7 +12,6 @@ void Timer2_interrupt() iv IVT_INT_TIM2 {
 
 void main() {
      char string[10];
-     int i = 0;
      GPIO_Digital_Output(&GPIOD_BASE, _GPIO_PINMASK_ALL);  // Enable digital output on PORTD
      GPIOD_ODR = 0;
 
@@ -25,9 +28,7 @@ void main() {
 
      while(1)
      {
-      i++;
-      sprintf(string,"test %lu\r\n",num);
-      UART4_Write_Text(string);
+      PrintOut(PrintHandler,"test %lu\r\n",num);
       Delay_ms(100);
      }
 }
