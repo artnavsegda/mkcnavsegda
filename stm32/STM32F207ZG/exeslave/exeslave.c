@@ -14,7 +14,7 @@ void main() {
      I2C3_Init_Advanced(100000, &_GPIO_MODULE_I2C3_PA8_C9);
      UART1_Init(115200);//(stdio/aux3)
      UART1_Write_Text("hello123\r\n");
-     UART5_Init(9600);//mdb/exe2
+     UART5_Init_Advanced(9600, _UART_8_BIT_DATA, _UART_EVENPARITY, _UART_ONE_STOPBIT, &_GPIO_MODULE_UART5_PC12_PD2);//mdb/exe2
      PCF_WrSingle(0x20, 0b00000000); //mdb/exe2_m/s
      while(1)
      {
