@@ -46,6 +46,9 @@ void main() {
      TIM2_CR1.CEN = 1;             // Enable timer
 
      I2C3_Init_Advanced(100000, &_GPIO_MODULE_I2C3_PA8_C9);
+     
+     //PCF_WrSingle(0x20, 0b00010000); //mdb/exe1_m/s
+     //PCF_WrSingle(0x20, 0b01000000); //mdb/exe2_m/s
 
      UART1_Init(115200);//(stdio/aux3)
 
