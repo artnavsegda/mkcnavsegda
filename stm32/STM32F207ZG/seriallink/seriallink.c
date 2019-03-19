@@ -8,31 +8,26 @@
 
 unsigned long long num = 0;
 
+void PrintHandler(char c) {
+     UART1_Write(c);
+}
+
 void Timer2_interrupt() iv IVT_INT_TIM2 {
      TIM2_SR.UIF = 0;
      num++;
 }
 
 void Uart4_interrupt() iv IVT_INT_UART4 ics ICS_AUTO {
-     char string[10];
      if (UART4_Data_Ready())
-     {
-      sprintf(string,"RX4 %X %lu\r\n",UART4_Read(),num);
-      UART1_Write_Text(string);
-     }
+      PrintOut(PrintHandler,"RX4 %X %lu\r\n",UART4_Read(),num);
 }
 
 void Uart5_interrupt() iv IVT_INT_UART5 ics ICS_AUTO {
-     char string[10];
      if (UART5_Data_Ready())
-     {
-      sprintf(string,"RX5 %X %lu\r\n",UART5_Read(),num);
-      UART1_Write_Text(string);
-     }
+      PrintOut(PrintHandler,"RX5 %X %lu\r\n",UART5_Read(),num);
 }
 
 void main() {
-     char string[10];
 
      RCC_APB1ENR.TIM2EN = 1;       // Enable clock gating for timer module 2
      TIM2_CR1.CEN = 0;             // Disable timer
@@ -58,28 +53,24 @@ void main() {
      UART1_Write_Text("hello123\r\n");
      while(1)
      {
-      sprintf(string,"TX4 31 %lu\r\n",num);
+      PrintOut(PrintHandler,"TX4 31 %lu\r\n",num);
       UART4_Write(0x31);
-      UART1_Write_Text(string);
       
       Delay_ms(100);
       
-      sprintf(string,"TX4 32 %lu\r\n",num);
+      PrintOut(PrintHandler,"TX4 32 %lu\r\n",num);
       UART4_Write(0x32);
-      UART1_Write_Text(string);
       
       Delay_ms(100);
       
-      sprintf(string,"TX5 31 %lu\r\n",num);
+      PrintOut(PrintHandler,"TX5 31 %lu\r\n",num);
       UART5_Write(0x31);
-      UART1_Write_Text(string);
 
       Delay_ms(100);
 
-      sprintf(string,"TX5 32 %lu\r\n",num);
+      PrintOut(PrintHandler,"TX5 32 %lu\r\n",num);
       UART5_Write(0x32);
-      UART1_Write_Text(string);
-
+      
       Delay_ms(100);
      }
 }
