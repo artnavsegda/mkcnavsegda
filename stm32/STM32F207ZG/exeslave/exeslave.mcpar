@@ -1,6 +1,6 @@
 [DEVICE]
 Name=STM32F207ZG
-Clock=10
+Clock=16000000
 [MEMORY_MODEL]
 Value=0
 [BUILD_TYPE]
@@ -44,7 +44,9 @@ Count=0
 File0=UART
 File1=Sprintf
 File2=C_Type
-Count=3
+File3=PrintOut
+File4=I2C
+Count=5
 [EXPANDED_NODES]
 0=exeslave.mcpar
 Count=1
@@ -57,7 +59,7 @@ Value=SWD
 [PROGRAMMER_TYPE]
 Value=mikroE mikroProg
 [DEBUGGER_TYPE]
-Value=
+Value=default
 [NECTO_OPTIONS]
 NECTO_RESET_TYPE=0
 NECTO_ERASE_TYPE=0
