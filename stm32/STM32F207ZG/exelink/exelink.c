@@ -18,13 +18,23 @@ void Timer2_interrupt() iv IVT_INT_TIM2 {
 }
 
 void Uart4_interrupt() iv IVT_INT_UART4 ics ICS_AUTO {
+     unsigned rxdata;
      if (UART4_Data_Ready())
-      PrintOut(PrintHandler,"RX4 %X %lu\r\n",UART4_Read(),num);
+     {
+      rxdata = UART4_Read();
+      PrintOut(PrintHandler,"RX4 %X %lu\r\n",rxdata,num);
+      UART5_Write(rxdata);
+     }
 }
 
 void Uart5_interrupt() iv IVT_INT_UART5 ics ICS_AUTO {
+     unsigned rxdata;
      if (UART5_Data_Ready())
-      PrintOut(PrintHandler,"RX5 %X %lu\r\n",UART5_Read(),num);
+     {
+      rxdata = UART5_Read();
+      PrintOut(PrintHandler,"RX5 %X %lu\r\n",rxdata,num);
+      UART4_Write(rxdata);
+     }
 }
 
 PCF_WrSingle(unsigned char wAddr, unsigned char wData)
@@ -46,42 +56,44 @@ void main() {
      TIM2_CR1.CEN = 1;             // Enable timer
 
      I2C3_Init_Advanced(100000, &_GPIO_MODULE_I2C3_PA8_C9);
-     
-     //PCF_WrSingle(0x20, 0b00010000); //mdb/exe1_m/s
-     //PCF_WrSingle(0x20, 0b01000000); //mdb/exe2_m/s
+
+     PCF_WrSingle(0x20, 0b00010000); // first(exe1_m/s) port master second(mdb/exe2_m/s) port slave
+     //PCF_WrSingle(0x20, 0b01000000); //first(exe1_m/s) port slave second(mdb/exe2_m/s) port master
+     //PCF_WrSingle(0x20, 0b00000000); //both ports slaves
+     //PCF_WrSingle(0x20, 0b01010000); //both ports masters
 
      UART1_Init(115200);//(stdio/aux3)
 
      UART4_Init_Advanced(9600, _UART_8_BIT_DATA, _UART_EVENPARITY, _UART_ONE_STOPBIT, &_GPIO_MODULE_UART4_PA01_PC11); // this should not work //mdb/exe1
      UART4_CR1bits.RXNEIE = 1; // enable uart rx interrupt
      NVIC_IntEnable(IVT_INT_UART4); // enable interrupt vector
-     
+
      UART5_Init_Advanced(9600, _UART_8_BIT_DATA, _UART_EVENPARITY, _UART_ONE_STOPBIT, &_GPIO_MODULE_UART5_PC12_PD2); //mdb/exe2
      UART5_CR1bits.RXNEIE = 1; // enable uart rx interrupt
      NVIC_IntEnable(IVT_INT_UART5); // enable interrupt vector
-     
+
      Delay_ms(100);
      UART1_Write_Text("hello123\r\n");
      while(1)
      {
-      PrintOut(PrintHandler,"TX4 31 %lu\r\n",num);
+/*PrintOut(PrintHandler,"TX4 31 %lu\r\n",num);
       UART4_Write(0x31);
-      
+
       Delay_ms(100);
-      
+
       PrintOut(PrintHandler,"TX4 32 %lu\r\n",num);
       UART4_Write(0x32);
-      
+
       Delay_ms(100);
-      
+
       PrintOut(PrintHandler,"TX5 31 %lu\r\n",num);
       UART5_Write(0x31);
 
       Delay_ms(100);
 
       PrintOut(PrintHandler,"TX5 32 %lu\r\n",num);
-      UART5_Write(0x32);
-      
+      UART5_Write(0x32);*/
+
       Delay_ms(100);
      }
 }
