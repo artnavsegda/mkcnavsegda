@@ -24,6 +24,18 @@ void main() {
       {
        rxdata = UART5_Read();
        PrintOut(PrintHandler,"RX5 %X\r\n",rxdata);
+       switch (rxdata)
+       {
+        case 0x131:
+             UART5_Write(0x140);
+        break;
+        case 0x138:
+        case 0x120:
+        case 0x24:
+             UART5_Write(0);
+        default:
+        break;
+       }
       }
      }
 }
