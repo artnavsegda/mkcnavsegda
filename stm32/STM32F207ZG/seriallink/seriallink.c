@@ -18,13 +18,23 @@ void Timer2_interrupt() iv IVT_INT_TIM2 {
 }
 
 void Uart4_interrupt() iv IVT_INT_UART4 ics ICS_AUTO {
+     unsigned rxdata;
      if (UART4_Data_Ready())
-      PrintOut(PrintHandler,"RX4 %X %lu\r\n",UART4_Read(),num);
+     {
+      rxdata = UART4_Read();
+      UART5_Write(rxdata);
+      PrintOut(PrintHandler,"RX4 %X %lu\r\n",rxdata,num);
+     }
 }
 
 void Uart5_interrupt() iv IVT_INT_UART5 ics ICS_AUTO {
+     unsigned rxdata;
      if (UART5_Data_Ready())
-      PrintOut(PrintHandler,"RX5 %X %lu\r\n",UART5_Read(),num);
+     {
+      rxdata = UART5_Read();
+      UART4_Write(rxdata);
+      PrintOut(PrintHandler,"RX5 %X %lu\r\n",rxdata,num);
+     }
 }
 
 PCF_WrSingle(unsigned char wAddr, unsigned char wData)
@@ -68,24 +78,24 @@ void main() {
      UART1_Write_Text("hello123\r\n");
      while(1)
      {
-      PrintOut(PrintHandler,"TX4 31 %lu\r\n",num);
+/*PrintOut(PrintHandler,"TX4 31 %lu\r\n",num);
       UART4_Write(0x31);
-      
+
       Delay_ms(100);
-      
+
       PrintOut(PrintHandler,"TX4 32 %lu\r\n",num);
       UART4_Write(0x32);
-      
+
       Delay_ms(100);
-      
-/*PrintOut(PrintHandler,"TX5 31 %lu\r\n",num);
+
+      PrintOut(PrintHandler,"TX5 31 %lu\r\n",num);
       UART5_Write(0x31);
 
       Delay_ms(100);
 
       PrintOut(PrintHandler,"TX5 32 %lu\r\n",num);
-      UART5_Write(0x32);
+      UART5_Write(0x32);*/
 
-      Delay_ms(100);*/
+      Delay_ms(100);
      }
 }
