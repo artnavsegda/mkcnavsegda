@@ -11,6 +11,7 @@ PCF_WrSingle(unsigned char wAddr, unsigned char wData)
 }
 
 void main() {
+     unsigned rxdata;
      I2C3_Init_Advanced(100000, &_GPIO_MODULE_I2C3_PA8_C9);
      UART1_Init(115200);//(stdio/aux3)
      UART1_Write_Text("hello123\r\n");
@@ -20,7 +21,10 @@ void main() {
      while(1)
      {
       if (UART5_Data_Ready())
-        PrintOut(PrintHandler,"RX5 %X\r\n",UART5_Read());
+      {
+       rxdata = UART5_Read();
+       PrintOut(PrintHandler,"RX5 %X\r\n",rxdata);
+      }
      }
 }
 
