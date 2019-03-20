@@ -11,7 +11,7 @@ void Timer2_interrupt() iv IVT_INT_TIM2 {
 }
 
 void main() {
-     char string[10];
+
      GPIO_Digital_Output(&GPIOD_BASE, _GPIO_PINMASK_ALL);  // Enable digital output on PORTD
      GPIOD_ODR = 0;
 
@@ -25,10 +25,21 @@ void main() {
 
      UART4_Init(9600);
      Delay_ms(100);
+     
+     PrintOut(PrintHandler,"USART 4 BRR register is 0x%X\r\n",UART4_BRR);
+     PrintOut(PrintHandler,"USART 4 CR1 register is 0x%X\r\n",UART4_CR1);
+     
+     UART1_Init_Advanced(9600, _UART_8_BIT_DATA, _UART_EVENPARITY, _UART_ONE_STOPBIT, &_GPIO_MODULE_USART1_PA9_10);    //(RX+/-)
+     USART1_CR1.PCE = 1; // parity control enable
+     USART1_CR1.PS = 0; // parity even
+     Delay_ms(100);
+ 
+     PrintOut(PrintHandler,"USART 1 BRR register is 0x%X\r\n",USART1_BRR);
+     PrintOut(PrintHandler,"USART 1 CR1 register is 0x%X\r\n",USART1_CR1);
 
      while(1)
      {
-      PrintOut(PrintHandler,"test %lu\r\n",num);
+      //PrintOut(PrintHandler,"test %lu\r\n",num);
       Delay_ms(100);
      }
 }

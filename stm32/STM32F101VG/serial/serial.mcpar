@@ -25,7 +25,8 @@ Count=0
 ActiveImageIndex=-1
 [OPENED_FILES]
 File0=serial.c
-Count=1
+File1=..\..\..\..\..\..\..\Public\Documents\Mikroelektronika\mikroC PRO for ARM\Defs\STM32F101VG.c
+Count=2
 [EEPROM]
 Count=0
 [ACTIVE_COMMENTS_FILES]
@@ -46,13 +47,14 @@ File1=C_Type
 File2=PrintOut
 Count=3
 [EXPANDED_NODES]
-Count=0
+0=serial.mcpar
+Count=1
 [LIB_EXPANDED_NODES]
 0=mikroE Libraries
 1=System Libraries
 1043=Additional Libraries
 2080=Third Party Libraries
-Count=4
+Count=5
 [PROGRAMMER_OPTIONS]
 Value=SWD
 [PROGRAMMER_TYPE]
