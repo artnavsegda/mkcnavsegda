@@ -35,12 +35,12 @@ void main() {
      TIM2_CR1.CEN = 1;             // Enable timer
      
      UART1_Init_Advanced(9600, _UART_9_BIT_DATA, _UART_NOPARITY, _UART_ONE_STOPBIT, &_GPIO_MODULE_USART1_PA9_10);    //(RX+/-)
-     
+     USART1_CR1bits.M = 1; //9 bit data transfer
      USART1_CR1bits.RXNEIE = 1; // enable uart rx interrupt
      NVIC_IntEnable(IVT_INT_USART1); // enable interrupt vector
-     
+
      UART3_Init_Advanced(9600, _UART_9_BIT_DATA, _UART_NOPARITY, _UART_ONE_STOPBIT, &_GPIO_MODULE_USART3_PB10_11);    //(TX+/-)
-     
+     USART3_CR1bits.M = 1; //9 bit data transfer
      USART3_CR1bits.RXNEIE = 1; // enable uart rx interrupt
      NVIC_IntEnable(IVT_INT_USART3); // enable interrupt vector
      
