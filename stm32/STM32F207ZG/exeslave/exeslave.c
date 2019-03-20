@@ -1,3 +1,10 @@
+unsigned long long num = 0;
+
+void Timer2_interrupt() iv IVT_INT_TIM2 {
+     TIM2_SR.UIF = 0;
+     num++;
+}
+
 void PrintHandler(char c) {
      UART1_Write(c);
 }
@@ -12,6 +19,15 @@ PCF_WrSingle(unsigned char wAddr, unsigned char wData)
 
 void main() {
      unsigned rxdata;
+     
+     RCC_APB1ENR.TIM2EN = 1;       // Enable clock gating for timer module 2
+     TIM2_CR1.CEN = 0;             // Disable timer
+     TIM2_PSC = 0;              // Set timer prescaler.
+     TIM2_ARR = 15999;
+     NVIC_IntEnable(IVT_INT_TIM2); // Enable timer interrupt
+     TIM2_DIER.UIE = 1;            // Update interrupt enable
+     TIM2_CR1.CEN = 1; // Enable timer
+     
      I2C3_Init_Advanced(100000, &_GPIO_MODULE_I2C3_PA8_C9);
      UART1_Init(115200);//(stdio/aux3)
      UART1_Write_Text("hello123\r\n");
@@ -27,16 +43,22 @@ void main() {
        switch (rxdata)
        {
         case 0x131:
-             UART5_Write(0x140);
+             if (num > 5000)
+                UART5_Write(0);
+             else
+                UART5_Write(0x140);
+        break;
+        case 0x132:
+             UART5_Write(0x1FE);
         break;
         case 0x138:
         case 0x120:
         case 0x24:
              UART5_Write(0);
+        break;
         default:
         break;
        }
       }
      }
 }
-
