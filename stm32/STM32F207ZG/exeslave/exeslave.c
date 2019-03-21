@@ -51,14 +51,29 @@ void main() {
         case 0x132: // 1 001 1 0010 (VMC CREDIT)
              UART5_Write(0x1FE);
         break;
-        case 0x138: // 1 001 1 1000 (VMC ACCEPT DATA)
+        
+        /*case 0x138: // 1 001 1 1000 (VMC ACCEPT DATA)
         case 0x120: // 1 001 0 0000 (BUV 0x0)
         case 0x24:
         case 0x21: // 0 001 0 0001 (EC 1) -> OK
         case 0x39: // 0 001 1 1001 (DATA SYNC)
              UART5_Write(0);
              PrintOut(PrintHandler,"RX5 %X\r\n",rxdata);
+        break;*/
+        
+        case 0x138: // 1 001 1 1000 (VMC ACCEPT DATA)
+             UART5_Write(0); //OK
+             rxdata = UART5_Read(); PrintOut(PrintHandler,"RX5 %X BUV 0\r\n",rxdata);UART5_Write(0); //OK
+             rxdata = UART5_Read(); PrintOut(PrintHandler,"RX5 %X BUV 1\r\n",rxdata);UART5_Write(0); //OK
+             rxdata = UART5_Read(); PrintOut(PrintHandler,"RX5 %X BUV 2\r\n",rxdata);UART5_Write(0); //OK
+             rxdata = UART5_Read(); PrintOut(PrintHandler,"RX5 %X BUV 3\r\n",rxdata);UART5_Write(0); //OK
+             rxdata = UART5_Read(); PrintOut(PrintHandler,"RX5 %X SF 0\r\n",rxdata);UART5_Write(0); //OK
+             rxdata = UART5_Read(); PrintOut(PrintHandler,"RX5 %X SF 1\r\n",rxdata);UART5_Write(0); //OK
+             rxdata = UART5_Read(); PrintOut(PrintHandler,"RX5 %X DPI\r\n",rxdata);UART5_Write(0); //OK
+             rxdata = UART5_Read(); PrintOut(PrintHandler,"RX5 %X EC\r\n",rxdata);UART5_Write(0); //OK
+             rxdata = UART5_Read(); PrintOut(PrintHandler,"RX5 %X DATA SYNC\r\n",rxdata);UART5_Write(0); //OK
         break;
+        
         default:
              PrintOut(PrintHandler,"RX5 %X\r\n",rxdata);
         break;
