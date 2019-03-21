@@ -37,17 +37,47 @@ PCF_WrSingle(unsigned char wAddr, unsigned char wData)
      I2C3_Write(wAddr,buf,1,END_MODE_STOP);
 }
 
-void printexdata(struct exedata * indata)
+void parsexdata(struct exedata * indata)
 {
-     PrintOut(PrintHandler,"RX5 %X BUV 0\r\n",indata->buv0);
-     PrintOut(PrintHandler,"RX5 %X BUV 1\r\n",indata->buv1);
-     PrintOut(PrintHandler,"RX5 %X BUV 2\r\n",indata->buv2);
-     PrintOut(PrintHandler,"RX5 %X BUV 3\r\n",indata->buv3);
-     PrintOut(PrintHandler,"RX5 %X SF 0\r\n",indata->sf0);
-     PrintOut(PrintHandler,"RX5 %X SF 1\r\n",indata->sf1);
-     PrintOut(PrintHandler,"RX5 %X DPI\r\n",indata->dpi);
-     PrintOut(PrintHandler,"RX5 %X EC\r\n",indata->ec);
-     PrintOut(PrintHandler,"RX5 %X DATA SYNC\r\n",indata->datasync);
+     unsigned buv = 0;
+     
+     buv = (indata->buv3&0xF)<<12|(indata->buv2&0xF)<<8|(indata->buv1&0xF)<<4|(indata->buv0&0xF);
+     PrintOut(PrintHandler,"%d BUV\r\n",buv);
+     //PrintOut(PrintHandler,"%X%X%X%X BUV\r\n",indata->buv3&0xF,indata->buv2&0xF,indata->buv1&0xF,indata->buv0&0xF);
+     PrintOut(PrintHandler,"%X SF 0\r\n",indata->sf0 & 0xF);
+     PrintOut(PrintHandler,"%X SF 1\r\n",indata->sf1 & 0xF);
+     PrintOut(PrintHandler,"%X DPI\r\n",indata->dpi & 0xF);
+     PrintOut(PrintHandler,"%X EC\r\n",indata->ec & 0xF);
+     PrintOut(PrintHandler,"%X DATA SYNC\r\n",indata->datasync & 0xF);
+}
+
+void morphexdata(struct exedata * indata)
+{
+     unsigned buv = 0;
+     buv = (indata->buv3&0xF)<<12|(indata->buv2&0xF)<<8|(indata->buv1&0xF)<<4|(indata->buv0&0xF);
+     
+     buv = buv*2;
+     
+     indata->buv0 = 0x20 | (buv & 0xF);
+     indata->buv1 = 0x20 | ((buv&0xF0)>>4);
+     indata->buv2 = 0x20 | ((buv&0xF00)>>8);
+     indata->buv3 = 0x20 | ((buv&0xF000)>>12);
+     
+}
+
+void sendexdata(struct exedata * indata)
+{
+     unsigned rxdata_slave;
+     UART4_Write(0x138); rxdata_slave = UART4_Read();//OK
+     UART4_Write(indata->buv0); rxdata_slave = UART4_Read();//OK
+     UART4_Write(indata->buv1); rxdata_slave = UART4_Read();//OK
+     UART4_Write(indata->buv2); rxdata_slave = UART4_Read();//OK
+     UART4_Write(indata->buv3); rxdata_slave = UART4_Read();//OK
+     UART4_Write(indata->sf0); rxdata_slave = UART4_Read();//OK
+     UART4_Write(indata->sf1); rxdata_slave = UART4_Read();//OK
+     UART4_Write(indata->dpi); rxdata_slave = UART4_Read();//OK
+     UART4_Write(indata->ec); rxdata_slave = UART4_Read();//OK
+     UART4_Write(indata->datasync); rxdata_slave = UART4_Read();//OK
 }
 
 void main() {
@@ -120,7 +150,9 @@ void main() {
              idata.dpi = UART5_Read(); UART5_Write(0); //OK
              idata.ec = UART5_Read(); UART5_Write(0); //OK
              idata.datasync = UART5_Read(); UART5_Write(0); //OK
-             printexdata(&idata);
+             morphexdata(&idata);
+             parsexdata(&idata);
+             sendexdata(&idata);
         break;
 
         case 0x151:
