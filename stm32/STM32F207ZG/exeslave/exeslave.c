@@ -39,7 +39,7 @@ void main() {
       if (UART5_Data_Ready())
       {
        rxdata = UART5_Read();
-       PrintOut(PrintHandler,"RX5 %X\r\n",rxdata);
+       //PrintOut(PrintHandler,"RX5 %X\r\n",rxdata);
        switch (rxdata)
        {
         case 0x131: // 1 001 1 0001 (VMC STATUS)
@@ -54,9 +54,13 @@ void main() {
         case 0x138: // 1 001 1 1000 (VMC ACCEPT DATA)
         case 0x120: // 1 001 0 0000 (BUV 0x0)
         case 0x24:
+        case 0x21: // 0 001 0 0001 (EC 1) -> OK
+        case 0x39: // 0 001 1 1001 (DATA SYNC)
              UART5_Write(0);
+             PrintOut(PrintHandler,"RX5 %X\r\n",rxdata);
         break;
         default:
+             PrintOut(PrintHandler,"RX5 %X\r\n",rxdata);
         break;
        }
       }
