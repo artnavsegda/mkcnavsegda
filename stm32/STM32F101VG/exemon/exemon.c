@@ -9,16 +9,22 @@ void Timer2_interrupt() iv IVT_INT_TIM2 {
      num++;
 }
 
-// Interrupt routine
-void Uart1_interrupt() iv IVT_INT_USART1 ics ICS_AUTO {
-     if (UART1_Data_Ready())
-      PrintOut(PrintHandler,"RX1 %X %u\r\n",UART1_Read(),num);
+void printbinary(unsigned value)
+{
+     int i;
+     for (i = 0; i < 9; i++)
+         PrintOut(PrintHandler,"%hhu", (value >> 8-i) & 0x01);
+	//printf("\n");
 }
 
-// Interrupt routine
+void Uart1_interrupt() iv IVT_INT_USART1 ics ICS_AUTO {
+     if (UART1_Data_Ready())
+        PrintOut(PrintHandler,"RX1 %X %u\r\n",UART1_Read(),num);
+}
+
 void Uart3_interrupt() iv IVT_INT_USART3 ics ICS_AUTO {
      if (UART3_Data_Ready())
-      PrintOut(PrintHandler,"RX3 %X %lu\r\n",UART3_Read(),num);
+        PrintOut(PrintHandler,"RX3 %X %lu\r\n",UART3_Read(),num);
 }
 
 void main() {
