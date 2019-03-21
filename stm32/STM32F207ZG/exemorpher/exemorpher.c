@@ -17,26 +17,6 @@ void Timer2_interrupt() iv IVT_INT_TIM2 {
      num++;
 }
 
-void Uart4_interrupt() iv IVT_INT_UART4 ics ICS_AUTO {
-     unsigned rxdata;
-     if (UART4_Data_Ready())
-     {
-      rxdata = UART4_Read();
-      UART5_Write(rxdata);
-      PrintOut(PrintHandler,"RX4 %X %lu\r\n",rxdata,num);
-     }
-}
-
-void Uart5_interrupt() iv IVT_INT_UART5 ics ICS_AUTO {
-     unsigned rxdata;
-     if (UART5_Data_Ready())
-     {
-      rxdata = UART5_Read();
-      UART4_Write(rxdata);
-      PrintOut(PrintHandler,"RX5 %X %lu\r\n",rxdata,num);
-     }
-}
-
 PCF_WrSingle(unsigned char wAddr, unsigned char wData)
 {
      unsigned char buf[1];
@@ -46,6 +26,8 @@ PCF_WrSingle(unsigned char wAddr, unsigned char wData)
 }
 
 void main() {
+     unsigned rxdata;
+     unsigned rxdata_slave;
 
      RCC_APB1ENR.TIM2EN = 1;       // Enable clock gating for timer module 2
      TIM2_CR1.CEN = 0;             // Disable timer
@@ -66,36 +48,58 @@ void main() {
 
      UART4_Init_Advanced(9600, _UART_9_BIT_DATA, _UART_NOPARITY, _UART_ONE_STOPBIT, &_GPIO_MODULE_UART4_PA01_PC11); // this should not work //mdb/exe1
      UART4_CR1bits.M = 1; //9 bit data transfer
-     UART4_CR1bits.RXNEIE = 1; // enable uart rx interrupt
-     NVIC_IntEnable(IVT_INT_UART4); // enable interrupt vector
 
      UART5_Init_Advanced(9600, _UART_9_BIT_DATA, _UART_NOPARITY, _UART_ONE_STOPBIT, &_GPIO_MODULE_UART5_PC12_PD2); //mdb/exe2
      UART5_CR1bits.M = 1; //9 bit data transfer
-     UART5_CR1bits.RXNEIE = 1; // enable uart rx interrupt
-     NVIC_IntEnable(IVT_INT_UART5); // enable interrupt vector
 
      Delay_ms(100);
      UART1_Write_Text("hello123\r\n");
      while(1)
      {
-/*PrintOut(PrintHandler,"TX4 31 %lu\r\n",num);
-      UART4_Write(0x31);
+      if (UART5_Data_Ready())
+      {
+       rxdata = UART5_Read();
+       //PrintOut(PrintHandler,"RX5 %X\r\n",rxdata);
+       switch (rxdata)
+       {
+        case 0x131: // 1 001 1 0001 (VMC STATUS)
+             if (num > 5000)
+                UART5_Write(0);
+             else
+                UART5_Write(0x140);
+             UART4_Write(0x131); rxdata_slave = UART4_Read();
+        break;
+        case 0x132: // 1 001 1 0010 (VMC CREDIT)
+             UART5_Write(0x1FE);
+             UART4_Write(0x132); rxdata_slave = UART4_Read();
+        break;
 
-      Delay_ms(100);
+        /*case 0x138: // 1 001 1 1000 (VMC ACCEPT DATA)
+        case 0x120: // 1 001 0 0000 (BUV 0x0)
+        case 0x24:
+        case 0x21: // 0 001 0 0001 (EC 1) -> OK
+        case 0x39: // 0 001 1 1001 (DATA SYNC)
+             UART5_Write(0);
+             PrintOut(PrintHandler,"RX5 %X\r\n",rxdata);
+        break;*/
 
-      PrintOut(PrintHandler,"TX4 32 %lu\r\n",num);
-      UART4_Write(0x32);
+        case 0x138: // 1 001 1 1000 (VMC ACCEPT DATA)
+             UART5_Write(0); //OK
+             rxdata = UART5_Read(); PrintOut(PrintHandler,"RX5 %X BUV 0\r\n",rxdata);UART5_Write(0); //OK
+             rxdata = UART5_Read(); PrintOut(PrintHandler,"RX5 %X BUV 1\r\n",rxdata);UART5_Write(0); //OK
+             rxdata = UART5_Read(); PrintOut(PrintHandler,"RX5 %X BUV 2\r\n",rxdata);UART5_Write(0); //OK
+             rxdata = UART5_Read(); PrintOut(PrintHandler,"RX5 %X BUV 3\r\n",rxdata);UART5_Write(0); //OK
+             rxdata = UART5_Read(); PrintOut(PrintHandler,"RX5 %X SF 0\r\n",rxdata);UART5_Write(0); //OK
+             rxdata = UART5_Read(); PrintOut(PrintHandler,"RX5 %X SF 1\r\n",rxdata);UART5_Write(0); //OK
+             rxdata = UART5_Read(); PrintOut(PrintHandler,"RX5 %X DPI\r\n",rxdata);UART5_Write(0); //OK
+             rxdata = UART5_Read(); PrintOut(PrintHandler,"RX5 %X EC\r\n",rxdata);UART5_Write(0); //OK
+             rxdata = UART5_Read(); PrintOut(PrintHandler,"RX5 %X DATA SYNC\r\n",rxdata);UART5_Write(0); //OK
+        break;
 
-      Delay_ms(100);
-
-      PrintOut(PrintHandler,"TX5 31 %lu\r\n",num);
-      UART5_Write(0x31);
-
-      Delay_ms(100);
-
-      PrintOut(PrintHandler,"TX5 32 %lu\r\n",num);
-      UART5_Write(0x32);*/
-
-      Delay_ms(100);
-     }
+        default:
+             PrintOut(PrintHandler,"RX5 %X\r\n",rxdata);
+        break;
+       }
+      }
+}
 }
