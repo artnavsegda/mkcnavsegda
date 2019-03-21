@@ -6,6 +6,18 @@
 // PD2 << UART5_RX << EXE/MDB2_RX
 //
 
+struct exedata {
+       unsigned buv0;
+       unsigned buv1;
+       unsigned buv2;
+       unsigned buv3;
+       unsigned sf0;
+       unsigned sf1;
+       unsigned dpi;
+       unsigned ec;
+       unsigned datasync;
+};
+
 unsigned long long num = 0;
 
 void PrintHandler(char c) {
@@ -25,9 +37,23 @@ PCF_WrSingle(unsigned char wAddr, unsigned char wData)
      I2C3_Write(wAddr,buf,1,END_MODE_STOP);
 }
 
+void printexdata(struct exedata * indata)
+{
+     PrintOut(PrintHandler,"RX5 %X BUV 0\r\n",indata->buv0);
+     PrintOut(PrintHandler,"RX5 %X BUV 1\r\n",indata->buv1);
+     PrintOut(PrintHandler,"RX5 %X BUV 2\r\n",indata->buv2);
+     PrintOut(PrintHandler,"RX5 %X BUV 3\r\n",indata->buv3);
+     PrintOut(PrintHandler,"RX5 %X SF 0\r\n",indata->sf0);
+     PrintOut(PrintHandler,"RX5 %X SF 1\r\n",indata->sf1);
+     PrintOut(PrintHandler,"RX5 %X DPI\r\n",indata->dpi);
+     PrintOut(PrintHandler,"RX5 %X EC\r\n",indata->ec);
+     PrintOut(PrintHandler,"RX5 %X DATA SYNC\r\n",indata->datasync);
+}
+
 void main() {
      unsigned rxdata;
      unsigned rxdata_slave;
+     struct exedata idata;
 
      RCC_APB1ENR.TIM2EN = 1;       // Enable clock gating for timer module 2
      TIM2_CR1.CEN = 0;             // Disable timer
@@ -85,15 +111,19 @@ void main() {
 
         case 0x138: // 1 001 1 1000 (VMC ACCEPT DATA)
              UART5_Write(0); //OK
-             rxdata = UART5_Read(); PrintOut(PrintHandler,"RX5 %X BUV 0\r\n",rxdata);UART5_Write(0); //OK
-             rxdata = UART5_Read(); PrintOut(PrintHandler,"RX5 %X BUV 1\r\n",rxdata);UART5_Write(0); //OK
-             rxdata = UART5_Read(); PrintOut(PrintHandler,"RX5 %X BUV 2\r\n",rxdata);UART5_Write(0); //OK
-             rxdata = UART5_Read(); PrintOut(PrintHandler,"RX5 %X BUV 3\r\n",rxdata);UART5_Write(0); //OK
-             rxdata = UART5_Read(); PrintOut(PrintHandler,"RX5 %X SF 0\r\n",rxdata);UART5_Write(0); //OK
-             rxdata = UART5_Read(); PrintOut(PrintHandler,"RX5 %X SF 1\r\n",rxdata);UART5_Write(0); //OK
-             rxdata = UART5_Read(); PrintOut(PrintHandler,"RX5 %X DPI\r\n",rxdata);UART5_Write(0); //OK
-             rxdata = UART5_Read(); PrintOut(PrintHandler,"RX5 %X EC\r\n",rxdata);UART5_Write(0); //OK
-             rxdata = UART5_Read(); PrintOut(PrintHandler,"RX5 %X DATA SYNC\r\n",rxdata);UART5_Write(0); //OK
+             idata.buv0 = UART5_Read(); UART5_Write(0); //OK
+             idata.buv1 = UART5_Read(); UART5_Write(0); //OK
+             idata.buv2 = UART5_Read(); UART5_Write(0); //OK
+             idata.buv3 = UART5_Read(); UART5_Write(0); //OK
+             idata.sf0 = UART5_Read(); UART5_Write(0); //OK
+             idata.sf1 = UART5_Read(); UART5_Write(0); //OK
+             idata.dpi = UART5_Read(); UART5_Write(0); //OK
+             idata.ec = UART5_Read(); UART5_Write(0); //OK
+             idata.datasync = UART5_Read(); UART5_Write(0); //OK
+             printexdata(&idata);
+        break;
+
+        case 0x151:
         break;
 
         default:
