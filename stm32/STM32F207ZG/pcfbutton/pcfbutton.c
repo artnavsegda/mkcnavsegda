@@ -13,12 +13,21 @@ PCF_WrSingle(unsigned char wAddr, unsigned char wData)
      I2C3_Write(wAddr,buf,1,END_MODE_STOP);
 }
 
+unsigned char PCF_RdSingle(unsigned char wAddr)
+{
+      unsigned char buf[1];
+      I2C3_Start();
+      I2C3_Read(wAddr,buf,1,END_MODE_STOP);
+      return buf[0];
+}
+
 void Timer2_interrupt() iv IVT_INT_TIM2 {
      TIM2_SR.UIF = 0;
      num++;
 }
 
 void main() {
+     unsigned char buttonstate;
 
      RCC_APB1ENR.TIM2EN = 1;       // Enable clock gating for timer module 2
      TIM2_CR1.CEN = 0;             // Disable timer
@@ -36,11 +45,17 @@ void main() {
 
      while(1)
      {
-      PCF_WrSingle(0x3E,0xFF);
-      PCF_WrSingle(0x3C,0xFC);
-      Delay_ms(1000);
-      PCF_WrSingle(0x3C,0xFF);
-      PCF_WrSingle(0x3E,0xF3);
-      Delay_ms(1000);
+      buttonstate = PCF_RdSingle(0x03F);
+      if (!(buttonstate&0x1))
+      {
+          PCF_WrSingle(0x3C,0xFF);
+          PCF_WrSingle(0x3E,0xF3);
+      }
+      else if (!(buttonstate&0x2))
+      {
+          PCF_WrSingle(0x3E,0xFF);
+          PCF_WrSingle(0x3C,0xFC);
+      }
+      Delay_ms(100);
      }
 }
