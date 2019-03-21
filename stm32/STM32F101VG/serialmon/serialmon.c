@@ -12,7 +12,7 @@ void Timer2_interrupt() iv IVT_INT_TIM2 {
 // Interrupt routine
 void Uart1_interrupt() iv IVT_INT_USART1 ics ICS_AUTO {
      if (UART1_Data_Ready())
-      PrintOut(PrintHandler,"RX1 %X %u\r\n",UART1_Read(),num);
+      PrintOut(PrintHandler,"RX1 %X %äu\r\n",UART1_Read(),num);
 }
 
 // Interrupt routine
