@@ -42,17 +42,17 @@ void main() {
        PrintOut(PrintHandler,"RX5 %X\r\n",rxdata);
        switch (rxdata)
        {
-        case 0x131:
+        case 0x131: // 1 001 1 0001 (VMC STATUS)
              if (num > 5000)
                 UART5_Write(0);
              else
                 UART5_Write(0x140);
         break;
-        case 0x132:
+        case 0x132: // 1 001 1 0010 (VMC CREDIT)
              UART5_Write(0x1FE);
         break;
-        case 0x138:
-        case 0x120:
+        case 0x138: // 1 001 1 1000 (VMC ACCEPT DATA)
+        case 0x120: // 1 001 0 0000 (BUV 0x0)
         case 0x24:
              UART5_Write(0);
         break;
