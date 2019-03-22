@@ -44,9 +44,16 @@ void Uart3_interrupt() iv IVT_INT_USART3 ics ICS_AUTO {
      {
       rxdata.word = UART3_Read();
       if (rxdata.byte[1])
-         PrintOut(PrintHandler,"PR LS %X %lu\r\n",rxdata.byte[0],num);
+      {
+       if (rxdata.byte[0] == 0x0)
+          PrintOut(PrintHandler,"PR LS ACK %lu\r\n",num);
+       else
+          PrintOut(PrintHandler,"PR LS %X %lu\r\n",rxdata.byte[0],num);
+      }
       else
+      {
          PrintOut(PrintHandler,"PR DA %X %lu\r\n",rxdata.byte[0],num);
+      }
      }
 }
 
