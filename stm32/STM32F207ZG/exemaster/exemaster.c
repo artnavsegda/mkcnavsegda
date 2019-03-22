@@ -54,36 +54,28 @@ void main() {
 
      UART1_Init(115200);//(stdio/aux3)
 
-     UART4_Init_Advanced(9600, _UART_8_BIT_DATA, _UART_EVENPARITY, _UART_ONE_STOPBIT, &_GPIO_MODULE_UART4_PA01_PC11); // this should not work //mdb/exe1
-     UART4_CR1bits.RXNEIE = 1; // enable uart rx interrupt
+     UART4_Init_Advanced(9600, _UART_9_BIT_DATA, _UART_NOPARITY, _UART_ONE_STOPBIT, &_GPIO_MODULE_UART4_PA01_PC11); // this should not work //mdb/exe1
+     UART4_CR1bits.M = 1; //9 bit data transfer
+     //UART4_CR1bits.RXNEIE = 1; // enable uart rx interrupt
      NVIC_IntEnable(IVT_INT_UART4); // enable interrupt vector
 
-     UART5_Init_Advanced(9600, _UART_8_BIT_DATA, _UART_EVENPARITY, _UART_ONE_STOPBIT, &_GPIO_MODULE_UART5_PC12_PD2); //mdb/exe2
-     UART5_CR1bits.RXNEIE = 1; // enable uart rx interrupt
+     UART5_Init_Advanced(9600, _UART_9_BIT_DATA, _UART_NOPARITY, _UART_ONE_STOPBIT, &_GPIO_MODULE_UART5_PC12_PD2); //mdb/exe2
+     UART5_CR1bits.M = 1; //9 bit data transfer
+     //UART5_CR1bits.RXNEIE = 1; // enable uart rx interrupt
      NVIC_IntEnable(IVT_INT_UART5); // enable interrupt vector
 
      Delay_ms(100);
      UART1_Write_Text("hello123\r\n");
      while(1)
      {
-      PrintOut(PrintHandler,"TX4 31 %lu\r\n",num);
-      UART4_Write(0x31);
+      UART4_Write(0x131);
+      PrintOut(PrintHandler,"TX4 131 -> RX4 %X %lu\r\n",UART4_Read(),num);
 
       Delay_ms(100);
 
-      PrintOut(PrintHandler,"TX4 32 %lu\r\n",num);
-      UART4_Write(0x32);
+      UART4_Write(0x132);
+      PrintOut(PrintHandler,"RX4 132 -> RX4 %X %lu\r\n",UART4_Read(),num);
 
       Delay_ms(100);
-
-/*PrintOut(PrintHandler,"TX5 31 %lu\r\n",num);
-      UART5_Write(0x31);
-
-      Delay_ms(100);
-
-      PrintOut(PrintHandler,"TX5 32 %lu\r\n",num);
-      UART5_Write(0x32);
-
-      Delay_ms(100);*/
      }
 }
