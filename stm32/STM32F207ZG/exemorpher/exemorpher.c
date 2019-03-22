@@ -18,16 +18,9 @@ struct exedata {
        unsigned datasync;
 };
 
+unsigned char button = 1;
+
 unsigned long long num = 0;
-
-void PrintHandler(char c) {
-     UART1_Write(c);
-}
-
-void Timer2_interrupt() iv IVT_INT_TIM2 {
-     TIM2_SR.UIF = 0;
-     num++;
-}
 
 PCF_WrSingle(unsigned char wAddr, unsigned char wData)
 {
@@ -35,6 +28,41 @@ PCF_WrSingle(unsigned char wAddr, unsigned char wData)
      buf[0] = wData;
      I2C3_Start();
      I2C3_Write(wAddr,buf,1,END_MODE_STOP);
+}
+
+unsigned char PCF_RdSingle(unsigned char wAddr)
+{
+      unsigned char buf[1];
+      I2C3_Start();
+      I2C3_Read(wAddr,buf,1,END_MODE_STOP);
+      return buf[0];
+}
+
+void PrintHandler(char c) {
+     UART1_Write(c);
+}
+
+void checkbutton(void)
+{
+      unsigned char buttonstate = PCF_RdSingle(0x03F);
+      if (!(buttonstate&0x1))
+      {
+          button = 1;
+          PCF_WrSingle(0x3C,0xFF);
+          PCF_WrSingle(0x3E,0xF3);
+      }
+      else if (!(buttonstate&0x2))
+      {
+          button = 2;
+          PCF_WrSingle(0x3E,0xFF);
+          PCF_WrSingle(0x3C,0xFC);
+      }
+}
+
+void Timer2_interrupt() iv IVT_INT_TIM2 {
+     TIM2_SR.UIF = 0;
+     num++;
+     checkbutton();
 }
 
 void parsexdata(struct exedata * indata)
@@ -56,7 +84,8 @@ void morphexdata(struct exedata * indata)
      unsigned buv = 0;
      buv = (indata->buv3&0xF)<<12|(indata->buv2&0xF)<<8|(indata->buv1&0xF)<<4|(indata->buv0&0xF);
      
-     buv = buv*2;
+     if (button == 2)
+        buv = buv*2;
      
      indata->buv0 = 0x20 | (buv & 0xF);
      indata->buv1 = 0x20 | ((buv&0xF0)>>4);
@@ -99,6 +128,8 @@ void main() {
      //PCF_WrSingle(0x20, 0b01000000); //first(exe1_m/s) port slave second(mdb/exe2_m/s) port master
      //PCF_WrSingle(0x20, 0b00000000); //both ports slaves
      //PCF_WrSingle(0x20, 0b01010000); //both ports masters
+     
+     PCF_WrSingle(0x3E,0xF3);
 
      UART1_Init(115200);//(stdio/aux3)
 
@@ -126,7 +157,8 @@ void main() {
              UART4_Write(0x131); rxdata_slave = UART4_Read();
         break;
         case 0x132: // 1 001 1 0010 (VMC CREDIT)
-             UART5_Write(0x1FE);
+             UART5_Write(0x1FE); // no sell
+             //UART5_Write(0x101); //sell
              UART4_Write(0x132); rxdata_slave = UART4_Read();
         break;
 

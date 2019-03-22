@@ -49,7 +49,8 @@ void main() {
                 UART5_Write(0x140);
         break;
         case 0x132: // 1 001 1 0010 (VMC CREDIT)
-             UART5_Write(0x1FE);
+             UART5_Write(0x1FE);// no sell
+             //UART5_Write(0x101); //sell
         break;
         
         /*case 0x138: // 1 001 1 1000 (VMC ACCEPT DATA)
