@@ -14,6 +14,16 @@ union mdbblock {
       unsigned char byte[2];
 };
 
+unsigned char getaddr(unsigned char address)
+{
+     return (address&0xF8)>>3;
+}
+
+unsigned char getpsc(unsigned char address)
+{
+     return address&0x7;
+}
+
 // Interrupt routine
 void Uart1_interrupt() iv IVT_INT_USART1 ics ICS_AUTO {
      union mdbblock rxdata;
@@ -21,7 +31,7 @@ void Uart1_interrupt() iv IVT_INT_USART1 ics ICS_AUTO {
      {
       rxdata.word = UART1_Read();
       if (rxdata.byte[1])
-         PrintOut(PrintHandler,"MS AD %X %lu\r\n",rxdata.byte[0],num);
+         PrintOut(PrintHandler,"MS AD %X PSC %X %lu\r\n",getaddr(rxdata.byte[0]),getpsc(rxdata.byte[0]),num);
       else
          PrintOut(PrintHandler,"MS DA %X %lu\r\n",rxdata.byte[0],num);
      }
@@ -63,7 +73,7 @@ void main() {
      USART3_CR1bits.RXNEIE = 1; // enable uart rx interrupt
      NVIC_IntEnable(IVT_INT_USART3); // enable interrupt vector
 
-     UART4_Init(115200);//stdio
+     UART4_Init(230400);//stdio
      Delay_ms(100);
      UART4_Write_Text("starting\r\n");
      Delay_ms(100);
