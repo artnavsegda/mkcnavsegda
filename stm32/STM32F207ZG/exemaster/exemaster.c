@@ -36,6 +36,7 @@ PCF_WrSingle(unsigned char wAddr, unsigned char wData)
 }
 
 void main() {
+     unsigned rxdata;
 
      RCC_APB1ENR.TIM2EN = 1;       // Enable clock gating for timer module 2
      TIM2_CR1.CEN = 0;             // Disable timer
@@ -69,12 +70,22 @@ void main() {
      while(1)
      {
       UART4_Write(0x131);
-      PrintOut(PrintHandler,"TX4 131 -> RX4 %X %lu\r\n",UART4_Read(),num);
+      rxdata = UART4_Read();
+      //PrintOut(PrintHandler,"TX4 131 -> RX4 %X %lu\r\n",rxdata,num);
 
       Delay_ms(100);
 
       UART4_Write(0x132);
-      PrintOut(PrintHandler,"RX4 132 -> RX4 %X %lu\r\n",UART4_Read(),num);
+      rxdata = UART4_Read();
+      if (rxdata != 0x1FE)
+      {
+       PrintOut(PrintHandler,"RX4 132 -> RX4 %X %lu\r\n",rxdata,num);
+       if (rxdata == 0x101)
+       {
+        UART4_Write(0x33);
+        PrintOut(PrintHandler,"RX4 133 -> RX4 %X %lu\r\n",UART4_Read(),num);
+       }
+      }
 
       Delay_ms(100);
      }
