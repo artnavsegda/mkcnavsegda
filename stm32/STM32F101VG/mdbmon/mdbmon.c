@@ -9,16 +9,35 @@ void Timer2_interrupt() iv IVT_INT_TIM2 {
      num++;
 }
 
+union mdbblock {
+      unsigned word;
+      unsigned char byte[2];
+};
+
 // Interrupt routine
 void Uart1_interrupt() iv IVT_INT_USART1 ics ICS_AUTO {
+     union mdbblock rxdata;
      if (UART1_Data_Ready())
-      PrintOut(PrintHandler,"RX1 %X %lu\r\n",UART1_Read(),num);
+     {
+      rxdata.word = UART1_Read();
+      if (rxdata.byte[1])
+         PrintOut(PrintHandler,"MS AD %X %lu\r\n",rxdata.byte[0],num);
+      else
+         PrintOut(PrintHandler,"MS DA %X %lu\r\n",rxdata.byte[0],num);
+     }
 }
 
 // Interrupt routine
 void Uart3_interrupt() iv IVT_INT_USART3 ics ICS_AUTO {
+     union mdbblock rxdata;
      if (UART3_Data_Ready())
-      PrintOut(PrintHandler,"RX3 %X %lu\r\n",UART3_Read(),num);
+     {
+      rxdata.word = UART3_Read();
+      if (rxdata.byte[1])
+         PrintOut(PrintHandler,"PR LS %X %lu\r\n",rxdata.byte[0],num);
+      else
+         PrintOut(PrintHandler,"PR DA %X %lu\r\n",rxdata.byte[0],num);
+     }
 }
 
 void main() {
