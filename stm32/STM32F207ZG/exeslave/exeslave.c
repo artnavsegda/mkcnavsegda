@@ -44,15 +44,19 @@ void main() {
        {
         case 0x131: // 1 001 1 0001 (VMC STATUS)
              if (num > 5000)
-                UART5_Write(0);
+                UART5_Write(0); // ACK
              else
-                UART5_Write(0x140);
+                UART5_Write(0x140); // VMC FVR OK
+             // UART5_Write(0x128); // Free vend request
         break;
         case 0x132: // 1 001 1 0010 (VMC CREDIT)
-             UART5_Write(0x1FE);// no sell
-             //UART5_Write(0x101); //sell
+             UART5_Write(0x1FE);// no sell    | no vend request
+             //UART5_Write(0x101); //sell     | vend request
+             //UART5_Write(0x0); //vend price = 0
         break;
-        
+        case 0x33: // 1 001 1 0010 (VMC VEND)
+             UART5_Write(0);// vend succeded
+        break;
         /*case 0x138: // 1 001 1 1000 (VMC ACCEPT DATA)
         case 0x120: // 1 001 0 0000 (BUV 0x0)
         case 0x24:
