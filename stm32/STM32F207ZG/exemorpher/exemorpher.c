@@ -161,7 +161,10 @@ void main() {
              //UART5_Write(0x101); //sell
              UART4_Write(0x132); rxdata_slave = UART4_Read();
         break;
-
+        case 0x33:  // 0 001 1 0011 (VMC VEND)
+             UART5_Write(0);
+        break;
+        
         /*case 0x138: // 1 001 1 1000 (VMC ACCEPT DATA)
         case 0x120: // 1 001 0 0000 (BUV 0x0)
         case 0x24:
