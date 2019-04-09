@@ -23,6 +23,25 @@ unsigned char PCF_RdSingle(unsigned char wAddr)
       return buf[0];
 }
 
+unsigned char PCF_RdAddr(unsigned char wAddr, unsigned char rAddr)
+{
+      unsigned char buf[1];
+      buf[0] = rAddr;
+      I2C3_Start();
+      I2C3_Write(wAddr,buf,1,END_MODE_RESTART);
+      I2C3_Read(wAddr,buf,1,END_MODE_STOP);
+      return buf[0];
+}
+
+PCF_WrAddr(unsigned char wAddr, unsigned char wData, unsigned char rAddr)
+{
+     unsigned char buf[2];
+     buf[0] = wData;
+     buf[1] = rAddr;
+     I2C3_Start();
+     I2C3_Write(wAddr,buf,2,END_MODE_STOP);
+}
+
 void main() {
      //I2C3_Init();
      UART1_Init(9600);
@@ -40,7 +59,8 @@ void main() {
       PCF_WrSingle(0x3E,0xFF);
       Delay_ms(1000);
       UART1_Write_Text("hello123\r\n");
-      PrintOut(PrintHandler,"0x6B %X\r\n",PCF_RdSingle(0x6B));
+      //PrintOut(PrintHandler,"0x6B %X\r\n",PCF_RdSingle(0x6B));
+      PrintOut(PrintHandler,"0x6B %X\r\n",PCF_RdAddr(0x6B,0x00));
       Delay_ms(100);
      }
 }
