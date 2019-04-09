@@ -39,7 +39,7 @@ void main() {
 
      while(1)
      {
-      //PrintOut(PrintHandler,"test %lu\r\n",num);
+      PrintOut(PrintHandler,"test %lu\r\n",num);
       Delay_ms(100);
      }
 }
