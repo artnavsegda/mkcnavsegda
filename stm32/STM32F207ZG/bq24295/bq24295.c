@@ -3,6 +3,10 @@
 // I2C_SDA << I2C3_SDA << PC9
 //
 
+void PrintHandler(char c) {
+     UART1_Write(c);
+}
+
 PCF_WrSingle(unsigned char wAddr, unsigned char wData)
 {
      unsigned char buf[1];
@@ -36,6 +40,7 @@ void main() {
       PCF_WrSingle(0x3E,0xFF);
       Delay_ms(1000);
       UART1_Write_Text("hello123\r\n");
+      PrintOut(PrintHandler,"0x6B %X\r\n",PCF_RdSingle(0x6B));
       Delay_ms(100);
      }
 }

@@ -1,6 +1,20 @@
 [DEVICE]
 Name=STM32F207ZG
 Clock=16000000
+[MEMORY_MODEL]
+Value=0
+[BUILD_TYPE]
+Value=0
+[ACTIVE_TAB]
+Value=bq24295.c
+[USE_EEPROM]
+Value=0
+[USE_HEAP]
+Value=0
+[HEAP_SIZE]
+Value=0
+[EEPROM_DEFINITION]
+Value=
 [FILES]
 File0=bq24295.c
 Count=1
@@ -8,7 +22,7 @@ Count=1
 Count=0
 [IMAGES]
 Count=0
-ActiveImageIndex=0
+ActiveImageIndex=-1
 [OPENED_FILES]
 File0=bq24295.c
 Count=1
@@ -19,9 +33,7 @@ Count=0
 [OTHER_FILES]
 Count=0
 [SEARCH_PATH]
-Path0=C:\Users\Public\Documents\Mikroelektronika\mikroC PRO for ARM\Defs\
-Path1=C:\Users\Public\Documents\Mikroelektronika\mikroC PRO for ARM\Uses\ST M3\
-Count=2
+Count=0
 [HEADER_PATH]
 Count=0
 [HEADERS]
@@ -32,32 +44,21 @@ Count=0
 File0=UART
 File1=PrintOut
 File2=I2C
-Count=3
-[MEMORY_MODEL]
-Value=0
-[BUILD_TYPE]
-Value=0
-[ACTIVE_TAB]
-Value=
-[USE_EEPROM]
-Value=0
-[USE_HEAP]
-Value=0
-[HEAP_SIZE]
-Value=0
-[EEPROM_DEFINITION]
-Value=
+File3=C_Stdlib
+File4=C_Type
+Count=5
 [EXPANDED_NODES]
-0=i2cpcf.mcpar
-Count=1
-[LIB_EXPANDED_NODES]
 Count=0
+[LIB_EXPANDED_NODES]
+0=mikroE Libraries
+1=System Libraries
+Count=2
 [PROGRAMMER_OPTIONS]
-Value=
+Value=JTAG
 [PROGRAMMER_TYPE]
-Value=
+Value=mikroE mikroProg
 [DEBUGGER_TYPE]
-Value=
+Value=default
 [NECTO_OPTIONS]
 NECTO_RESET_TYPE=0
 NECTO_ERASE_TYPE=0
