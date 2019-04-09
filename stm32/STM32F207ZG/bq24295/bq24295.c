@@ -21,6 +21,8 @@ unsigned char PCF_RdSingle(unsigned char wAddr)
 
 void main() {
      //I2C3_Init();
+     UART1_Init(9600);
+     Delay_ms(100);
      I2C3_Init_Advanced(100000, &_GPIO_MODULE_I2C3_PA8_C9);
      
      while(1)
@@ -33,5 +35,7 @@ void main() {
       PCF_WrSingle(0x3D,0xFF);
       PCF_WrSingle(0x3E,0xFF);
       Delay_ms(1000);
+      UART1_Write_Text("hello123\r\n");
+      Delay_ms(100);
      }
 }
