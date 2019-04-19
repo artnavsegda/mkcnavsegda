@@ -47,7 +47,12 @@ Count=0
 0=blink.mcpar
 Count=1
 [LIB_EXPANDED_NODES]
-Count=0
+0=mikroE Libraries
+1=System Libraries
+1184=Additional Libraries
+2234=Third Party Libraries
+2235=Memory manager dlmalloc
+Count=5
 [PROGRAMMER_OPTIONS]
 Value=SWD
 [PROGRAMMER_TYPE]
