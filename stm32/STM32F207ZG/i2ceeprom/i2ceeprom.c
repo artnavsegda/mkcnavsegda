@@ -7,15 +7,15 @@ void EEPROM_24C02_WrSingle(unsigned short wAddr, unsigned short wData) {
   data_[1] = wData;
   I2C1_Start();
   // issue I2C start signal
-  I2C1_Write(0x50,data_,2,END_MODE_STOP);
+  I2C1_Write(0x53,data_,2,END_MODE_STOP);
 }//~
 
 //--------------- Reads data from 24C02 EEPROM - single location (random)
 unsigned short EEPROM_24C02_RdSingle(unsigned short rAddr) {
   data_[0] = rAddr;
   I2C1_Start();              // issue I2C start signal
-  I2C1_Write(0x50,data_,1,END_MODE_RESTART);
-  I2C1_Read(0x50,data_,1,END_MODE_STOP);
+  I2C1_Write(0x53,data_,1,END_MODE_RESTART);
+  I2C1_Read(0x53,data_,1,END_MODE_STOP);
 
   return data_[0];
 }
