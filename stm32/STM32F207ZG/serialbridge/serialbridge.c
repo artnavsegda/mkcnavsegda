@@ -47,22 +47,11 @@ PCF_WrSingle(unsigned char wAddr, unsigned char wData)
 
 void main() {
 
-     RCC_APB1ENR.TIM2EN = 1;       // Enable clock gating for timer module 2
-     TIM2_CR1.CEN = 0;             // Disable timer
-     TIM2_PSC = 0;              // Set timer prescaler.
-     TIM2_ARR = 15999;
-     NVIC_IntEnable(IVT_INT_TIM2); // Enable timer interrupt
-     TIM2_DIER.UIE = 1;            // Update interrupt enable
-     TIM2_CR1.CEN = 1;             // Enable timer
-
-     I2C3_Init_Advanced(100000, &_GPIO_MODULE_I2C3_PA8_C9);
-     
-     PCF_WrSingle(0x20, 0b00010000); // first(exe1_m/s) port master second(mdb/exe2_m/s) port slave
-     //PCF_WrSingle(0x20, 0b01000000); //first(exe1_m/s) port slave second(mdb/exe2_m/s) port master
-     //PCF_WrSingle(0x20, 0b00000000); //both ports slaves
-     //PCF_WrSingle(0x20, 0b01010000); //both ports masters
-
      UART1_Init(115200);//(stdio/aux3)
+     
+     UART3_Init(9600);// GSM uart
+     UART3_Init_Advanced(9600, _UART_8_BIT_DATA, _UART_NOPARITY, _UART_ONE_STOPBIT, &_GPIO_MODULE_USART3_PC10_PB11); // gsm, also should not work
+
 
      UART4_Init_Advanced(9600, _UART_9_BIT_DATA, _UART_NOPARITY, _UART_ONE_STOPBIT, &_GPIO_MODULE_UART4_PA01_PC11); // this should not work //mdb/exe1
      UART4_CR1bits.M = 1; //9 bit data transfer
