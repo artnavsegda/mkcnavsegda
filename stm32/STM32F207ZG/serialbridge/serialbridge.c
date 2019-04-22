@@ -7,8 +7,8 @@ void Uart3_interrupt() iv IVT_INT_USART3 ics ICS_AUTO {
      if (UART3_Data_Ready())
      {
       rxdata = UART3_Read();
-      //UART5_Write(rxdata);
-      PrintOut(PrintHandler,"RX3 %X\r\n",rxdata);
+      UART1_Write(rxdata);
+      //PrintOut(PrintHandler,"RX3 %X\r\n",rxdata);
      }
 }
 
@@ -28,12 +28,16 @@ void main() {
      UART3_Init_Advanced(9600, _UART_8_BIT_DATA, _UART_NOPARITY, _UART_ONE_STOPBIT, &_GPIO_MODULE_USART3_PC10_PB11); // gsm, also should not work
      USART3_CR1bits.RXNEIE = 1; // enable uart rx interrupt
      NVIC_IntEnable(IVT_INT_USART3); // enable interrupt vector
-     
-     Delay_ms(100);
-     UART1_Write_Text("hello123\r\n");
+
+     UART1_Write_Text("start\r\n");
+     Delay_ms(5000);
+     UART3_Write_Text("AT\n\r");
+     Delay_ms(5000);
+     UART3_Write_Text("AT\n\r");
+     Delay_ms(5000);
+     UART1_Write_Text("stop\r\n");
      while(1)
      {
-      Delay_ms(100);
-      UART3_Write_Text("AT");
+      Delay_ms(1000);
      }
 }
