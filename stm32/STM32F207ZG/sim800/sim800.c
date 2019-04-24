@@ -69,12 +69,12 @@ void main() {
      SIM800_Start();
 
      UART1_Write_Text("start\r\n");
-     Delay_ms(5000);
+     //Delay_ms(5000);
      UART3_Write_Text("AT\n\r");
-     Delay_ms(5000);
-     UART3_Write_Text("AT\n\r");
-     Delay_ms(5000);
-     UART1_Write_Text("stop\r\n");
+     //Delay_ms(5000);
+     //UART3_Write_Text("AT\n\r");
+     //Delay_ms(5000);
+     //UART1_Write_Text("stop\r\n");
      while(1)
      {
       Delay_ms(1000);
