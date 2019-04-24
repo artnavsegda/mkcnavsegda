@@ -50,13 +50,13 @@ Count=0
 [LIB_EXPANDED_NODES]
 0=mikroE Libraries
 1=System Libraries
-Count=2
+Count=3
 [PROGRAMMER_OPTIONS]
 Value=SWD
 [PROGRAMMER_TYPE]
 Value=mikroE mikroProg
 [DEBUGGER_TYPE]
-Value=
+Value=default
 [NECTO_OPTIONS]
 NECTO_RESET_TYPE=0
 NECTO_ERASE_TYPE=0

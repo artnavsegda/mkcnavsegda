@@ -66,7 +66,7 @@ void main() {
      ODR5_GPIOE_ODR_bit = 1; // enable GSM forever
      Delay_ms(100);
      
-     SIM800_Start()
+     SIM800_Start();
 
      UART1_Write_Text("start\r\n");
      Delay_ms(5000);
