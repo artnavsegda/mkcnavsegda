@@ -28,7 +28,8 @@ ActiveImageIndex=-1
 File0=pn5180a.c
 File1=pcf8574.c
 File2=pcf8574.h
-Count=3
+File3=pn5180a.h
+Count=4
 [EEPROM]
 Count=0
 [ACTIVE_COMMENTS_FILES]
@@ -41,7 +42,8 @@ Count=0
 Count=0
 [HEADERS]
 File0=pcf8574.h
-Count=1
+File1=pn5180a.h
+Count=2
 [PLDS]
 Count=0
 [Useses]
@@ -53,13 +55,13 @@ Count=4
 [EXPANDED_NODES]
 0=pn5180a.mcpar
 1=Sources
-Count=2
+4=Header Files
+Count=3
 [LIB_EXPANDED_NODES]
-0=
-1=
-356=
-651=
-Count=4
+0=mikroE Libraries
+1=System Libraries
+651=SPI
+Count=3
 [PROGRAMMER_OPTIONS]
 Value=SWD
 [PROGRAMMER_TYPE]
