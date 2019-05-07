@@ -26,9 +26,7 @@ Count=0
 ActiveImageIndex=-1
 [OPENED_FILES]
 File0=pn5180a.c
-File1=pcf8574.c
-File2=..\..\..\..\..\..\..\Public\Documents\Mikroelektronika\mikroC PRO for ARM\Uses\ST M3\__Lib_GPIO_32F2xx_Defs.c
-Count=3
+Count=1
 [EEPROM]
 Count=0
 [ACTIVE_COMMENTS_FILES]
