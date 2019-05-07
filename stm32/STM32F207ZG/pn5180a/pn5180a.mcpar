@@ -26,10 +26,7 @@ Count=0
 ActiveImageIndex=-1
 [OPENED_FILES]
 File0=pn5180a.c
-File1=pcf8574.c
-File2=pcf8574.h
-File3=pn5180a.h
-Count=4
+Count=1
 [EEPROM]
 Count=0
 [ACTIVE_COMMENTS_FILES]

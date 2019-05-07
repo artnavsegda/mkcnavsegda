@@ -11,3 +11,26 @@
 #define PN5180_LOAD_RF_CONFIG           (0x11)
 #define PN5180_RF_ON                    (0x16)
 #define PN5180_RF_OFF (0x17)
+
+// PN5180 Registers
+#define SYSTEM_CONFIG       (0x00)
+#define IRQ_ENABLE          (0x01)
+#define IRQ_STATUS          (0x02)
+#define IRQ_CLEAR           (0x03)
+#define TRANSCEIVE_CONTROL  (0x04)
+#define TIMER1_RELOAD       (0x0c)
+#define TIMER1_CONFIG       (0x0f)
+#define RX_WAIT_CONFIG      (0x11)
+#define CRC_RX_CONFIG       (0x12)
+#define RX_STATUS           (0x13)
+#define RF_STATUS           (0x1d)
+#define SYSTEM_STATUS       (0x24)
+#define TEMP_CONTROL        (0x25)
+
+// PN5180 EEPROM Addresses
+#define DIE_IDENTIFIER      (0x00)
+#define PRODUCT_VERSION     (0x10)
+#define FIRMWARE_VERSION    (0x12)
+#define EEPROM_VERSION      (0x14)
+#define IRQ_PIN_CONFIG (0x1A)
+
