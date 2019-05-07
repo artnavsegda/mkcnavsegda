@@ -1,10 +1,15 @@
+#include "pcf8574.h"
+
 void PrintHandler(char c) {
      UART1_Write(c);
 }
 
 void PN5180A_Reset(void)
 {
-
+     PCF_WrSingle(0x3F, 0b11111111); //all pins pull high
+     PCF_WrSingle(0x3F, 0b01111111); //IO7(NFC_RESET) pull low
+     Delay_us(10); // delay 10 us
+     PCF_WrSingle(0x3F, 0b11111111); //all pins pull high
 }
 
 void main() {

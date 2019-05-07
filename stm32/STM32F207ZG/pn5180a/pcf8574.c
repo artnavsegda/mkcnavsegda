@@ -1,3 +1,5 @@
+#include "pcf8574.h"
+
 PCF_WrSingle(unsigned char wAddr, unsigned char wData)
 {
      unsigned char buf[1];
