@@ -27,7 +27,8 @@ ActiveImageIndex=-1
 [OPENED_FILES]
 File0=pn5180a.c
 File1=pcf8574.c
-Count=2
+File2=..\..\..\..\..\..\..\Public\Documents\Mikroelektronika\mikroC PRO for ARM\Uses\ST M3\__Lib_GPIO_32F2xx_Defs.c
+Count=3
 [EEPROM]
 Count=0
 [ACTIVE_COMMENTS_FILES]
@@ -46,7 +47,8 @@ Count=0
 File0=I2C
 File1=PrintOut
 File2=UART
-Count=3
+File3=SPI
+Count=4
 [EXPANDED_NODES]
 0=pn5180a.mcpar
 1=Sources
@@ -55,7 +57,8 @@ Count=2
 0=mikroE Libraries
 1=System Libraries
 356=I2C
-Count=3
+651=SPI
+Count=4
 [PROGRAMMER_OPTIONS]
 Value=SWD
 [PROGRAMMER_TYPE]
