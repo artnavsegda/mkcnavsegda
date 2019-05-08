@@ -202,10 +202,118 @@ bool PN5180A_setupRF() {
   return true;
 }
 
+enum PN5180TransceiveStat PN5180A_getTransceiveState() {
+  uint32_t rfStatus;
+  uint8_t state;
+  if (!PN5180A_readRegister(RF_STATUS, &rfStatus)) {
+    return 0;
+  }
+
+  /*
+   * TRANSCEIVE_STATEs:
+   *  0 - idle
+   *  1 - wait transmit
+   *  2 - transmitting
+   *  3 - wait receive
+   *  4 - wait for data
+   *  5 - receiving
+   *  6 - loopback
+   *  7 - reserved
+   */
+  state = ((rfStatus >> 24) & 0x07);
+
+  return state;
+}
+
+uint8_t * PN5180A_readData(uint16_t len) {
+  uint8_t readBuffer[508];
+  uint8_t cmd[2];
+  if (len > 508) {
+    return 0L;
+  }
+
+  cmd[0] = PN5180_READ_DATA;
+  cmd[1] = 0x00;
+
+  PN5180_transceiveCommand(cmd, 2, readBuffer, len);
+
+  return readBuffer;
+}
+
+bool PN5180A_sendData(uint8_t *ndata, uint8_t len, uint8_t validBits) {
+  uint8_t i;
+  enum PN5180TransceiveStat transceiveState;
+  uint8_t buffer[262];
+  if (len > 260) {
+    return false;
+  }
+
+  buffer[0] = PN5180_SEND_DATA;
+  buffer[1] = validBits; // number of valid bits of last byte are transmitted (0 = all bits are transmitted)
+  for (i=0; i<len; i++) {
+    buffer[2+i] = ndata[i];
+  }
+
+  PN5180A_writeRegisterWithAndMask(SYSTEM_CONFIG, 0xfffffff8);  // Idle/StopCom Command
+  PN5180A_writeRegisterWithOrMask(SYSTEM_CONFIG, 0x00000003);   // Transceive Command
+
+  transceiveState = PN5180A_getTransceiveState();
+  if (PN5180_TS_WaitTransmit != transceiveState) {
+    return false;
+  }
+
+  PN5180_transceiveCommand(buffer, len+2, 0, 0);
+
+  return true;
+}
+
+enum ISO15693ErrorCode PN5180A_issueISO15693Command(uint8_t *cmd, uint8_t cmdLen, uint8_t **resultPtr) {
+  uint16_t len;
+  uint32_t rxStatus;
+  uint8_t responseFlags;
+  uint32_t irqStatus;
+  PN5180A_sendData(cmd, cmdLen, 0);
+  delay_ms(10);
+
+  if (0 == (PN5180A_getIRQStatus() & RX_SOF_DET_IRQ_STAT)) {
+    return EC_NO_CARD;
+  }
+
+  PN5180A_readRegister(RX_STATUS, &rxStatus);
+
+  len = (uint16_t)(rxStatus & 0x000001ff);
+
+ *resultPtr = PN5180A_readData(len);
+  if (0L == *resultPtr) {
+    return ISO15693_EC_UNKNOWN_ERROR;
+  }
+
+  irqStatus = PN5180A_getIRQStatus();
+  if (0 == (RX_SOF_DET_IRQ_STAT & irqStatus)) { // no card detected
+     PN5180A_clearIRQStatus(TX_IRQ_STAT | IDLE_IRQ_STAT);
+     return EC_NO_CARD;
+  }
+
+  responseFlags = (*resultPtr)[0];
+  if (responseFlags & (1<<0)) { // error flag
+    uint8_t errorCode = (*resultPtr)[1];
+
+    if (errorCode >= 0xA0) { // custom command error codes
+      return ISO15693_EC_CUSTOM_CMD_ERROR;
+    }
+    else return (enum ISO15693ErrorCode)errorCode;
+  }
+
+  PN5180A_clearIRQStatus(RX_SOF_DET_IRQ_STAT | IDLE_IRQ_STAT | TX_IRQ_STAT | RX_IRQ_STAT);
+  return ISO15693_EC_OK;
+}
+
+
 void main() {
      uint8_t productVersion[2];
      uint8_t firmwareVersion[2];
      uint8_t eepromVersion[2];
+     uint32_t irqStatus;
 
      I2C3_Init_Advanced(100000, &_GPIO_MODULE_I2C3_PA8_C9); // i2c start
      SPI1_Init_Advanced(_SPI_FPCLK_DIV64, _SPI_MASTER | _SPI_8_BIT | _SPI_CLK_IDLE_LOW | _SPI_FIRST_CLK_EDGE_TRANSITION | _SPI_MSB_FIRST | _SPI_SS_DISABLE | _SPI_SSM_ENABLE | _SPI_SSI_1, &_GPIO_MODULE_SPI1_PA56_PB5);
@@ -220,6 +328,9 @@ void main() {
      
      while(1)
      {
-
+             irqStatus = PN5180A_getIRQStatus();
+             if (0 == (RX_SOF_DET_IRQ_STAT & irqStatus)) { // no card detected
+                UART1_Write_Text("No card detected\r\n");
+             }
      }
 }

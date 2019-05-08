@@ -59,7 +59,7 @@ Count=3
 0=mikroE Libraries
 1=System Libraries
 651=SPI
-Count=3
+Count=4
 [PROGRAMMER_OPTIONS]
 Value=SWD
 [PROGRAMMER_TYPE]
