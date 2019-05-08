@@ -308,12 +308,38 @@ enum ISO15693ErrorCode PN5180A_issueISO15693Command(uint8_t *cmd, uint8_t cmdLen
   return ISO15693_EC_OK;
 }
 
+enum ISO15693ErrorCode PN5180A_getInventory(uint8_t *uid) {
+  int i;
+  enum ISO15693ErrorCode rc;
+  uint8_t *readBuffer;
+  //                     Flags,  CMD, maskLen
+  uint8_t inventory[] = { 0x26, 0x01, 0x00 };
+  //                        |\- inventory flag + high data rate
+  //                        \-- 1 slot: only one card, no AFI field present
+
+  for (i=0; i<8; i++) {
+    uid[i] = 0;
+  }
+
+  rc = PN5180A_issueISO15693Command(inventory, sizeof(inventory), &readBuffer);
+  if (ISO15693_EC_OK != rc) {
+    return rc;
+  }
+
+  for (i=0; i<8; i++) {
+    uid[i] = readBuffer[2+i];
+  }
+
+  return ISO15693_EC_OK;
+}
 
 void main() {
      uint8_t productVersion[2];
      uint8_t firmwareVersion[2];
      uint8_t eepromVersion[2];
      uint32_t irqStatus;
+     uint8_t uid[8];
+     enum ISO15693ErrorCode rc;
 
      I2C3_Init_Advanced(100000, &_GPIO_MODULE_I2C3_PA8_C9); // i2c start
      SPI1_Init_Advanced(_SPI_FPCLK_DIV64, _SPI_MASTER | _SPI_8_BIT | _SPI_CLK_IDLE_LOW | _SPI_FIRST_CLK_EDGE_TRANSITION | _SPI_MSB_FIRST | _SPI_SS_DISABLE | _SPI_SSM_ENABLE | _SPI_SSI_1, &_GPIO_MODULE_SPI1_PA56_PB5);
@@ -332,5 +358,12 @@ void main() {
              if (0 == (RX_SOF_DET_IRQ_STAT & irqStatus)) { // no card detected
                 UART1_Write_Text("No card detected\r\n");
              }
+             rc = PN5180A_getInventory(uid);
+             if (ISO15693_EC_OK != rc) {
+                UART1_Write_Text("Error in getInventory\r\n");
+                return;
+             }
+             UART1_Write_Text("Inventory successful\r\n");
+             // uid should be written here
      }
 }
