@@ -48,7 +48,9 @@ File0=I2C
 File1=PrintOut
 File2=UART
 File3=SPI
-Count=4
+File4=C_String
+File5=C_Type
+Count=6
 [EXPANDED_NODES]
 0=pn5180a.mcpar
 1=Sources

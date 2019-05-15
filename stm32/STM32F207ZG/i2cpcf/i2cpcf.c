@@ -3,6 +3,10 @@
 // I2C_SDA << I2C3_SDA << PC9
 //
 
+void PrintHandler(char c) {
+     UART1_Write(c);
+}
+
 PCF_WrSingle(unsigned char wAddr, unsigned char wData)
 {
      unsigned char buf[1];
@@ -21,9 +25,15 @@ unsigned char PCF_RdSingle(unsigned char wAddr)
 
 void main() {
      //I2C3_Init();
+     UART1_Init(9600); //(stdio/aux3)
+     UART1_Write_Text("start PCF test\r\n");
      I2C3_Init_Advanced(100000, &_GPIO_MODULE_I2C3_PA8_C9);
-     
+
      while(1)
+     {
+     }
+
+/*while(1)
      {
       PCF_WrSingle(0x3C,0x00);
       PCF_WrSingle(0x3D,0x00);
@@ -33,5 +43,5 @@ void main() {
       PCF_WrSingle(0x3D,0xFF);
       PCF_WrSingle(0x3E,0xFF);
       Delay_ms(1000);
-     }
+     }*/
 }

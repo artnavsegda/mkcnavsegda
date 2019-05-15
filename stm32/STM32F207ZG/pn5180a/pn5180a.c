@@ -18,7 +18,7 @@ void PrintHandler(char c) {
 bool digitalRead(uint8_t mask)
 {
      uint8_t iolines = PCF_RdSingle(0x3F);
-     //UART1_Write_Text("Reading PCF extender\r\n");
+     UART1_Write_Text("Reading PCF extender\r\n");
      if (iolines & mask)
         return HIGH;
      else
