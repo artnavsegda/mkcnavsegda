@@ -44,7 +44,8 @@ Count=0
 File0=UART
 File1=PrintOut
 File2=I2C
-Count=3
+File3=C_Type
+Count=4
 [EXPANDED_NODES]
 0=i2cpcf.mcpar
 Count=1
