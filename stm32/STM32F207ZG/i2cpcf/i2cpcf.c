@@ -1,7 +1,14 @@
+#include <stdint.h>
+#include <stdbool.h>
 //
 // I2C_SCL << I2C3_SCL << PA8
 // I2C_SDA << I2C3_SDA << PC9
 //
+
+#define LOW false
+#define HIGH true
+
+#define PN5180_BUSY 0b01000000
 
 void PrintHandler(char c) {
      UART1_Write(c);
@@ -23,6 +30,16 @@ unsigned char PCF_RdSingle(unsigned char wAddr)
       return buf[0];
 }
 
+bool digitalRead(uint8_t mask)
+{
+     uint8_t iolines = PCF_RdSingle(0x3F);
+     //UART1_Write_Text("Reading PCF extender\r\n");
+     if (iolines & mask)
+        return HIGH;
+     else
+        return LOW;
+}
+
 void main() {
      //I2C3_Init();
      UART1_Init(9600); //(stdio/aux3)
@@ -36,6 +53,12 @@ void main() {
       PCF_WrSingle(0x3F,0xFF);
       Delay_ms(1000);
       PrintOut(PrintHandler, "DD3 readout 0x%02X\r\n",PCF_RdSingle(0x3F));
+      
+      if (digitalRead(PN5180_BUSY) == HIGH)
+         UART1_Write_Text("BUSY high\r\n");
+      if (digitalRead(PN5180_BUSY) == LOW)
+         UART1_Write_Text("BUSY low\r\n");
+      
      }
 
 /*while(1)

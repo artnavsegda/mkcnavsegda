@@ -18,7 +18,6 @@ void PrintHandler(char c) {
 bool digitalRead(uint8_t mask)
 {
      uint8_t iolines = PCF_RdSingle(0x3F);
-     UART1_Write_Text("Reading PCF extender\r\n");
      if (iolines & mask)
         return HIGH;
      else
@@ -38,7 +37,8 @@ bool PN5180_transceiveCommand(uint8_t *sendBuffer, int sendBufferLen, uint8_t *r
   uint8_t i;
   UART1_Write_Text("Transceive command\r\n");
   // 0.
-  while (LOW != digitalRead(PN5180_BUSY)); // wait until busy is low
+  while (LOW != digitalRead(PN5180_BUSY))
+        UART1_Write_Text("BUSY line not low\r\n"); // wait until busy is low
   // 1.
   digitalWrite(PN5180_NSS, LOW); delay_ms(2);
   // 2.
@@ -46,7 +46,8 @@ bool PN5180_transceiveCommand(uint8_t *sendBuffer, int sendBufferLen, uint8_t *r
     SPI1_Write(sendBuffer[i]);
    }
   // 3.
-  while(HIGH != digitalRead(PN5180_BUSY));  // wait until BUSY is high
+  while(HIGH != digitalRead(PN5180_BUSY))
+         UART1_Write_Text("BUSY line not HIGH\r\n");;  // wait until BUSY is high
   // 4.
   digitalWrite(PN5180_NSS, HIGH);
   delay_ms(1);
