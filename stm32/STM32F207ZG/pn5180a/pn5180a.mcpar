@@ -6,7 +6,7 @@ Value=0
 [BUILD_TYPE]
 Value=0
 [ACTIVE_TAB]
-Value=pn5180a.h
+Value=pn5180a.c
 [USE_EEPROM]
 Value=0
 [USE_HEAP]
@@ -26,8 +26,7 @@ Count=0
 ActiveImageIndex=-1
 [OPENED_FILES]
 File0=pn5180a.c
-File1=pn5180a.h
-Count=2
+Count=1
 [EEPROM]
 Count=0
 [ACTIVE_COMMENTS_FILES]
@@ -58,8 +57,10 @@ Count=3
 [LIB_EXPANDED_NODES]
 0=mikroE Libraries
 1=System Libraries
-651=SPI
-Count=4
+512=PrintOut
+1184=Additional Libraries
+2234=Third Party Libraries
+Count=5
 [PROGRAMMER_OPTIONS]
 Value=SWD
 [PROGRAMMER_TYPE]

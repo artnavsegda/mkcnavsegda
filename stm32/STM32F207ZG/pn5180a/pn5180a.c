@@ -18,6 +18,7 @@ void PrintHandler(char c) {
 bool digitalRead(uint8_t mask)
 {
      uint8_t iolines = PCF_RdSingle(0x3F);
+     //UART1_Write_Text("Reading PCF extender\r\n");
      if (iolines & mask)
         return HIGH;
      else
@@ -35,6 +36,7 @@ void digitalWrite(uint16_t mask, bool level)
 bool PN5180_transceiveCommand(uint8_t *sendBuffer, int sendBufferLen, uint8_t *recvBuffer, int recvBufferLen)
 {
   uint8_t i;
+  UART1_Write_Text("Transceive command\r\n");
   // 0.
   while (LOW != digitalRead(PN5180_BUSY)); // wait until busy is low
   // 1.
@@ -82,6 +84,7 @@ bool PN5180A_readEEprom(uint8_t addr, uint8_t *buffer, uint8_t len)
   if ((addr > 254) || ((addr+len) > 254)) {
     return false;
   }
+  UART1_Write_Text("Reading EEPROM\r\n");
   PN5180_transceiveCommand(cmd, 3, buffer, len);
 
   return true;
@@ -348,8 +351,11 @@ void main() {
      UART1_Write_Text("start nfc test\r\n");
      
      PN5180A_readEEprom(PRODUCT_VERSION, productVersion, sizeof(productVersion));
+     PrintOut(PrintHandler, "Product version %X %X\r\n",productVersion[0],productVersion[1]);
      PN5180A_readEEprom(FIRMWARE_VERSION, firmwareVersion, sizeof(firmwareVersion));
+     PrintOut(PrintHandler, "Firmware version %X %X\r\n",firmwareVersion[0],firmwareVersion[1]);
      PN5180A_readEEprom(EEPROM_VERSION, eepromVersion, sizeof(eepromVersion));
+     PrintOut(PrintHandler, "EEPROM version %X %X\r\n",eepromVersion[0],eepromVersion[1]);
      PN5180A_setupRF();
      
      while(1)
