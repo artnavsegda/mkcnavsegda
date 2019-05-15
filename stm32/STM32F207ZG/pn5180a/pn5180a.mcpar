@@ -57,11 +57,11 @@ Count=6
 4=Header Files
 Count=3
 [LIB_EXPANDED_NODES]
-0=mikroE Libraries
-1=System Libraries
-512=PrintOut
-1184=Additional Libraries
-2234=Third Party Libraries
+0=
+1=
+512=
+1184=
+2234=
 Count=5
 [PROGRAMMER_OPTIONS]
 Value=SWD
