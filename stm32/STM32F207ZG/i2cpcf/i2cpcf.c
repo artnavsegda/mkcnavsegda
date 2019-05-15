@@ -32,6 +32,9 @@ void main() {
      while(1)
      {
       Delay_ms(1000);
+      UART1_Write_Text("DD3 writeout 0xFF\r\n");
+      PCF_WrSingle(0x3F,0xFF);
+      Delay_ms(1000);
       PrintOut(PrintHandler, "DD3 readout 0x%02X\r\n",PCF_RdSingle(0x3F));
      }
 
