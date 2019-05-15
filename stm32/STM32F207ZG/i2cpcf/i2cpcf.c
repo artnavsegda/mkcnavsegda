@@ -32,7 +32,7 @@ void main() {
      while(1)
      {
       Delay_ms(1000);
-      PrintOut(PrintHandler, "DD3 readout %X\r\n",PCF_RdSingle(0x3F));
+      PrintOut(PrintHandler, "DD3 readout 0x%02X\r\n",PCF_RdSingle(0x3F));
      }
 
 /*while(1)
